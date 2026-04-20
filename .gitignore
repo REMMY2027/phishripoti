@@ -5,7 +5,7 @@ backend/node_modules/
 frontend/.env
 backend/.env
 build/
-frontend/build/
+
 backend/.env
 frontend/.env
 backend/.env
