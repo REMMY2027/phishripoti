@@ -6,28 +6,21 @@ const Navbar = ({ showITPortal = true, light = false }) => {
   const location = useLocation();
   const isActive = (path) => location.pathname.startsWith(path);
 
-  const bg = light ? 'rgba(255,255,255,0.9)' : '#000000';
-  const border = light ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.1)';
-  const logoText = light ? '#1a1a1a' : '#ffffff';
-  const btnText = light ? '#555555' : '#9ca3af';
-  const btnBorder = light ? 'rgba(0,0,0,0.12)' : 'rgba(75,85,99,1)';
-  const btnHoverBg = light ? 'rgba(0,0,0,0.05)' : 'rgba(31,41,55,1)';
-
   return (
     <>
       {/* Kenyan flag stripe */}
-      <div className="flex h-1.5" style={{ boxShadow: light ? '0 1px 4px rgba(0,0,0,0.1)' : 'none' }}>
-        <div className="flex-1" style={{ background: '#BB0000' }}></div>
-        <div className="flex-1" style={{ background: '#1A1A1A' }}></div>
-        <div className="flex-1" style={{ background: '#006600' }}></div>
+      <div style={{ display: 'flex', height: '4px' }}>
+        <div style={{ flex: 1, background: '#BB0000' }}></div>
+        <div style={{ flex: 1, background: '#1A1A1A' }}></div>
+        <div style={{ flex: 1, background: '#006600' }}></div>
       </div>
 
       {/* Top nav */}
       <nav style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 32px', height: '56px',
-        background: bg,
-        borderBottom: `1px solid ${border}`,
+        background: light ? 'rgba(240,245,240,0.92)' : '#000000',
+        borderBottom: light ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.08)',
         position: 'sticky', top: 0, zIndex: 50,
         backdropFilter: 'blur(12px)'
       }}>
@@ -39,18 +32,22 @@ const Navbar = ({ showITPortal = true, light = false }) => {
             <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="1.8"
               strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span style={{ color: logoText, fontWeight: '700', fontSize: '18px' }}>PhishRipoti</span>
+          <span style={{
+            color: light ? '#1a1a1a' : '#ffffff',
+            fontWeight: '700', fontSize: '18px'
+          }}>PhishRipoti</span>
         </div>
 
         {showITPortal && (
           <button
             onClick={() => navigate('/it/login')}
             style={{
-              color: btnText, border: `1px solid ${btnBorder}`,
+              color: light ? '#444444' : '#9ca3af',
+              border: light ? '1px solid rgba(0,0,0,0.15)' : '1px solid rgba(75,85,99,1)',
               borderRadius: '8px', padding: '6px 16px', fontSize: '14px',
               background: 'transparent', cursor: 'pointer', transition: 'all 0.2s'
             }}
-            onMouseOver={e => e.currentTarget.style.background = btnHoverBg}
+            onMouseOver={e => e.currentTarget.style.background = light ? 'rgba(0,0,0,0.06)' : 'rgba(31,41,55,1)'}
             onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
             IT Manager Portal
           </button>
