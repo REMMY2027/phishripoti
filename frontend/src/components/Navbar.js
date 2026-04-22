@@ -19,8 +19,8 @@ const Navbar = ({ showITPortal = true, light = false }) => {
       <nav style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 32px', height: '56px',
-        background: light ? 'rgba(240,245,240,0.92)' : '#000000',
-        borderBottom: light ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.08)',
+        background: light ? 'rgba(20,35,20,0.92)' : '#000000',
+        borderBottom: light ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(255,255,255,0.08)',
         position: 'sticky', top: 0, zIndex: 50,
         backdropFilter: 'blur(12px)'
       }}>
@@ -32,22 +32,21 @@ const Navbar = ({ showITPortal = true, light = false }) => {
             <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="1.8"
               strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span style={{
-            color: light ? '#1a1a1a' : '#ffffff',
-            fontWeight: '700', fontSize: '18px'
-          }}>PhishRipoti</span>
+          <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '18px' }}>
+            PhishRipoti
+          </span>
         </div>
 
         {showITPortal && (
           <button
             onClick={() => navigate('/it/login')}
             style={{
-              color: light ? '#444444' : '#9ca3af',
-              border: light ? '1px solid rgba(0,0,0,0.15)' : '1px solid rgba(75,85,99,1)',
+              color: '#cccccc',
+              border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px', padding: '6px 16px', fontSize: '14px',
               background: 'transparent', cursor: 'pointer', transition: 'all 0.2s'
             }}
-            onMouseOver={e => e.currentTarget.style.background = light ? 'rgba(0,0,0,0.06)' : 'rgba(31,41,55,1)'}
+            onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
             onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
             IT Manager Portal
           </button>
