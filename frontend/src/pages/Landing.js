@@ -94,7 +94,7 @@ const Landing = () => {
 
       {/* Navbar */}
       <div style={{ position: 'relative', zIndex: 2 }}>
-        <Navbar />
+        <Navbar light={true} />
       </div>
 
       {/* Hero content */}
@@ -106,7 +106,8 @@ const Landing = () => {
           style={{
             background: 'rgba(255,255,255,0.8)',
             border: '1px solid rgba(0,0,0,0.1)',
-            color: '#444444'
+            color: '#444444',
+            backdropFilter: 'blur(8px)'
           }}>
           <div className="flex gap-1">
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#BB0000' }}></div>
@@ -130,7 +131,7 @@ const Landing = () => {
         {/* Subtitle */}
         <p className="max-w-xl mx-auto mb-10"
           style={{ fontSize: '18px', color: '#555555', lineHeight: '1.75' }}>
-          PhishRipoti gives every financial institution employee a safe, anonymous way to report suspicious emails. No login. No identity stored.
+          Anonymous phishing reports for Kenyan banks. Powered by GPT-4o. No login. No identity stored. Results in seconds.
         </p>
 
         {/* CTA Buttons */}
@@ -184,9 +185,9 @@ const Landing = () => {
         {/* Assurance Cards */}
         <div className="flex flex-wrap gap-5 justify-center max-w-3xl">
           {[
-            { icon: '🔒', title: 'Your identity is never stored', desc: 'Fully anonymous by design. No name, no email, no IP address stored.', border: 'rgba(187,0,0,0.2)' },
-            { icon: '⚡', title: 'AI analyses your report instantly', desc: 'GPT-4o scans for phishing signals and risk tier in real time.', border: 'rgba(0,0,0,0.08)' },
-            { icon: '🇰🇪', title: 'Built for Kenya', desc: 'Tailored for M-Pesa fraud, KCB, Equity Bank, and local threat patterns.', border: 'rgba(0,102,0,0.2)' }
+            { icon: '🔒', title: 'Your identity is never stored', desc: 'Fully anonymous by design. No name, no email, no IP address stored.', border: 'rgba(187,0,0,0.2)', hover: 'rgba(187,0,0,0.08)' },
+            { icon: '⚡', title: 'AI analyses your report instantly', desc: 'GPT-4o scans for phishing signals and risk tier in real time.', border: 'rgba(0,0,0,0.08)', hover: 'rgba(0,0,0,0.03)' },
+            { icon: '🇰🇪', title: 'Built for Kenya', desc: 'Tailored for M-Pesa fraud, KCB, Equity Bank, and local threat patterns.', border: 'rgba(0,102,0,0.2)', hover: 'rgba(0,102,0,0.06)' }
           ].map((card, i) => (
             <div key={i} style={{
               background: 'rgba(255,255,255,0.85)',
@@ -196,10 +197,18 @@ const Landing = () => {
               textAlign: 'center',
               boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
               backdropFilter: 'blur(12px)',
-              transition: 'transform 0.2s, box-shadow 0.2s'
+              transition: 'transform 0.2s, box-shadow 0.2s, background 0.2s'
             }}
-              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.1)'; }}
-              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; }}>
+              onMouseOver={e => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.1)';
+                e.currentTarget.style.background = card.hover;
+              }}
+              onMouseOut={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.85)';
+              }}>
               <div style={{ fontSize: '28px', marginBottom: '10px' }}>{card.icon}</div>
               <div style={{ fontWeight: '600', fontSize: '14px', color: '#1a1a1a', marginBottom: '6px' }}>{card.title}</div>
               <div style={{ fontSize: '12px', color: '#888888', lineHeight: '1.6' }}>{card.desc}</div>
