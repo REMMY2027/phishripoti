@@ -11,55 +11,85 @@ const Landing = () => {
       {/* Background */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(135deg, #0f2a0f 0%, #1e1e1e 45%, #2a0f0f 100%)',
+        background: 'linear-gradient(135deg, #1a2f1a 0%, #252525 50%, #2f1a1a 100%)',
         zIndex: 0
       }} />
 
       {/* Soft colour blobs */}
       <div style={{
-        position: 'absolute', top: '-100px', left: '-100px',
-        width: '500px', height: '500px', borderRadius: '50%',
-        background: 'rgba(0,102,0,0.15)', filter: 'blur(80px)', zIndex: 0
+        position: 'absolute', top: '-120px', left: '-120px',
+        width: '450px', height: '450px', borderRadius: '50%',
+        background: 'rgba(0,102,0,0.1)', filter: 'blur(80px)', zIndex: 0
       }} />
       <div style={{
         position: 'absolute', bottom: '-80px', right: '-80px',
-        width: '450px', height: '450px', borderRadius: '50%',
-        background: 'rgba(187,0,0,0.12)', filter: 'blur(80px)', zIndex: 0
+        width: '400px', height: '400px', borderRadius: '50%',
+        background: 'rgba(187,0,0,0.08)', filter: 'blur(80px)', zIndex: 0
       }} />
 
-      {/* Watermark SVG — Kenyan shilling + bank + shield */}
+      {/* Abstract SVG graphics */}
       <svg style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
-        zIndex: 1, opacity: 0.03, pointerEvents: 'none'
+        zIndex: 1, pointerEvents: 'none'
       }} xmlns="http://www.w3.org/2000/svg">
 
-        {/* Large KSh text watermark left */}
-        <text x="5%" y="55%" fontSize="220" fontWeight="900" fill="#ffffff"
-          fontFamily="Arial, sans-serif" opacity="1">KSh</text>
+        {/* Large circles top left */}
+        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,102,0,0.15)" strokeWidth="1.5"/>
+        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,102,0,0.1)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,102,0,0.07)" strokeWidth="1"/>
 
-        {/* Large shield watermark right */}
-        <path d="M 980 80 L 920 110 L 920 165 C 920 200 950 228 980 238 C 1010 228 1040 200 1040 165 L 1040 110 Z"
-          fill="#ffffff"/>
+        {/* Large circles bottom right */}
+        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(187,0,0,0.15)" strokeWidth="1.5"/>
+        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(187,0,0,0.1)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(187,0,0,0.07)" strokeWidth="1"/>
 
-        {/* Bank building icon center bottom */}
-        <g transform="translate(580, 520)">
-          <rect x="0" y="40" width="120" height="80" fill="#ffffff"/>
-          <rect x="10" y="50" width="20" height="40" fill="#0f2a0f"/>
-          <rect x="50" y="50" width="20" height="40" fill="#0f2a0f"/>
-          <rect x="90" y="50" width="20" height="40" fill="#0f2a0f"/>
-          <polygon points="60,0 0,40 120,40" fill="#ffffff"/>
-          <rect x="-10" y="120" width="140" height="10" fill="#ffffff"/>
-        </g>
+        {/* Floating rectangles */}
+        <rect x="8%" y="12%" width="55" height="55" rx="14"
+          fill="none" stroke="rgba(0,102,0,0.2)" strokeWidth="1.5"
+          transform="rotate(20 100 150)"/>
+        <rect x="82%" y="8%" width="70" height="70" rx="18"
+          fill="none" stroke="rgba(187,0,0,0.2)" strokeWidth="1.5"
+          transform="rotate(-15 1150 120)"/>
+        <rect x="75%" y="65%" width="45" height="45" rx="10"
+          fill="none" stroke="rgba(0,102,0,0.15)" strokeWidth="1"
+          transform="rotate(30 1050 550)"/>
+        <rect x="5%" y="70%" width="60" height="60" rx="12"
+          fill="none" stroke="rgba(187,0,0,0.15)" strokeWidth="1"
+          transform="rotate(-25 80 600)"/>
 
-        {/* Small repeated KSh symbols scattered */}
-        <text x="75%" y="20%" fontSize="60" fontWeight="900" fill="#ffffff" fontFamily="Arial, sans-serif">KSh</text>
-        <text x="15%" y="85%" fontSize="50" fontWeight="900" fill="#ffffff" fontFamily="Arial, sans-serif">KSh</text>
-        <text x="60%" y="90%" fontSize="40" fontWeight="900" fill="#ffffff" fontFamily="Arial, sans-serif">🏦</text>
+        {/* Abstract triangles */}
+        <polygon points="150,60 190,140 110,140"
+          fill="none" stroke="rgba(0,102,0,0.15)" strokeWidth="1.5"/>
+        <polygon points="1150,500 1200,590 1100,590"
+          fill="none" stroke="rgba(187,0,0,0.15)" strokeWidth="1.5"/>
 
-        {/* Diagonal line pattern subtle */}
-        <line x1="0" y1="0" x2="1400" y2="800" stroke="#ffffff" strokeWidth="0.5" opacity="0.3"/>
-        <line x1="0" y1="100" x2="1400" y2="900" stroke="#ffffff" strokeWidth="0.3" opacity="0.2"/>
-        <line x1="0" y1="200" x2="1400" y2="1000" stroke="#ffffff" strokeWidth="0.3" opacity="0.2"/>
+        {/* Hexagons */}
+        <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
+          fill="none" stroke="rgba(0,102,0,0.18)" strokeWidth="1.5"/>
+        <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
+          fill="none" stroke="rgba(187,0,0,0.18)" strokeWidth="1.5"/>
+
+        {/* Curved lines */}
+        <path d="M 0 500 Q 350 350 700 480 T 1400 420"
+          fill="none" stroke="rgba(0,102,0,0.1)" strokeWidth="1.5"/>
+        <path d="M 0 600 Q 400 450 750 560 T 1400 500"
+          fill="none" stroke="rgba(187,0,0,0.08)" strokeWidth="1"/>
+
+        {/* Scattered dots */}
+        <circle cx="10%" cy="25%" r="4" fill="rgba(0,102,0,0.3)"/>
+        <circle cx="14%" cy="40%" r="3" fill="rgba(0,102,0,0.2)"/>
+        <circle cx="88%" cy="20%" r="5" fill="rgba(187,0,0,0.3)"/>
+        <circle cx="92%" cy="38%" r="3" fill="rgba(187,0,0,0.2)"/>
+        <circle cx="6%" cy="75%" r="4" fill="rgba(187,0,0,0.2)"/>
+        <circle cx="94%" cy="72%" r="4" fill="rgba(0,102,0,0.2)"/>
+        <circle cx="45%" cy="8%" r="3" fill="rgba(255,255,255,0.1)"/>
+        <circle cx="55%" cy="92%" r="3" fill="rgba(255,255,255,0.1)"/>
+
+        {/* Connecting lines */}
+        <line x1="10%" y1="25%" x2="14%" y2="40%"
+          stroke="rgba(0,102,0,0.15)" strokeWidth="0.8"/>
+        <line x1="88%" y1="20%" x2="92%" y2="38%"
+          stroke="rgba(187,0,0,0.15)" strokeWidth="0.8"/>
       </svg>
 
       {/* Navbar */}
