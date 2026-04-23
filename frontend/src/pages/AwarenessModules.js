@@ -16,10 +16,28 @@ const modules = [
     id: 'mpesa',
     title: 'M-Pesa Fraud Awareness',
     icon: '📱',
-    desc: 'Understand common M-Pesa scams targeting Kenyan bank employees and customers including fake alerts.',
+    desc: 'Understand common M-Pesa phishing scams targeting Kenyan bank employees and customers.',
     tag: 'Kenya Specific',
     tagColor: '#006600',
     active: true
+  },
+  {
+    id: 'vishing',
+    title: 'Vishing (Voice Phishing)',
+    icon: '📞',
+    desc: 'Recognise fraudulent phone calls impersonating bank executives, IT support or regulators.',
+    tag: 'Coming in v2.0',
+    tagColor: '#555',
+    active: false
+  },
+  {
+    id: 'smishing',
+    title: 'Smishing (SMS Phishing)',
+    icon: '💬',
+    desc: 'Identify fraudulent SMS messages targeting mobile banking credentials and M-Pesa accounts.',
+    tag: 'Coming in v2.0',
+    tagColor: '#555',
+    active: false
   },
   {
     id: 'social',
@@ -34,7 +52,7 @@ const modules = [
     id: 'browsing',
     title: 'Safe Browsing Practices',
     icon: '🌐',
-    desc: 'Best practices for safe internet use in a financial institution environment including link verification.',
+    desc: 'Best practices for safe internet use in a financial institution including link verification techniques.',
     tag: 'Coming in v2.0',
     tagColor: '#555',
     active: false
@@ -144,17 +162,17 @@ const AwarenessModules = () => {
           Choose a learning module
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: 0 }}>
-          Each module includes a pre-assessment, personalised learning content, and a post-assessment to measure your improvement.
+          Each module includes a pre-assessment, personalised learning content, and a post-assessment to measure improvement.
         </p>
       </div>
 
       {/* Modules grid */}
-      <div style={{ flex: 1, padding: '24px 40px' }}>
+      <div style={{ flex: 1, padding: '24px 40px', overflowY: 'auto' }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '12px',
-          maxWidth: '760px'
+          maxWidth: '900px'
         }}>
           {modules.map((mod) => (
             <div
@@ -165,10 +183,10 @@ const AwarenessModules = () => {
               onMouseOver={() => mod.active && setHovered(mod.id)}
               onMouseOut={() => setHovered(null)}
               style={{
-                borderRadius: '14px', padding: '20px',
+                borderRadius: '14px', padding: '18px',
                 cursor: mod.active ? 'pointer' : 'not-allowed',
                 position: 'relative', overflow: 'hidden',
-                opacity: mod.active ? 1 : 0.45,
+                opacity: mod.active ? 1 : 0.38,
                 background: hovered === mod.id
                   ? 'rgba(255,255,255,0.07)'
                   : 'rgba(255,255,255,0.03)',
@@ -184,37 +202,36 @@ const AwarenessModules = () => {
               <div style={{
                 position: 'absolute', top: 0, left: 0, right: 0,
                 height: '2px',
-                background: mod.active ? mod.tagColor : '#333',
+                background: mod.active ? mod.tagColor : '#2a2a2a',
                 opacity: hovered === mod.id ? 1 : 0.5,
                 transition: 'opacity 0.2s'
               }}></div>
 
-              {/* Icon and tag row */}
+              {/* Icon and tag */}
               <div style={{
                 display: 'flex', alignItems: 'flex-start',
                 justifyContent: 'space-between', marginBottom: '12px'
               }}>
                 <div style={{
-                  width: '44px', height: '44px', borderRadius: '12px',
+                  width: '40px', height: '40px', borderRadius: '10px',
                   background: hovered === mod.id
                     ? 'rgba(255,255,255,0.1)'
                     : 'rgba(255,255,255,0.05)',
                   display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: '20px',
+                  justifyContent: 'center', fontSize: '18px',
                   transition: 'background 0.2s'
                 }}>
                   {mod.icon}
                 </div>
-
                 <span style={{
                   fontSize: '10px', fontWeight: '600',
-                  padding: '3px 8px', borderRadius: '20px',
+                  padding: '2px 7px', borderRadius: '20px',
                   background: mod.active
                     ? `${mod.tagColor}22`
-                    : 'rgba(255,255,255,0.05)',
-                  color: mod.active ? mod.tagColor : 'rgba(255,255,255,0.3)',
-                  border: `1px solid ${mod.active ? `${mod.tagColor}44` : 'rgba(255,255,255,0.08)'}`,
-                  letterSpacing: '0.04em'
+                    : 'rgba(255,255,255,0.04)',
+                  color: mod.active ? mod.tagColor : 'rgba(255,255,255,0.25)',
+                  border: `1px solid ${mod.active ? `${mod.tagColor}44` : 'rgba(255,255,255,0.06)'}`,
+                  letterSpacing: '0.03em', whiteSpace: 'nowrap'
                 }}>
                   {mod.tag}
                 </span>
@@ -222,37 +239,35 @@ const AwarenessModules = () => {
 
               {/* Title */}
               <div style={{
-                color: '#ffffff', fontWeight: '600',
-                fontSize: '14px', marginBottom: '6px'
+                color: mod.active ? '#ffffff' : 'rgba(255,255,255,0.5)',
+                fontWeight: '600', fontSize: '13px', marginBottom: '6px'
               }}>
                 {mod.title}
               </div>
 
               {/* Description */}
               <div style={{
-                color: 'rgba(255,255,255,0.35)',
-                fontSize: '12px', lineHeight: '1.6',
-                marginBottom: mod.active ? '36px' : '0'
+                color: 'rgba(255,255,255,0.3)',
+                fontSize: '11px', lineHeight: '1.6',
+                marginBottom: mod.active ? '32px' : '0'
               }}>
                 {mod.desc}
               </div>
 
-              {/* Start button on active */}
+              {/* Start label */}
               {mod.active && (
                 <div style={{
-                  position: 'absolute', bottom: '14px', left: '20px', right: '20px',
+                  position: 'absolute', bottom: '12px', left: '18px', right: '18px',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between'
                 }}>
-                  <span style={{
-                    fontSize: '11px', color: 'rgba(255,255,255,0.3)'
-                  }}>
-                    Pre-assessment → Learn → Post-assessment
+                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.25)' }}>
+                    Pre → Learn → Post
                   </span>
                   <div style={{
                     color: hovered === mod.id
                       ? 'rgba(255,255,255,0.7)'
                       : 'rgba(255,255,255,0.2)',
-                    fontSize: '14px', transition: 'color 0.2s'
+                    fontSize: '13px', transition: 'color 0.2s'
                   }}>→</div>
                 </div>
               )}
