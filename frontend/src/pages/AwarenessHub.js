@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-relative';
 import Navbar from '../components/Navbar';
 
 const departments = [
@@ -8,56 +8,56 @@ const departments = [
     label: 'Customer Service / Teller',
     icon: '🎧',
     desc: 'High target for M-Pesa impersonation and account takeover phishing attempts.',
-    color: 'rgba(0,102,0,0.15)',
-    border: 'rgba(0,102,0,0.2)'
+    color: 'rgba(0,102,0,0.12)',
+    accent: '#006600'
   },
   {
     id: 'finance',
     label: 'Finance & Accounts',
     icon: '📊',
     desc: 'Frequently targeted by invoice fraud, payment diversion and CFO impersonation emails.',
-    color: 'rgba(187,0,0,0.1)',
-    border: 'rgba(187,0,0,0.15)'
+    color: 'rgba(187,0,0,0.08)',
+    accent: '#BB0000'
   },
   {
     id: 'compliance',
     label: 'Compliance / Risk',
     icon: '⚖️',
     desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
-    color: 'rgba(0,102,0,0.15)',
-    border: 'rgba(0,102,0,0.2)'
+    color: 'rgba(0,102,0,0.12)',
+    accent: '#006600'
   },
   {
     id: 'loans',
     label: 'Loans / Credit Officer',
     icon: '💳',
     desc: 'At risk from fake loan applicant documents and credential harvesting attacks.',
-    color: 'rgba(187,0,0,0.1)',
-    border: 'rgba(187,0,0,0.15)'
+    color: 'rgba(187,0,0,0.08)',
+    accent: '#BB0000'
   },
   {
     id: 'operations',
     label: 'Operations',
     icon: '⚙️',
     desc: 'Targeted by system access phishing and fake IT support emails requesting credentials.',
-    color: 'rgba(0,102,0,0.15)',
-    border: 'rgba(0,102,0,0.2)'
+    color: 'rgba(0,102,0,0.12)',
+    accent: '#006600'
   },
   {
     id: 'hr',
     label: 'Human Resources',
     icon: '👥',
     desc: 'Targeted by payroll diversion and fake employee document phishing campaigns.',
-    color: 'rgba(187,0,0,0.1)',
-    border: 'rgba(187,0,0,0.15)'
+    color: 'rgba(187,0,0,0.08)',
+    accent: '#BB0000'
   },
   {
     id: 'other',
-    label: 'Other',
+    label: 'Other Department',
     icon: '✏️',
-    desc: 'My department is not listed above. I will enter it manually.',
+    desc: 'My department is not listed. I will enter it manually.',
     color: 'rgba(255,255,255,0.03)',
-    border: 'rgba(255,255,255,0.1)',
+    accent: '#555555',
     dashed: true
   }
 ];
@@ -66,6 +66,7 @@ const AwarenessHub = () => {
   const navigate = useNavigate();
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [otherDept, setOtherDept] = useState('');
+  const [hovered, setHovered] = useState(null);
 
   const handleSelect = (dept) => {
     if (dept.id === 'other') {
@@ -85,86 +86,150 @@ const AwarenessHub = () => {
     <div className="min-h-screen flex flex-col" style={{ background: '#0a0d0a' }}>
       <Navbar />
 
-      <div className="px-8 pt-8 pb-4">
-        {/* Back button */}
+      {/* Header section */}
+      <div style={{
+        background: 'linear-gradient(180deg, #0f1f0f 0%, #0a0d0a 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        padding: '32px 32px 28px'
+      }}>
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-1 text-gray-500 text-sm mb-5 hover:text-gray-300 transition-all">
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: 'rgba(255,255,255,0.4)', fontSize: '13px',
+            display: 'flex', alignItems: 'center', gap: '6px',
+            marginBottom: '20px', padding: 0
+          }}>
           ← Back to Home
         </button>
 
-        {/* Progress indicator */}
-        <div className="flex items-center gap-2 mb-5">
-          <div className="flex items-center gap-2">
+        {/* Progress steps */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{
-              width: '24px', height: '24px', borderRadius: '50%',
+              width: '28px', height: '28px', borderRadius: '50%',
               background: '#006600', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '11px', fontWeight: '700', color: '#fff'
+              justifyContent: 'center', fontSize: '12px', fontWeight: '700', color: '#fff'
             }}>1</div>
-            <span className="text-white text-xs font-semibold">Select Department</span>
+            <span style={{ color: '#ffffff', fontSize: '13px', fontWeight: '600' }}>
+              Select Department
+            </span>
           </div>
-          <div style={{ width: '40px', height: '1px', background: 'rgba(255,255,255,0.15)' }}></div>
-          <div className="flex items-center gap-2">
+          <div style={{
+            flex: 1, maxWidth: '60px', height: '1px',
+            background: 'rgba(255,255,255,0.12)'
+          }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{
-              width: '24px', height: '24px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '11px', fontWeight: '700',
+              width: '28px', height: '28px', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontSize: '12px', fontWeight: '700',
               color: 'rgba(255,255,255,0.3)'
             }}>2</div>
-            <span style={{ color: 'rgba(255,255,255,0.3)' }} className="text-xs">Select Module</span>
+            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px' }}>
+              Select Module
+            </span>
+          </div>
+          <div style={{
+            flex: 1, maxWidth: '60px', height: '1px',
+            background: 'rgba(255,255,255,0.12)'
+          }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{
+              width: '28px', height: '28px', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontSize: '12px', fontWeight: '700',
+              color: 'rgba(255,255,255,0.3)'
+            }}>3</div>
+            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px' }}>
+              Learn and Assess
+            </span>
           </div>
         </div>
 
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-2 h-2 rounded-full bg-green-600 animate-pulse"></div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-green-400">
-            Live — AI-powered content
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <div style={{
+            width: '8px', height: '8px', borderRadius: '50%',
+            background: '#006600', animation: 'pulse 2s infinite'
+          }}></div>
+          <span style={{
+            fontSize: '11px', fontWeight: '600',
+            textTransform: 'uppercase', letterSpacing: '0.1em',
+            color: '#69db7c'
+          }}>
+            Live — AI-powered personalised content
           </span>
         </div>
-        <h2 className="text-white font-bold text-2xl mb-2">Select your department</h2>
-        <p className="text-gray-500 text-sm">
-          Get personalised phishing awareness training tailored to your role and daily responsibilities.
+        <h2 style={{ color: '#ffffff', fontWeight: '700', fontSize: '24px', margin: '0 0 6px' }}>
+          Which department are you from?
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '14px', margin: 0 }}>
+          Select your role to receive phishing awareness training tailored to your daily responsibilities.
         </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-8 py-4">
-        <div className="space-y-3 max-w-2xl">
+      {/* Department cards */}
+      <div className="flex-1 overflow-y-auto" style={{ padding: '24px 32px' }}>
+        <div style={{ maxWidth: '680px' }}>
           {departments.map((dept) => (
             <div
               key={dept.id}
               onClick={() => handleSelect(dept)}
-              className="flex items-center gap-4 rounded-xl px-5 py-4 cursor-pointer transition-all"
+              onMouseOver={() => setHovered(dept.id)}
+              onMouseOut={() => setHovered(null)}
               style={{
-                background: dept.color,
-                border: `${dept.dashed ? '1px dashed' : '1px solid'} ${dept.border}`
-              }}
-              onMouseOver={e => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                e.currentTarget.style.border = `${dept.dashed ? '1px dashed' : '1px solid'} rgba(255,255,255,0.2)`;
-                e.currentTarget.style.transform = 'translateX(4px)';
-              }}
-              onMouseOut={e => {
-                e.currentTarget.style.background = dept.color;
-                e.currentTarget.style.border = `${dept.dashed ? '1px dashed' : '1px solid'} ${dept.border}`;
-                e.currentTarget.style.transform = 'translateX(0)';
-              }}
-            >
+                display: 'flex', alignItems: 'center', gap: '16px',
+                borderRadius: '14px', padding: '16px 20px',
+                marginBottom: '10px', cursor: 'pointer',
+                background: hovered === dept.id
+                  ? 'rgba(255,255,255,0.07)'
+                  : dept.color,
+                border: dept.dashed
+                  ? `1px dashed ${hovered === dept.id ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)'}`
+                  : `1px solid ${hovered === dept.id ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.06)'}`,
+                transform: hovered === dept.id ? 'translateX(6px)' : 'translateX(0)',
+                transition: 'all 0.2s ease',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+
+              {/* Left accent bar */}
+              {!dept.dashed && (
+                <div style={{
+                  position: 'absolute', left: 0, top: 0, bottom: 0,
+                  width: '3px', background: dept.accent,
+                  borderRadius: '14px 0 0 14px',
+                  opacity: hovered === dept.id ? 1 : 0.5,
+                  transition: 'opacity 0.2s'
+                }}></div>
+              )}
+
               {/* Icon */}
               <div style={{
-                width: '44px', height: '44px', borderRadius: '12px',
-                background: 'rgba(255,255,255,0.08)',
+                width: '48px', height: '48px', borderRadius: '12px',
+                background: hovered === dept.id
+                  ? 'rgba(255,255,255,0.1)'
+                  : 'rgba(255,255,255,0.06)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '20px',
-                flexShrink: 0
+                justifyContent: 'center', fontSize: '22px',
+                flexShrink: 0, transition: 'background 0.2s'
               }}>
                 {dept.icon}
               </div>
 
               {/* Text */}
               <div style={{ flex: 1 }}>
-                <div className="flex items-center gap-2 mb-1">
-                  <span style={{ color: '#ffffff', fontWeight: '600', fontSize: '14px' }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center',
+                  gap: '10px', marginBottom: '4px'
+                }}>
+                  <span style={{
+                    color: '#ffffff', fontWeight: '600', fontSize: '14px'
+                  }}>
                     {dept.label}
                   </span>
                   {!dept.dashed && (
@@ -173,57 +238,89 @@ const AwarenessHub = () => {
                       padding: '2px 8px', borderRadius: '20px',
                       background: 'rgba(0,102,0,0.2)',
                       color: '#69db7c',
-                      border: '1px solid rgba(0,102,0,0.3)'
+                      border: '1px solid rgba(0,102,0,0.25)'
                     }}>
                       2 modules
                     </span>
                   )}
                 </div>
-                <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', lineHeight: '1.5' }}>
+                <div style={{
+                  color: 'rgba(255,255,255,0.4)',
+                  fontSize: '12px', lineHeight: '1.5'
+                }}>
                   {dept.desc}
                 </div>
               </div>
 
               {/* Arrow */}
-              <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: '16px', flexShrink: 0 }}>
+              <div style={{
+                color: hovered === dept.id
+                  ? 'rgba(255,255,255,0.6)'
+                  : 'rgba(255,255,255,0.15)',
+                fontSize: '18px', flexShrink: 0,
+                transition: 'color 0.2s'
+              }}>
                 →
               </div>
             </div>
           ))}
         </div>
 
-        {/* Other department input */}
+        {/* Other input */}
         {showOtherInput && (
-          <div className="mt-4 max-w-2xl rounded-xl p-5 border border-gray-800"
-            style={{ background: '#1a1f1a' }}>
-            <div className="text-white font-semibold text-sm mb-1">
+          <div style={{
+            maxWidth: '680px', borderRadius: '14px', padding: '20px',
+            border: '1px solid rgba(255,255,255,0.1)',
+            background: '#1a1f1a', marginTop: '8px'
+          }}>
+            <div style={{
+              color: '#ffffff', fontWeight: '600',
+              fontSize: '14px', marginBottom: '4px'
+            }}>
               Enter your department
             </div>
-            <div className="text-gray-500 text-xs mb-3">
-              Type your department name and we will generate personalised content for you.
+            <div style={{
+              color: 'rgba(255,255,255,0.4)',
+              fontSize: '12px', marginBottom: '14px'
+            }}>
+              Type your department and we will generate personalised content for you.
             </div>
             <input
               value={otherDept}
               onChange={e => setOtherDept(e.target.value)}
               placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
-              className="w-full bg-gray-900 border border-gray-800 rounded-lg text-gray-300 px-4 py-3 text-sm outline-none focus:border-green-800 mb-3"
+              style={{
+                width: '100%', background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '10px', color: '#ffffff',
+                padding: '12px 16px', fontSize: '14px',
+                outline: 'none', marginBottom: '14px',
+                boxSizing: 'border-box'
+              }}
               onKeyDown={e => e.key === 'Enter' && handleOtherSubmit()}
               autoFocus
             />
-            <div className="flex gap-3">
+            <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={handleOtherSubmit}
                 disabled={!otherDept.trim()}
-                className="px-5 py-2.5 rounded-lg text-white font-semibold text-sm transition-all"
                 style={{
                   background: otherDept.trim() ? '#006600' : '#333',
+                  color: '#fff', border: 'none',
+                  borderRadius: '10px', padding: '10px 20px',
+                  fontSize: '13px', fontWeight: '600',
                   cursor: otherDept.trim() ? 'pointer' : 'not-allowed'
                 }}>
                 Continue →
               </button>
               <button
                 onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
-                className="px-5 py-2.5 rounded-lg text-gray-400 font-semibold text-sm border border-gray-700 hover:bg-gray-800 transition-all">
+                style={{
+                  background: 'transparent', color: 'rgba(255,255,255,0.4)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '10px', padding: '10px 20px',
+                  fontSize: '13px', fontWeight: '600', cursor: 'pointer'
+                }}>
                 Cancel
               </button>
             </div>
