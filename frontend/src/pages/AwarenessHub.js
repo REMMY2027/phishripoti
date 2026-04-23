@@ -7,43 +7,58 @@ const departments = [
     id: 'customer',
     label: 'Customer Service / Teller',
     icon: '🎧',
-    desc: 'Front-line staff handling cash, deposits, withdrawals and direct customer interaction.'
+    desc: 'High target for M-Pesa impersonation and account takeover phishing attempts.',
+    color: 'rgba(0,102,0,0.15)',
+    border: 'rgba(0,102,0,0.2)'
   },
   {
     id: 'finance',
     label: 'Finance & Accounts',
     icon: '📊',
-    desc: 'Staff managing financial records, payments, reconciliations and budget reporting.'
+    desc: 'Frequently targeted by invoice fraud, payment diversion and CFO impersonation emails.',
+    color: 'rgba(187,0,0,0.1)',
+    border: 'rgba(187,0,0,0.15)'
   },
   {
     id: 'compliance',
     label: 'Compliance / Risk',
     icon: '⚖️',
-    desc: 'Teams responsible for regulatory compliance, fraud monitoring and risk assessment.'
+    desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
+    color: 'rgba(0,102,0,0.15)',
+    border: 'rgba(0,102,0,0.2)'
   },
   {
     id: 'loans',
     label: 'Loans / Credit Officer',
     icon: '💳',
-    desc: 'Staff processing loan applications, credit assessments and repayment management.'
+    desc: 'At risk from fake loan applicant documents and credential harvesting attacks.',
+    color: 'rgba(187,0,0,0.1)',
+    border: 'rgba(187,0,0,0.15)'
   },
   {
     id: 'operations',
     label: 'Operations',
     icon: '⚙️',
-    desc: 'Back-office teams managing internal processes, systems and branch administration.'
+    desc: 'Targeted by system access phishing and fake IT support emails requesting credentials.',
+    color: 'rgba(0,102,0,0.15)',
+    border: 'rgba(0,102,0,0.2)'
   },
   {
     id: 'hr',
     label: 'Human Resources',
     icon: '👥',
-    desc: 'Staff handling recruitment, employee records, payroll and staff welfare.'
+    desc: 'Targeted by payroll diversion and fake employee document phishing campaigns.',
+    color: 'rgba(187,0,0,0.1)',
+    border: 'rgba(187,0,0,0.15)'
   },
   {
     id: 'other',
     label: 'Other',
     icon: '✏️',
-    desc: 'My department is not listed above.'
+    desc: 'My department is not listed above. I will enter it manually.',
+    color: 'rgba(255,255,255,0.03)',
+    border: 'rgba(255,255,255,0.1)',
+    dashed: true
   }
 ];
 
@@ -71,10 +86,40 @@ const AwarenessHub = () => {
       <Navbar />
 
       <div className="px-8 pt-8 pb-4">
+        {/* Back button */}
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-1 text-gray-500 text-sm mb-5 hover:text-gray-300 transition-all">
+          ← Back to Home
+        </button>
+
+        {/* Progress indicator */}
+        <div className="flex items-center gap-2 mb-5">
+          <div className="flex items-center gap-2">
+            <div style={{
+              width: '24px', height: '24px', borderRadius: '50%',
+              background: '#006600', display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontSize: '11px', fontWeight: '700', color: '#fff'
+            }}>1</div>
+            <span className="text-white text-xs font-semibold">Select Department</span>
+          </div>
+          <div style={{ width: '40px', height: '1px', background: 'rgba(255,255,255,0.15)' }}></div>
+          <div className="flex items-center gap-2">
+            <div style={{
+              width: '24px', height: '24px', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontSize: '11px', fontWeight: '700',
+              color: 'rgba(255,255,255,0.3)'
+            }}>2</div>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }} className="text-xs">Select Module</span>
+          </div>
+        </div>
+
+        {/* Header */}
         <div className="flex items-center gap-2 mb-2">
           <div className="w-2 h-2 rounded-full bg-green-600 animate-pulse"></div>
           <span className="text-xs font-semibold uppercase tracking-widest text-green-400">
-            Awareness Hub
+            Live — AI-powered content
           </span>
         </div>
         <h2 className="text-white font-bold text-2xl mb-2">Select your department</h2>
@@ -91,24 +136,24 @@ const AwarenessHub = () => {
               onClick={() => handleSelect(dept)}
               className="flex items-center gap-4 rounded-xl px-5 py-4 cursor-pointer transition-all"
               style={{
-                background: '#1a1f1a',
-                border: '1px solid rgba(255,255,255,0.06)'
+                background: dept.color,
+                border: `${dept.dashed ? '1px dashed' : '1px solid'} ${dept.border}`
               }}
               onMouseOver={e => {
                 e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                e.currentTarget.style.border = '1px solid rgba(255,255,255,0.15)';
+                e.currentTarget.style.border = `${dept.dashed ? '1px dashed' : '1px solid'} rgba(255,255,255,0.2)`;
                 e.currentTarget.style.transform = 'translateX(4px)';
               }}
               onMouseOut={e => {
-                e.currentTarget.style.background = '#1a1f1a';
-                e.currentTarget.style.border = '1px solid rgba(255,255,255,0.06)';
+                e.currentTarget.style.background = dept.color;
+                e.currentTarget.style.border = `${dept.dashed ? '1px dashed' : '1px solid'} ${dept.border}`;
                 e.currentTarget.style.transform = 'translateX(0)';
               }}
             >
               {/* Icon */}
               <div style={{
                 width: '44px', height: '44px', borderRadius: '12px',
-                background: 'rgba(255,255,255,0.06)',
+                background: 'rgba(255,255,255,0.08)',
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center', fontSize: '20px',
                 flexShrink: 0
@@ -118,8 +163,21 @@ const AwarenessHub = () => {
 
               {/* Text */}
               <div style={{ flex: 1 }}>
-                <div style={{ color: '#ffffff', fontWeight: '600', fontSize: '14px', marginBottom: '2px' }}>
-                  {dept.label}
+                <div className="flex items-center gap-2 mb-1">
+                  <span style={{ color: '#ffffff', fontWeight: '600', fontSize: '14px' }}>
+                    {dept.label}
+                  </span>
+                  {!dept.dashed && (
+                    <span style={{
+                      fontSize: '10px', fontWeight: '600',
+                      padding: '2px 8px', borderRadius: '20px',
+                      background: 'rgba(0,102,0,0.2)',
+                      color: '#69db7c',
+                      border: '1px solid rgba(0,102,0,0.3)'
+                    }}>
+                      2 modules
+                    </span>
+                  )}
                 </div>
                 <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', lineHeight: '1.5' }}>
                   {dept.desc}
@@ -138,13 +196,16 @@ const AwarenessHub = () => {
         {showOtherInput && (
           <div className="mt-4 max-w-2xl rounded-xl p-5 border border-gray-800"
             style={{ background: '#1a1f1a' }}>
-            <div className="text-white font-semibold text-sm mb-3">
+            <div className="text-white font-semibold text-sm mb-1">
               Enter your department
+            </div>
+            <div className="text-gray-500 text-xs mb-3">
+              Type your department name and we will generate personalised content for you.
             </div>
             <input
               value={otherDept}
               onChange={e => setOtherDept(e.target.value)}
-              placeholder="e.g. Mobile Banking, Digital Channels..."
+              placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
               className="w-full bg-gray-900 border border-gray-800 rounded-lg text-gray-300 px-4 py-3 text-sm outline-none focus:border-green-800 mb-3"
               onKeyDown={e => e.key === 'Enter' && handleOtherSubmit()}
               autoFocus
