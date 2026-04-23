@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-relative';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const departments = [
