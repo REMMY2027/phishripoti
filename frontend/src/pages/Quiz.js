@@ -265,7 +265,6 @@ const Quiz = () => {
                       }
                     }}
                   >
-                    {/* Letter circle */}
                     <div style={{
                       width: '30px', height: '30px', borderRadius: '50%',
                       flexShrink: 0, display: 'flex', alignItems: 'center',
@@ -282,7 +281,6 @@ const Quiz = () => {
                     }}>
                       {isThisCorrect ? '✓' : isThisWrong ? '✕' : String.fromCharCode(65 + index)}
                     </div>
-
                     <span style={{
                       color: isThisCorrect
                         ? '#69db7c'
@@ -298,13 +296,11 @@ const Quiz = () => {
               })}
             </div>
 
-            {/* Explanation box */}
+            {/* Explanation */}
             {answered && (
               <div style={{
                 marginTop: '18px', borderRadius: '12px', padding: '18px 20px',
-                background: isCorrect
-                  ? 'rgba(0,102,0,0.1)'
-                  : 'rgba(187,0,0,0.08)',
+                background: isCorrect ? 'rgba(0,102,0,0.1)' : 'rgba(187,0,0,0.08)',
                 border: `1px solid ${isCorrect ? 'rgba(0,102,0,0.3)' : 'rgba(187,0,0,0.3)'}`,
                 borderLeft: `4px solid ${isCorrect ? '#006600' : '#BB0000'}`
               }}>
@@ -312,9 +308,7 @@ const Quiz = () => {
                   display: 'flex', alignItems: 'center',
                   gap: '8px', marginBottom: '10px'
                 }}>
-                  <span style={{ fontSize: '18px' }}>
-                    {isCorrect ? '✅' : '❌'}
-                  </span>
+                  <span style={{ fontSize: '18px' }}>{isCorrect ? '✅' : '❌'}</span>
                   <span style={{
                     fontWeight: '700', fontSize: '14px',
                     color: isCorrect ? '#69db7c' : '#ff8080'
@@ -335,20 +329,17 @@ const Quiz = () => {
 
             {/* Next button */}
             {answered && (
-              <button
-                onClick={handleNext}
-                style={{
-                  marginTop: '14px', width: '100%',
-                  background: isPost ? '#ea9600' : '#006600',
-                  color: '#fff', border: 'none',
-                  borderRadius: '12px', padding: '15px',
-                  fontSize: '14px', fontWeight: '700',
-                  cursor: 'pointer', letterSpacing: '0.02em',
-                  transition: 'opacity 0.2s'
-                }}
+              <button onClick={handleNext} style={{
+                marginTop: '14px', width: '100%',
+                background: isPost ? '#ea9600' : '#006600',
+                color: '#fff', border: 'none',
+                borderRadius: '12px', padding: '15px',
+                fontSize: '14px', fontWeight: '700',
+                cursor: 'pointer', letterSpacing: '0.02em',
+                transition: 'opacity 0.2s'
+              }}
                 onMouseOver={e => e.currentTarget.style.opacity = '0.85'}
-                onMouseOut={e => e.currentTarget.style.opacity = '1'}
-              >
+                onMouseOut={e => e.currentTarget.style.opacity = '1'}>
                 {currentQ < questions.length - 1
                   ? 'Next Question →'
                   : isPost
@@ -368,16 +359,16 @@ const Quiz = () => {
                 marginBottom: '10px',
                 display: 'flex', alignItems: 'center', gap: '6px'
               }}>
-                <span style={{ fontSize: '14px' }}>⚠️</span>
-                Suspicious Email — Analyse Carefully
+                <span style={{ fontSize: '14px' }}>📧</span>
+                Email in Question
               </div>
 
               <div style={{
                 borderRadius: '14px', overflow: 'hidden',
-                border: '1px solid rgba(187,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.08)',
                 background: '#0d150d'
               }}>
-                {/* Mac-style toolbar */}
+                {/* Mac toolbar */}
                 <div style={{
                   background: '#181818',
                   borderBottom: '1px solid rgba(255,255,255,0.05)',
@@ -400,30 +391,22 @@ const Quiz = () => {
                   padding: '16px 18px',
                   borderBottom: '1px solid rgba(255,255,255,0.05)'
                 }}>
-                  {/* From */}
-                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'flex-start' }}>
+                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
                     <span style={{
                       fontSize: '11px', color: 'rgba(255,255,255,0.25)',
-                      width: '52px', flexShrink: 0, paddingTop: '3px'
+                      width: '52px', flexShrink: 0
                     }}>From:</span>
-                    <div>
-                      <div style={{
-                        fontSize: '12px', color: '#ff8080',
-                        fontFamily: 'monospace',
-                        background: 'rgba(187,0,0,0.15)',
-                        padding: '3px 8px', borderRadius: '5px',
-                        border: '1px solid rgba(187,0,0,0.25)',
-                        display: 'inline-block', marginBottom: '3px'
-                      }}>
-                        {emailMockup.from}
-                      </div>
-                      <div style={{ fontSize: '10px', color: 'rgba(255,120,120,0.55)' }}>
-                        ⚠ Domain does not match official institution
-                      </div>
-                    </div>
+                    <span style={{
+                      fontSize: '12px', color: '#ff8080',
+                      fontFamily: 'monospace',
+                      background: 'rgba(187,0,0,0.12)',
+                      padding: '3px 8px', borderRadius: '5px',
+                      border: '1px solid rgba(187,0,0,0.2)'
+                    }}>
+                      {emailMockup.from}
+                    </span>
                   </div>
 
-                  {/* To */}
                   {emailMockup.to && (
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
                       <span style={{
@@ -439,7 +422,6 @@ const Quiz = () => {
                     </div>
                   )}
 
-                  {/* Subject */}
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <span style={{
                       fontSize: '11px', color: 'rgba(255,255,255,0.25)',
@@ -462,20 +444,19 @@ const Quiz = () => {
                     {emailMockup.body}
                   </p>
 
-                  {/* Suspicious link */}
                   {emailMockup.link && (
                     <div style={{
                       padding: '10px 14px',
-                      background: 'rgba(187,0,0,0.1)',
-                      border: '1px solid rgba(187,0,0,0.2)',
-                      borderRadius: '8px', marginBottom: '14px'
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      borderRadius: '8px'
                     }}>
                       <div style={{
-                        fontSize: '10px', color: 'rgba(255,255,255,0.3)',
+                        fontSize: '10px', color: 'rgba(255,255,255,0.25)',
                         marginBottom: '4px', textTransform: 'uppercase',
                         letterSpacing: '0.06em'
                       }}>
-                        Suspicious link in email:
+                        Link in email:
                       </div>
                       <span style={{
                         fontSize: '11px', color: '#ff8080',
@@ -485,41 +466,6 @@ const Quiz = () => {
                       </span>
                     </div>
                   )}
-
-                  {/* Red flags */}
-                  <div style={{
-                    padding: '12px 14px',
-                    background: 'rgba(234,150,0,0.07)',
-                    border: '1px solid rgba(234,150,0,0.18)',
-                    borderRadius: '10px'
-                  }}>
-                    <div style={{
-                      fontSize: '10px', fontWeight: '700',
-                      color: '#ffd166', marginBottom: '8px',
-                      textTransform: 'uppercase', letterSpacing: '0.07em',
-                      display: 'flex', alignItems: 'center', gap: '5px'
-                    }}>
-                      🔍 Red Flags in This Email
-                    </div>
-                    {[
-                      'Sender domain does not match official institution domain',
-                      'Creates urgency — pressures you to act immediately',
-                      'Requests sensitive credentials or personal data'
-                    ].map((flag, i) => (
-                      <div key={i} style={{
-                        display: 'flex', alignItems: 'flex-start',
-                        gap: '7px', marginBottom: i < 2 ? '5px' : 0
-                      }}>
-                        <span style={{ color: '#ea9600', fontSize: '11px', marginTop: '2px', flexShrink: 0 }}>▸</span>
-                        <span style={{
-                          fontSize: '11px', color: 'rgba(255,255,255,0.48)',
-                          lineHeight: '1.5'
-                        }}>
-                          {flag}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
