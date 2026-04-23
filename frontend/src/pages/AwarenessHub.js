@@ -8,7 +8,6 @@ const departments = [
     label: 'Customer Service / Teller',
     icon: '🎧',
     desc: 'High target for M-Pesa impersonation and account takeover phishing attempts.',
-    color: 'rgba(0,102,0,0.12)',
     accent: '#006600'
   },
   {
@@ -16,7 +15,6 @@ const departments = [
     label: 'Finance & Accounts',
     icon: '📊',
     desc: 'Frequently targeted by invoice fraud, payment diversion and CFO impersonation emails.',
-    color: 'rgba(187,0,0,0.08)',
     accent: '#BB0000'
   },
   {
@@ -24,7 +22,6 @@ const departments = [
     label: 'Compliance / Risk',
     icon: '⚖️',
     desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
-    color: 'rgba(0,102,0,0.12)',
     accent: '#006600'
   },
   {
@@ -32,7 +29,6 @@ const departments = [
     label: 'Loans / Credit Officer',
     icon: '💳',
     desc: 'At risk from fake loan applicant documents and credential harvesting attacks.',
-    color: 'rgba(187,0,0,0.08)',
     accent: '#BB0000'
   },
   {
@@ -40,7 +36,6 @@ const departments = [
     label: 'Operations',
     icon: '⚙️',
     desc: 'Targeted by system access phishing and fake IT support emails requesting credentials.',
-    color: 'rgba(0,102,0,0.12)',
     accent: '#006600'
   },
   {
@@ -48,7 +43,6 @@ const departments = [
     label: 'Human Resources',
     icon: '👥',
     desc: 'Targeted by payroll diversion and fake employee document phishing campaigns.',
-    color: 'rgba(187,0,0,0.08)',
     accent: '#BB0000'
   },
   {
@@ -56,7 +50,6 @@ const departments = [
     label: 'Other Department',
     icon: '✏️',
     desc: 'My department is not listed. I will enter it manually.',
-    color: 'rgba(255,255,255,0.03)',
     accent: '#555555',
     dashed: true
   }
@@ -86,192 +79,215 @@ const AwarenessHub = () => {
     <div className="min-h-screen flex flex-col" style={{ background: '#0a0d0a' }}>
       <Navbar />
 
-      {/* Header section */}
+      {/* Hero header */}
       <div style={{
-        background: 'linear-gradient(180deg, #0f1f0f 0%, #0a0d0a 100%)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
-        padding: '32px 32px 28px'
+        background: 'linear-gradient(180deg, #0d1f0d 0%, #0a0d0a 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        padding: '40px 40px 32px'
       }}>
-        <button
-          onClick={() => navigate('/')}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'rgba(255,255,255,0.4)', fontSize: '13px',
-            display: 'flex', alignItems: 'center', gap: '6px',
-            marginBottom: '20px', padding: 0
-          }}>
-          ← Back to Home
+        <button onClick={() => navigate('/')} style={{
+          background: 'none', border: 'none', cursor: 'pointer',
+          color: 'rgba(255,255,255,0.35)', fontSize: '13px',
+          display: 'flex', alignItems: 'center', gap: '6px',
+          marginBottom: '24px', padding: 0, transition: 'color 0.2s'
+        }}
+          onMouseOver={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+          onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>
+          ← Home
         </button>
 
-        {/* Progress steps */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{
-              width: '28px', height: '28px', borderRadius: '50%',
-              background: '#006600', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '12px', fontWeight: '700', color: '#fff'
-            }}>1</div>
-            <span style={{ color: '#ffffff', fontSize: '13px', fontWeight: '600' }}>
-              Select Department
-            </span>
-          </div>
-          <div style={{
-            flex: 1, maxWidth: '60px', height: '1px',
-            background: 'rgba(255,255,255,0.12)'
-          }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{
-              width: '28px', height: '28px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '12px', fontWeight: '700',
-              color: 'rgba(255,255,255,0.3)'
-            }}>2</div>
-            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px' }}>
-              Select Module
-            </span>
-          </div>
-          <div style={{
-            flex: 1, maxWidth: '60px', height: '1px',
-            background: 'rgba(255,255,255,0.12)'
-          }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{
-              width: '28px', height: '28px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '12px', fontWeight: '700',
-              color: 'rgba(255,255,255,0.3)'
-            }}>3</div>
-            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px' }}>
-              Learn and Assess
-            </span>
-          </div>
+        {/* Progress */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0', marginBottom: '28px' }}>
+          {[
+            { n: 1, label: 'Department', active: true },
+            { n: 2, label: 'Module', active: false },
+            { n: 3, label: 'Learn & Assess', active: false }
+          ].map((step, i) => (
+            <React.Fragment key={step.n}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{
+                  width: '30px', height: '30px', borderRadius: '50%',
+                  background: step.active ? '#006600' : 'rgba(255,255,255,0.06)',
+                  border: step.active ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '12px', fontWeight: '700',
+                  color: step.active ? '#ffffff' : 'rgba(255,255,255,0.25)'
+                }}>{step.n}</div>
+                <span style={{
+                  fontSize: '13px', fontWeight: step.active ? '600' : '400',
+                  color: step.active ? '#ffffff' : 'rgba(255,255,255,0.25)'
+                }}>{step.label}</span>
+              </div>
+              {i < 2 && (
+                <div style={{
+                  width: '48px', height: '1px',
+                  background: 'rgba(255,255,255,0.1)',
+                  margin: '0 12px'
+                }}></div>
+              )}
+            </React.Fragment>
+          ))}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+        {/* Live badge */}
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          background: 'rgba(0,102,0,0.12)', border: '1px solid rgba(0,102,0,0.25)',
+          borderRadius: '20px', padding: '4px 12px', marginBottom: '14px'
+        }}>
           <div style={{
-            width: '8px', height: '8px', borderRadius: '50%',
-            background: '#006600', animation: 'pulse 2s infinite'
+            width: '6px', height: '6px', borderRadius: '50%', background: '#69db7c'
           }}></div>
           <span style={{
-            fontSize: '11px', fontWeight: '600',
-            textTransform: 'uppercase', letterSpacing: '0.1em',
-            color: '#69db7c'
+            fontSize: '11px', fontWeight: '600', color: '#69db7c',
+            textTransform: 'uppercase', letterSpacing: '0.08em'
           }}>
-            Live — AI-powered personalised content
+            Live — AI-powered content
           </span>
         </div>
-        <h2 style={{ color: '#ffffff', fontWeight: '700', fontSize: '24px', margin: '0 0 6px' }}>
-          Which department are you from?
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '14px', margin: 0 }}>
-          Select your role to receive phishing awareness training tailored to your daily responsibilities.
+
+        <h1 style={{
+          color: '#ffffff', fontWeight: '800', fontSize: '28px',
+          margin: '0 0 8px', letterSpacing: '-0.5px'
+        }}>
+          Select your department
+        </h1>
+        <p style={{
+          color: 'rgba(255,255,255,0.4)', fontSize: '14px',
+          margin: 0, lineHeight: '1.6', maxWidth: '480px'
+        }}>
+          Your department determines the phishing scenarios and quiz content you will receive.
+          All content is generated by GPT-4o in real time.
         </p>
       </div>
 
-      {/* Department cards */}
-      <div className="flex-1 overflow-y-auto" style={{ padding: '24px 32px' }}>
-        <div style={{ maxWidth: '680px' }}>
-          {departments.map((dept) => (
+      {/* Department grid */}
+      <div className="flex-1 overflow-y-auto" style={{ padding: '28px 40px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '12px',
+          maxWidth: '760px'
+        }}>
+          {departments.filter(d => d.id !== 'other').map((dept) => (
             <div
               key={dept.id}
               onClick={() => handleSelect(dept)}
               onMouseOver={() => setHovered(dept.id)}
               onMouseOut={() => setHovered(null)}
               style={{
-                display: 'flex', alignItems: 'center', gap: '16px',
-                borderRadius: '14px', padding: '16px 20px',
-                marginBottom: '10px', cursor: 'pointer',
+                borderRadius: '14px', padding: '20px',
+                cursor: 'pointer', position: 'relative', overflow: 'hidden',
                 background: hovered === dept.id
                   ? 'rgba(255,255,255,0.07)'
-                  : dept.color,
-                border: dept.dashed
-                  ? `1px dashed ${hovered === dept.id ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)'}`
-                  : `1px solid ${hovered === dept.id ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.06)'}`,
-                transform: hovered === dept.id ? 'translateX(6px)' : 'translateX(0)',
+                  : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${hovered === dept.id
+                  ? 'rgba(255,255,255,0.15)'
+                  : 'rgba(255,255,255,0.07)'}`,
+                transform: hovered === dept.id ? 'translateY(-2px)' : 'translateY(0)',
                 transition: 'all 0.2s ease',
-                position: 'relative',
-                overflow: 'hidden'
+                boxShadow: hovered === dept.id
+                  ? '0 8px 32px rgba(0,0,0,0.3)'
+                  : 'none'
               }}>
 
-              {/* Left accent bar */}
-              {!dept.dashed && (
-                <div style={{
-                  position: 'absolute', left: 0, top: 0, bottom: 0,
-                  width: '3px', background: dept.accent,
-                  borderRadius: '14px 0 0 14px',
-                  opacity: hovered === dept.id ? 1 : 0.5,
-                  transition: 'opacity 0.2s'
-                }}></div>
-              )}
+              {/* Top accent line */}
+              <div style={{
+                position: 'absolute', top: 0, left: 0, right: 0,
+                height: '2px', background: dept.accent,
+                opacity: hovered === dept.id ? 1 : 0.4,
+                transition: 'opacity 0.2s'
+              }}></div>
 
               {/* Icon */}
               <div style={{
-                width: '48px', height: '48px', borderRadius: '12px',
+                width: '44px', height: '44px', borderRadius: '12px',
                 background: hovered === dept.id
                   ? 'rgba(255,255,255,0.1)'
-                  : 'rgba(255,255,255,0.06)',
+                  : 'rgba(255,255,255,0.05)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '22px',
-                flexShrink: 0, transition: 'background 0.2s'
+                justifyContent: 'center', fontSize: '20px',
+                marginBottom: '14px', transition: 'background 0.2s'
               }}>
                 {dept.icon}
               </div>
 
-              {/* Text */}
-              <div style={{ flex: 1 }}>
-                <div style={{
-                  display: 'flex', alignItems: 'center',
-                  gap: '10px', marginBottom: '4px'
-                }}>
-                  <span style={{
-                    color: '#ffffff', fontWeight: '600', fontSize: '14px'
-                  }}>
-                    {dept.label}
-                  </span>
-                  {!dept.dashed && (
-                    <span style={{
-                      fontSize: '10px', fontWeight: '600',
-                      padding: '2px 8px', borderRadius: '20px',
-                      background: 'rgba(0,102,0,0.2)',
-                      color: '#69db7c',
-                      border: '1px solid rgba(0,102,0,0.25)'
-                    }}>
-                      2 modules
-                    </span>
-                  )}
-                </div>
-                <div style={{
-                  color: 'rgba(255,255,255,0.4)',
-                  fontSize: '12px', lineHeight: '1.5'
-                }}>
-                  {dept.desc}
-                </div>
+              {/* Label */}
+              <div style={{
+                color: '#ffffff', fontWeight: '600',
+                fontSize: '14px', marginBottom: '6px'
+              }}>
+                {dept.label}
               </div>
 
-              {/* Arrow */}
+              {/* Description */}
               <div style={{
-                color: hovered === dept.id
-                  ? 'rgba(255,255,255,0.6)'
-                  : 'rgba(255,255,255,0.15)',
-                fontSize: '18px', flexShrink: 0,
-                transition: 'color 0.2s'
+                color: 'rgba(255,255,255,0.38)',
+                fontSize: '12px', lineHeight: '1.6'
               }}>
-                →
+                {dept.desc}
               </div>
+
+              {/* Arrow on hover */}
+              <div style={{
+                position: 'absolute', bottom: '16px', right: '16px',
+                color: hovered === dept.id
+                  ? 'rgba(255,255,255,0.5)'
+                  : 'rgba(255,255,255,0.1)',
+                fontSize: '16px', transition: 'color 0.2s'
+              }}>→</div>
             </div>
           ))}
+        </div>
+
+        {/* Other option */}
+        <div style={{ maxWidth: '760px', marginTop: '12px' }}>
+          <div
+            onClick={() => handleSelect(departments.find(d => d.id === 'other'))}
+            onMouseOver={() => setHovered('other')}
+            onMouseOut={() => setHovered(null)}
+            style={{
+              borderRadius: '14px', padding: '16px 20px',
+              cursor: 'pointer', display: 'flex',
+              alignItems: 'center', gap: '14px',
+              background: hovered === 'other'
+                ? 'rgba(255,255,255,0.05)'
+                : 'transparent',
+              border: `1px dashed ${hovered === 'other'
+                ? 'rgba(255,255,255,0.2)'
+                : 'rgba(255,255,255,0.1)'}`,
+              transition: 'all 0.2s ease'
+            }}>
+            <div style={{
+              width: '36px', height: '36px', borderRadius: '10px',
+              background: 'rgba(255,255,255,0.05)',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontSize: '16px', flexShrink: 0
+            }}>✏️</div>
+            <div>
+              <div style={{ color: 'rgba(255,255,255,0.6)', fontWeight: '600', fontSize: '13px' }}>
+                Other Department
+              </div>
+              <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
+                My department is not listed — I will enter it manually
+              </div>
+            </div>
+            <div style={{
+              marginLeft: 'auto',
+              color: hovered === 'other'
+                ? 'rgba(255,255,255,0.4)'
+                : 'rgba(255,255,255,0.1)',
+              fontSize: '14px', transition: 'color 0.2s'
+            }}>→</div>
+          </div>
         </div>
 
         {/* Other input */}
         {showOtherInput && (
           <div style={{
-            maxWidth: '680px', borderRadius: '14px', padding: '20px',
+            maxWidth: '760px', borderRadius: '14px', padding: '20px',
             border: '1px solid rgba(255,255,255,0.1)',
-            background: '#1a1f1a', marginTop: '8px'
+            background: '#111611', marginTop: '12px'
           }}>
             <div style={{
               color: '#ffffff', fontWeight: '600',
@@ -280,17 +296,18 @@ const AwarenessHub = () => {
               Enter your department
             </div>
             <div style={{
-              color: 'rgba(255,255,255,0.4)',
+              color: 'rgba(255,255,255,0.35)',
               fontSize: '12px', marginBottom: '14px'
             }}>
-              Type your department and we will generate personalised content for you.
+              GPT-4o will generate personalised content based on your department.
             </div>
             <input
               value={otherDept}
               onChange={e => setOtherDept(e.target.value)}
               placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
               style={{
-                width: '100%', background: 'rgba(255,255,255,0.05)',
+                width: '100%',
+                background: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: '10px', color: '#ffffff',
                 padding: '12px 16px', fontSize: '14px',
@@ -316,7 +333,8 @@ const AwarenessHub = () => {
               <button
                 onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
                 style={{
-                  background: 'transparent', color: 'rgba(255,255,255,0.4)',
+                  background: 'transparent',
+                  color: 'rgba(255,255,255,0.4)',
                   border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '10px', padding: '10px 20px',
                   fontSize: '13px', fontWeight: '600', cursor: 'pointer'
