@@ -1,40 +1,62 @@
-const QuizScore = require('../models/QuizScore');
 const OpenAI = require('openai');
-const { v4: uuidv4 } = require('uuid');
+const QuizScore = require('../models/QuizScore');
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const generateQuiz = async (req, res) => {
   try {
-    const { module, department, isPost, instruction } = req.body;
+    const { module, department, isPost, learningContent } = req.body;
 
-    const prompt = `You are a cybersecurity trainer specialising in phishing awareness for Kenyan financial institutions.
+    const learningContext = isPost && learningContent
+      ? `
+The student just completed the following learning content. Base your post-assessment questions DIRECTLY on this material:
 
-Generate 5 multiple choice quiz questions about "${module}" tailored for a ${department} employee at a Kenyan financial institution.
+KEY POINTS TAUGHT:
+${(learningContent.keyPoints || []).map((p, i) => `${i + 1}. ${typeof p === 'string' ? p : p.title + ': ' + p.detail}`).join('\n')}
 
-${instruction || ''}
+SCENARIOS COVERED:
+${(learningContent.scenarios || []).map((s, i) => `${i + 1}. ${s.title}: ${s.description}`).join('\n')}
 
-Each question must be based on real phishing tactics used in Kenya, including M-Pesa fraud, KCB, Equity Bank, and Safaricom impersonation where relevant.
+KEY TAKEAWAYS:
+${(learningContent.keyTakeaways || []).join('\n')}
 
-Return ONLY this JSON structure, no other text:
+Generate questions that test understanding of the above content specifically.`
+      : '';
+
+    const prompt = `You are a cybersecurity trainer for Kenyan financial institutions.
+
+Generate exactly 5 multiple choice questions for a ${isPost ? 'POST' : 'PRE'}-assessment quiz.
+Module: ${module}
+Department: ${department}
+${isPost ? 'These must be DIFFERENT questions from the pre-assessment.' : 'These are baseline questions to assess current awareness level.'}
+${learningContext}
+
+IMPORTANT: For at least 2 questions, create a realistic phishing email scenario using Kenyan context (KCB, Equity Bank, Safaricom, M-Pesa, CBK, KRA). For these questions include an emailMockup object.
+
+Return ONLY valid JSON:
 {
   "questions": [
     {
-      "id": 1,
-      "question": "<realistic scenario-based question>",
-      "options": ["<option A>", "<option B>", "<option C>", "<option D>"],
-      "correctIndex": <0-3>,
-      "explanation": "<why this answer is correct and what to watch out for>"
+      "question": "question text",
+      "options": ["option A", "option B", "option C", "option D"],
+      "correctIndex": 0,
+      "explanation": "Clear explanation of why this is correct",
+      "emailMockup": {
+        "from": "sender@suspicious-domain.com",
+        "to": "staff@kcbbank.co.ke",
+        "subject": "URGENT: Subject line",
+        "body": "2-3 sentence realistic phishing email body.",
+        "link": "http://suspicious-link.net/verify"
+      }
     }
   ]
 }
 
 Rules:
-- Each question must present a realistic phishing scenario
-- Questions must be relevant to ${department} employees specifically
-- Include at least one M-Pesa or mobile money scenario
-- Correct answers should always be the safe, security-conscious choice
-- Explanations must be educational and specific to Kenyan financial sector threats`;
+- Only include emailMockup for email scenario questions
+- correctIndex must be 0, 1, 2, or 3
+- Use realistic Kenyan domain names in mockups
+- Make explanations educational and specific to Kenyan finance`;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
@@ -45,7 +67,6 @@ Rules:
 
     const data = JSON.parse(response.choices[0].message.content);
     res.json(data);
-
   } catch (error) {
     console.error('Generate quiz error:', error);
     res.status(500).json({ message: 'Error generating quiz questions.' });
@@ -58,22 +79,30 @@ const generateContent = async (req, res) => {
 
     const prompt = `You are a cybersecurity trainer for Kenyan financial institutions.
 
-Generate educational learning content about "${module}" for a ${department} employee.
+Generate detailed learning content for:
+Module: ${module}
+Department: ${department}
 
-Return ONLY this JSON structure:
+Return ONLY valid JSON:
 {
-  "introduction": "<2-3 sentence introduction to the topic specific to ${department} employees in Kenya>",
-  "scenarios": [
+  "keyPoints": [
     {
-      "title": "<scenario title>",
-      "description": "<realistic scenario description using Kenyan context - KCB, Equity Bank, M-Pesa, Safaricom etc>",
-      "redFlag": "<specific red flag to watch out for>"
+      "title": "Short title of the point",
+      "detail": "2-3 sentence detailed explanation specific to ${department} in Kenyan financial sector"
     }
   ],
-  "keyTakeaways": ["<takeaway 1>", "<takeaway 2>", "<takeaway 3>", "<takeaway 4>"]
+  "scenarios": [
+    {
+      "title": "Scenario title",
+      "description": "2-3 sentence realistic scenario using Kenyan context - KCB, Equity Bank, M-Pesa, Safaricom, CBK etc",
+      "redFlag": "The key insight or lesson from this scenario"
+    }
+  ],
+  "keyTakeaways": ["takeaway 1", "takeaway 2", "takeaway 3", "takeaway 4"]
 }
 
 Rules:
+- Include exactly 5 key points each with title and detail
 - Include exactly 3 scenarios
 - Include exactly 4 key takeaways
 - Use realistic Kenyan financial sector context
@@ -83,12 +112,11 @@ Rules:
       model: 'gpt-4o',
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
-      max_tokens: 1500
+      max_tokens: 2000
     });
 
     const data = JSON.parse(response.choices[0].message.content);
     res.json(data);
-
   } catch (error) {
     console.error('Generate content error:', error);
     res.status(500).json({ message: 'Error generating content.' });
@@ -98,25 +126,10 @@ Rules:
 const saveScore = async (req, res) => {
   try {
     const { module, preScore, postScore } = req.body;
-
-    const sessionId = uuidv4();
-
-    const quizScore = new QuizScore({
-      sessionId,
-      module,
-      preScore,
-      postScore,
-      delta: postScore - preScore
-    });
-
+    const delta = postScore - preScore;
+    const quizScore = new QuizScore({ module, preScore, postScore, delta });
     await quizScore.save();
-
-    res.status(201).json({
-      message: 'Score saved anonymously.',
-      sessionId,
-      delta: quizScore.delta
-    });
-
+    res.json({ message: 'Score saved successfully', delta });
   } catch (error) {
     console.error('Save score error:', error);
     res.status(500).json({ message: 'Error saving score.' });
@@ -125,11 +138,10 @@ const saveScore = async (req, res) => {
 
 const getAwarenessStats = async (req, res) => {
   try {
-    const scores = await QuizScore.find().select('-__v');
-
+    const scores = await QuizScore.find();
     const totalSessions = scores.length;
     const avgDelta = totalSessions > 0
-      ? (scores.reduce((sum, s) => sum + (s.delta || 0), 0) / totalSessions).toFixed(2)
+      ? (scores.reduce((sum, s) => sum + (s.delta || 0), 0) / totalSessions).toFixed(1)
       : 0;
 
     const byModule = {};
@@ -141,12 +153,7 @@ const getAwarenessStats = async (req, res) => {
       byModule[s.module].totalDelta += s.delta || 0;
     });
 
-    res.json({
-      totalSessions,
-      avgDelta,
-      byModule
-    });
-
+    res.json({ totalSessions, avgDelta, byModule });
   } catch (error) {
     console.error('Awareness stats error:', error);
     res.status(500).json({ message: 'Error fetching awareness stats.' });
