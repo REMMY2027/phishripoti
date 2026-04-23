@@ -1,64 +1,261 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const modules = [
-  { title: 'Spotting Phishing Emails', desc: 'Learn to identify suspicious sender domains, urgency tactics, and credential harvesting attempts.', active: true, icon: '📧' },
-  { title: 'M-Pesa Fraud Awareness', desc: 'Understand common M-Pesa scams targeting Kenyan bank employees and customers.', active: true, icon: '📱' },
-  { title: 'Social Engineering Defence', desc: 'Recognise manipulation tactics used by attackers to gain unauthorised access.', active: false, icon: '🎭' },
-  { title: 'Safe Browsing Practices', desc: 'Best practices for safe internet use in a financial institution environment.', active: false, icon: '🌐' }
+  {
+    id: 'spotting',
+    title: 'Spotting Phishing Emails',
+    icon: '📧',
+    desc: 'Learn to identify suspicious sender domains, urgency tactics, and credential harvesting attempts in emails.',
+    tag: 'Most Common Threat',
+    tagColor: '#BB0000',
+    active: true
+  },
+  {
+    id: 'mpesa',
+    title: 'M-Pesa Fraud Awareness',
+    icon: '📱',
+    desc: 'Understand common M-Pesa scams targeting Kenyan bank employees and customers including fake alerts.',
+    tag: 'Kenya Specific',
+    tagColor: '#006600',
+    active: true
+  },
+  {
+    id: 'social',
+    title: 'Social Engineering Defence',
+    icon: '🎭',
+    desc: 'Recognise manipulation tactics used by attackers to gain unauthorised access through human interaction.',
+    tag: 'Coming in v2.0',
+    tagColor: '#555',
+    active: false
+  },
+  {
+    id: 'browsing',
+    title: 'Safe Browsing Practices',
+    icon: '🌐',
+    desc: 'Best practices for safe internet use in a financial institution environment including link verification.',
+    tag: 'Coming in v2.0',
+    tagColor: '#555',
+    active: false
+  }
 ];
 
 const AwarenessModules = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const department = location.state?.department || 'General';
+  const [hovered, setHovered] = useState(null);
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#0a0d0a' }}>
+    <div style={{
+      minHeight: '100vh', display: 'flex',
+      flexDirection: 'column', background: '#0a0d0a'
+    }}>
       <Navbar />
-      <div className="px-8 pt-8 pb-4">
-        <button onClick={() => navigate('/awareness')}
-          className="text-gray-500 text-sm mb-4 flex items-center gap-1 hover:text-gray-300 transition-all">
-          ← Back to departments
-        </button>
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-2 h-2 rounded-full bg-green-600 animate-pulse"></div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-green-400">{department}</span>
-        </div>
-        <h2 className="text-white font-bold text-2xl mb-2">Choose a learning module</h2>
-        <p className="text-gray-500 text-sm">Complete a pre-assessment, learn, then take a post-assessment to measure improvement.</p>
-      </div>
 
-      <div className="flex-1 overflow-y-auto px-8 py-4">
-        <div className="space-y-3 max-w-2xl">
-          {modules.map((mod) => (
-            <div key={mod.title}
-              onClick={mod.active ? () => navigate('/awareness/quiz', { state: { department, module: mod.title, isPost: false } }) : undefined}
-              className="rounded-xl p-5 transition-all"
-              style={{
-                background: '#1a1f1a',
-                border: '1px solid rgba(255,255,255,0.06)',
-                cursor: mod.active ? 'pointer' : 'not-allowed',
-                opacity: mod.active ? 1 : 0.4
-              }}
-              onMouseOver={e => { if (mod.active) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}}
-              onMouseOut={e => { if (mod.active) { e.currentTarget.style.background = '#1a1f1a'; e.currentTarget.style.transform = 'translateY(0)'; }}}>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  <span style={{ fontSize: '20px' }}>{mod.icon}</span>
-                  <span style={{ color: '#ffffff', fontWeight: '600', fontSize: '15px' }}>{mod.title}</span>
+      {/* Header */}
+      <div style={{
+        background: 'linear-gradient(180deg, #0d1f0d 0%, #0a0d0a 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        padding: '24px 40px 20px'
+      }}>
+        <button onClick={() => navigate('/awareness')} style={{
+          background: 'none', border: 'none', cursor: 'pointer',
+          color: 'rgba(255,255,255,0.35)', fontSize: '13px',
+          display: 'flex', alignItems: 'center', gap: '6px',
+          marginBottom: '16px', padding: 0
+        }}
+          onMouseOver={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+          onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>
+          ← Back to Departments
+        </button>
+
+        {/* Progress */}
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+          {[
+            { n: 1, label: 'Department', active: false, done: true },
+            { n: 2, label: 'Module', active: true, done: false },
+            { n: 3, label: 'Learn & Assess', active: false, done: false }
+          ].map((step, i) => (
+            <React.Fragment key={step.n}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{
+                  width: '26px', height: '26px', borderRadius: '50%',
+                  background: step.done
+                    ? 'rgba(0,102,0,0.4)'
+                    : step.active
+                    ? '#006600'
+                    : 'rgba(255,255,255,0.06)',
+                  border: step.active || step.done
+                    ? 'none'
+                    : '1px solid rgba(255,255,255,0.1)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '11px', fontWeight: '700',
+                  color: step.done
+                    ? '#69db7c'
+                    : step.active
+                    ? '#ffffff'
+                    : 'rgba(255,255,255,0.25)'
+                }}>
+                  {step.done ? '✓' : step.n}
                 </div>
                 <span style={{
-                  fontSize: '11px', fontWeight: '600', padding: '3px 10px', borderRadius: '20px',
-                  background: mod.active ? 'rgba(0,102,0,0.2)' : 'rgba(255,255,255,0.05)',
-                  color: mod.active ? '#69db7c' : '#555',
-                  border: mod.active ? '1px solid rgba(0,102,0,0.3)' : '1px solid rgba(255,255,255,0.08)'
+                  fontSize: '12px',
+                  fontWeight: step.active ? '600' : '400',
+                  color: step.active
+                    ? '#ffffff'
+                    : step.done
+                    ? 'rgba(255,255,255,0.5)'
+                    : 'rgba(255,255,255,0.25)'
+                }}>{step.label}</span>
+              </div>
+              {i < 2 && (
+                <div style={{
+                  width: '40px', height: '1px',
+                  background: 'rgba(255,255,255,0.1)',
+                  margin: '0 10px'
+                }}></div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Department badge */}
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          background: 'rgba(0,102,0,0.12)',
+          border: '1px solid rgba(0,102,0,0.25)',
+          borderRadius: '20px', padding: '3px 10px', marginBottom: '10px'
+        }}>
+          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#69db7c' }}></div>
+          <span style={{
+            fontSize: '10px', fontWeight: '600', color: '#69db7c',
+            textTransform: 'uppercase', letterSpacing: '0.08em'
+          }}>
+            {department}
+          </span>
+        </div>
+
+        <h1 style={{
+          color: '#ffffff', fontWeight: '800',
+          fontSize: '22px', margin: '0 0 4px', letterSpacing: '-0.5px'
+        }}>
+          Choose a learning module
+        </h1>
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: 0 }}>
+          Each module includes a pre-assessment, personalised learning content, and a post-assessment to measure your improvement.
+        </p>
+      </div>
+
+      {/* Modules grid */}
+      <div style={{ flex: 1, padding: '24px 40px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '12px',
+          maxWidth: '760px'
+        }}>
+          {modules.map((mod) => (
+            <div
+              key={mod.id}
+              onClick={mod.active ? () => navigate('/awareness/quiz', {
+                state: { department, module: mod.title, isPost: false }
+              }) : undefined}
+              onMouseOver={() => mod.active && setHovered(mod.id)}
+              onMouseOut={() => setHovered(null)}
+              style={{
+                borderRadius: '14px', padding: '20px',
+                cursor: mod.active ? 'pointer' : 'not-allowed',
+                position: 'relative', overflow: 'hidden',
+                opacity: mod.active ? 1 : 0.45,
+                background: hovered === mod.id
+                  ? 'rgba(255,255,255,0.07)'
+                  : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${hovered === mod.id
+                  ? 'rgba(255,255,255,0.15)'
+                  : 'rgba(255,255,255,0.07)'}`,
+                transform: hovered === mod.id ? 'translateY(-2px)' : 'translateY(0)',
+                transition: 'all 0.2s ease',
+                boxShadow: hovered === mod.id ? '0 6px 24px rgba(0,0,0,0.3)' : 'none'
+              }}>
+
+              {/* Top accent */}
+              <div style={{
+                position: 'absolute', top: 0, left: 0, right: 0,
+                height: '2px',
+                background: mod.active ? mod.tagColor : '#333',
+                opacity: hovered === mod.id ? 1 : 0.5,
+                transition: 'opacity 0.2s'
+              }}></div>
+
+              {/* Icon and tag row */}
+              <div style={{
+                display: 'flex', alignItems: 'flex-start',
+                justifyContent: 'space-between', marginBottom: '12px'
+              }}>
+                <div style={{
+                  width: '44px', height: '44px', borderRadius: '12px',
+                  background: hovered === mod.id
+                    ? 'rgba(255,255,255,0.1)'
+                    : 'rgba(255,255,255,0.05)',
+                  display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', fontSize: '20px',
+                  transition: 'background 0.2s'
                 }}>
-                  {mod.active ? 'ACTIVE' : 'v2.0'}
+                  {mod.icon}
+                </div>
+
+                <span style={{
+                  fontSize: '10px', fontWeight: '600',
+                  padding: '3px 8px', borderRadius: '20px',
+                  background: mod.active
+                    ? `${mod.tagColor}22`
+                    : 'rgba(255,255,255,0.05)',
+                  color: mod.active ? mod.tagColor : 'rgba(255,255,255,0.3)',
+                  border: `1px solid ${mod.active ? `${mod.tagColor}44` : 'rgba(255,255,255,0.08)'}`,
+                  letterSpacing: '0.04em'
+                }}>
+                  {mod.tag}
                 </span>
               </div>
-              <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '13px', lineHeight: '1.6' }}>{mod.desc}</p>
+
+              {/* Title */}
+              <div style={{
+                color: '#ffffff', fontWeight: '600',
+                fontSize: '14px', marginBottom: '6px'
+              }}>
+                {mod.title}
+              </div>
+
+              {/* Description */}
+              <div style={{
+                color: 'rgba(255,255,255,0.35)',
+                fontSize: '12px', lineHeight: '1.6',
+                marginBottom: mod.active ? '36px' : '0'
+              }}>
+                {mod.desc}
+              </div>
+
+              {/* Start button on active */}
+              {mod.active && (
+                <div style={{
+                  position: 'absolute', bottom: '14px', left: '20px', right: '20px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                }}>
+                  <span style={{
+                    fontSize: '11px', color: 'rgba(255,255,255,0.3)'
+                  }}>
+                    Pre-assessment → Learn → Post-assessment
+                  </span>
+                  <div style={{
+                    color: hovered === mod.id
+                      ? 'rgba(255,255,255,0.7)'
+                      : 'rgba(255,255,255,0.2)',
+                    fontSize: '14px', transition: 'color 0.2s'
+                  }}>→</div>
+                </div>
+              )}
             </div>
           ))}
         </div>
