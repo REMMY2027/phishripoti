@@ -77,16 +77,16 @@ const Quiz = () => {
         <Navbar />
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center' }}>
-            <svg style={{ animation: 'spin 1s linear infinite', margin: '0 auto 16px', display: 'block' }}
-              width="44" height="44" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.08)" strokeWidth="3"/>
-              <path d="M12 2a10 10 0 0 1 10 10" stroke="#006600" strokeWidth="3" strokeLinecap="round"/>
+            <svg style={{ animation: 'spin 1s linear infinite', margin: '0 auto 20px', display: 'block' }}
+              width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.06)" strokeWidth="3"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke={isPost ? '#ea9600' : '#006600'} strokeWidth="3" strokeLinecap="round"/>
             </svg>
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-            <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px', marginBottom: '6px' }}>
+            <div style={{ color: '#ffffff', fontSize: '16px', fontWeight: '600', marginBottom: '6px' }}>
               {isPost ? 'Generating post-assessment...' : 'Generating your personalised quiz...'}
             </div>
-            <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
+            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px' }}>
               GPT-4o is creating questions for {department}
             </div>
           </div>
@@ -104,8 +104,8 @@ const Quiz = () => {
             <div style={{ color: '#ff8080', fontSize: '14px', marginBottom: '16px', lineHeight: '1.6' }}>{error}</div>
             <button onClick={generateQuestions} style={{
               background: '#BB0000', color: '#fff', border: 'none',
-              borderRadius: '10px', padding: '10px 24px',
-              fontSize: '13px', fontWeight: '600', cursor: 'pointer'
+              borderRadius: '10px', padding: '12px 28px',
+              fontSize: '14px', fontWeight: '600', cursor: 'pointer'
             }}>Try Again</button>
           </div>
         </div>
@@ -119,70 +119,114 @@ const Quiz = () => {
   const progress = ((currentQ + 1) / questions.length) * 100;
   const emailMockup = question.emailMockup || null;
   const isCorrect = selected === question.correctIndex;
+  const accentColor = isPost ? '#ea9600' : '#006600';
+  const accentLight = isPost ? '#ffd166' : '#69db7c';
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0a0d0a' }}>
       <Navbar />
 
-      {/* Header */}
+      {/* Premium header */}
       <div style={{
-        background: 'linear-gradient(180deg, #0d1f0d 0%, #0a0d0a 100%)',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-        padding: '20px 40px'
+        background: 'linear-gradient(180deg, #0d1f0d 0%, #0a0f0a 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        padding: '0'
       }}>
-        <div style={{
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between', marginBottom: '14px'
-        }}>
+        {/* Top accent bar */}
+        <div style={{ height: '3px', background: `linear-gradient(90deg, ${accentColor}, transparent)` }}></div>
+
+        <div style={{ padding: '20px 40px 18px' }}>
+          {/* Assessment type banner */}
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            background: isPost ? 'rgba(234,150,0,0.12)' : 'rgba(0,102,0,0.12)',
-            border: `1px solid ${isPost ? 'rgba(234,150,0,0.25)' : 'rgba(0,102,0,0.25)'}`,
-            borderRadius: '20px', padding: '4px 12px'
+            display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', marginBottom: '16px'
           }}>
             <div style={{
-              width: '6px', height: '6px', borderRadius: '50%',
-              background: isPost ? '#ffd166' : '#69db7c'
-            }}></div>
-            <span style={{
-              fontSize: '11px', fontWeight: '600',
-              color: isPost ? '#ffd166' : '#69db7c',
-              textTransform: 'uppercase', letterSpacing: '0.08em'
+              display: 'flex', alignItems: 'center', gap: '12px'
             }}>
-              {isPost ? 'Post-Assessment' : 'Pre-Assessment'} — {module}
-            </span>
+              <div style={{
+                background: isPost
+                  ? 'linear-gradient(135deg, rgba(234,150,0,0.25), rgba(234,150,0,0.1))'
+                  : 'linear-gradient(135deg, rgba(0,102,0,0.25), rgba(0,102,0,0.1))',
+                border: `1px solid ${isPost ? 'rgba(234,150,0,0.4)' : 'rgba(0,102,0,0.4)'}`,
+                borderRadius: '10px', padding: '8px 16px',
+                display: 'flex', alignItems: 'center', gap: '8px'
+              }}>
+                <div style={{
+                  width: '8px', height: '8px', borderRadius: '50%',
+                  background: accentLight,
+                  boxShadow: `0 0 6px ${accentLight}`
+                }}></div>
+                <span style={{
+                  fontSize: '12px', fontWeight: '700',
+                  color: accentLight, letterSpacing: '0.06em',
+                  textTransform: 'uppercase'
+                }}>
+                  {isPost ? 'Post-Assessment' : 'Pre-Assessment'}
+                </span>
+              </div>
+
+              <div style={{
+                display: 'flex', flexDirection: 'column', gap: '2px'
+              }}>
+                <span style={{
+                  color: '#ffffff', fontWeight: '700',
+                  fontSize: '16px', letterSpacing: '-0.2px'
+                }}>
+                  {module}
+                </span>
+                <span style={{
+                  color: 'rgba(255,255,255,0.35)',
+                  fontSize: '12px'
+                }}>
+                  {department} · Question {currentQ + 1} of {questions.length}
+                </span>
+              </div>
+            </div>
+
+            {/* Score tracker */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '8px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '10px', padding: '8px 14px'
+            }}>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>Score</span>
+              <span style={{
+                fontSize: '18px', fontWeight: '800',
+                color: accentLight
+              }}>{score}</span>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.25)' }}>/ {questions.length}</span>
+            </div>
           </div>
-          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)' }}>
-            Question {currentQ + 1} of {questions.length}
-          </span>
-        </div>
 
-        {/* Progress bar */}
-        <div style={{
-          height: '5px', background: 'rgba(255,255,255,0.07)',
-          borderRadius: '4px', overflow: 'hidden', marginBottom: '10px'
-        }}>
+          {/* Progress bar */}
           <div style={{
-            height: '100%', borderRadius: '4px',
-            background: isPost ? '#ea9600' : '#006600',
-            width: `${progress}%`, transition: 'width 0.5s ease'
-          }}></div>
-        </div>
-
-        {/* Question dots */}
-        <div style={{ display: 'flex', gap: '6px' }}>
-          {questions.map((_, i) => (
-            <div key={i} style={{
-              height: '4px', borderRadius: '2px',
-              width: i === currentQ ? '32px' : '20px',
-              background: i < currentQ
-                ? '#006600'
-                : i === currentQ
-                ? isPost ? '#ea9600' : '#69db7c'
-                : 'rgba(255,255,255,0.08)',
-              transition: 'all 0.3s'
+            height: '6px', background: 'rgba(255,255,255,0.06)',
+            borderRadius: '6px', overflow: 'hidden', marginBottom: '10px'
+          }}>
+            <div style={{
+              height: '100%', borderRadius: '6px',
+              background: `linear-gradient(90deg, ${accentColor}, ${accentLight})`,
+              width: `${progress}%`, transition: 'width 0.5s ease'
             }}></div>
-          ))}
+          </div>
+
+          {/* Question step dots */}
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            {questions.map((_, i) => (
+              <div key={i} style={{
+                height: '4px', borderRadius: '2px',
+                width: i === currentQ ? '28px' : '16px',
+                background: i < currentQ
+                  ? accentColor
+                  : i === currentQ
+                  ? accentLight
+                  : 'rgba(255,255,255,0.08)',
+                transition: 'all 0.3s ease'
+              }}></div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -191,38 +235,45 @@ const Quiz = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: emailMockup ? '1fr 1fr' : '1fr',
-          gap: '32px',
-          maxWidth: emailMockup ? '1000px' : '660px',
+          gap: '36px',
+          maxWidth: emailMockup ? '1020px' : '680px',
           alignItems: 'start'
         }}>
 
-          {/* LEFT — Question and options */}
+          {/* LEFT — Question + options */}
           <div>
-            {/* Department pill */}
+            {/* Question number */}
             <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '20px', padding: '3px 10px', marginBottom: '18px'
+              display: 'flex', alignItems: 'center',
+              gap: '10px', marginBottom: '16px'
             }}>
-              <span style={{
-                fontSize: '10px', color: 'rgba(255,255,255,0.35)',
-                textTransform: 'uppercase', letterSpacing: '0.07em'
+              <div style={{
+                width: '32px', height: '32px', borderRadius: '10px',
+                background: `linear-gradient(135deg, ${accentColor}33, ${accentColor}11)`,
+                border: `1px solid ${accentColor}44`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '13px', fontWeight: '800', color: accentLight
               }}>
-                {department}
+                {currentQ + 1}
+              </div>
+              <span style={{
+                fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+                textTransform: 'uppercase', letterSpacing: '0.08em'
+              }}>
+                Question {currentQ + 1}
               </span>
             </div>
 
             {/* Question text */}
             <h2 style={{
               color: '#ffffff', fontWeight: '700',
-              fontSize: '18px', lineHeight: '1.65',
-              margin: '0 0 22px', letterSpacing: '-0.2px'
+              fontSize: '19px', lineHeight: '1.65',
+              margin: '0 0 24px', letterSpacing: '-0.3px'
             }}>
               {question.question}
             </h2>
 
-            {/* Answer options */}
+            {/* Options */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {question.options.map((option, index) => {
                 const isThisCorrect = answered && index === question.correctIndex;
@@ -234,49 +285,57 @@ const Quiz = () => {
                     key={index}
                     onClick={() => handleAnswer(index)}
                     style={{
-                      borderRadius: '12px', padding: '14px 16px',
+                      borderRadius: '14px', padding: '16px 18px',
                       cursor: answered ? 'default' : 'pointer',
-                      display: 'flex', alignItems: 'center', gap: '12px',
+                      display: 'flex', alignItems: 'center', gap: '14px',
                       background: isThisCorrect
                         ? 'rgba(0,102,0,0.15)'
                         : isThisWrong
                         ? 'rgba(187,0,0,0.12)'
                         : isThisUnselected
-                        ? 'rgba(255,255,255,0.015)'
+                        ? 'rgba(255,255,255,0.01)'
                         : 'rgba(255,255,255,0.04)',
                       border: isThisCorrect
-                        ? '1px solid rgba(0,102,0,0.45)'
+                        ? '1px solid rgba(0,102,0,0.5)'
                         : isThisWrong
-                        ? '1px solid rgba(187,0,0,0.45)'
+                        ? '1px solid rgba(187,0,0,0.5)'
                         : '1px solid rgba(255,255,255,0.07)',
-                      opacity: isThisUnselected ? 0.38 : 1,
-                      transition: 'all 0.2s ease'
+                      opacity: isThisUnselected ? 0.35 : 1,
+                      transition: 'all 0.2s ease',
+                      transform: isThisCorrect ? 'scale(1.01)' : 'scale(1)'
                     }}
                     onMouseOver={e => {
                       if (!answered) {
                         e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-                        e.currentTarget.style.border = '1px solid rgba(255,255,255,0.15)';
+                        e.currentTarget.style.border = `1px solid ${accentColor}55`;
+                        e.currentTarget.style.transform = 'translateX(4px)';
                       }
                     }}
                     onMouseOut={e => {
                       if (!answered) {
                         e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
                         e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)';
+                        e.currentTarget.style.transform = 'translateX(0)';
                       }
                     }}
                   >
                     <div style={{
-                      width: '30px', height: '30px', borderRadius: '50%',
+                      width: '32px', height: '32px', borderRadius: '50%',
                       flexShrink: 0, display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '12px', fontWeight: '700',
+                      justifyContent: 'center', fontSize: '12px', fontWeight: '800',
                       background: isThisCorrect
                         ? '#006600'
                         : isThisWrong
                         ? '#BB0000'
-                        : 'rgba(255,255,255,0.08)',
+                        : 'rgba(255,255,255,0.07)',
                       color: isThisCorrect || isThisWrong
                         ? '#ffffff'
-                        : 'rgba(255,255,255,0.45)',
+                        : 'rgba(255,255,255,0.4)',
+                      border: isThisCorrect
+                        ? '2px solid rgba(0,150,0,0.6)'
+                        : isThisWrong
+                        ? '2px solid rgba(220,0,0,0.6)'
+                        : '1px solid rgba(255,255,255,0.1)',
                       transition: 'all 0.2s'
                     }}>
                       {isThisCorrect ? '✓' : isThisWrong ? '✕' : String.fromCharCode(65 + index)}
@@ -286,8 +345,8 @@ const Quiz = () => {
                         ? '#69db7c'
                         : isThisWrong
                         ? '#ff8080'
-                        : 'rgba(255,255,255,0.82)',
-                      fontSize: '14px', lineHeight: '1.55'
+                        : 'rgba(255,255,255,0.85)',
+                      fontSize: '14px', lineHeight: '1.55', fontWeight: isThisCorrect ? '600' : '400'
                     }}>
                       {option}
                     </span>
@@ -299,28 +358,49 @@ const Quiz = () => {
             {/* Explanation */}
             {answered && (
               <div style={{
-                marginTop: '18px', borderRadius: '12px', padding: '18px 20px',
-                background: isCorrect ? 'rgba(0,102,0,0.1)' : 'rgba(187,0,0,0.08)',
-                border: `1px solid ${isCorrect ? 'rgba(0,102,0,0.3)' : 'rgba(187,0,0,0.3)'}`,
+                marginTop: '20px', borderRadius: '14px', padding: '20px',
+                background: isCorrect
+                  ? 'linear-gradient(135deg, rgba(0,102,0,0.12), rgba(0,102,0,0.06))'
+                  : 'linear-gradient(135deg, rgba(187,0,0,0.1), rgba(187,0,0,0.05))',
+                border: `1px solid ${isCorrect ? 'rgba(0,102,0,0.35)' : 'rgba(187,0,0,0.35)'}`,
                 borderLeft: `4px solid ${isCorrect ? '#006600' : '#BB0000'}`
               }}>
                 <div style={{
                   display: 'flex', alignItems: 'center',
-                  gap: '8px', marginBottom: '10px'
+                  gap: '10px', marginBottom: '12px'
                 }}>
-                  <span style={{ fontSize: '18px' }}>{isCorrect ? '✅' : '❌'}</span>
-                  <span style={{
-                    fontWeight: '700', fontSize: '14px',
-                    color: isCorrect ? '#69db7c' : '#ff8080'
+                  <div style={{
+                    width: '32px', height: '32px', borderRadius: '50%',
+                    background: isCorrect ? 'rgba(0,102,0,0.3)' : 'rgba(187,0,0,0.3)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '16px', flexShrink: 0
                   }}>
-                    {isCorrect
-                      ? 'Correct!'
-                      : `Incorrect — correct answer was ${String.fromCharCode(65 + question.correctIndex)}`}
-                  </span>
+                    {isCorrect ? '✅' : '❌'}
+                  </div>
+                  <div>
+                    <div style={{
+                      fontWeight: '700', fontSize: '15px',
+                      color: isCorrect ? '#69db7c' : '#ff8080',
+                      marginBottom: '2px'
+                    }}>
+                      {isCorrect ? 'Correct!' : 'Incorrect'}
+                    </div>
+                    {!isCorrect && (
+                      <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+                        Correct answer was option {String.fromCharCode(65 + question.correctIndex)}
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <div style={{
+                  height: '1px', background: isCorrect
+                    ? 'rgba(0,102,0,0.2)'
+                    : 'rgba(187,0,0,0.2)',
+                  marginBottom: '12px'
+                }}></div>
                 <p style={{
-                  color: 'rgba(255,255,255,0.78)',
-                  fontSize: '13px', lineHeight: '1.75', margin: 0
+                  color: 'rgba(255,255,255,0.8)',
+                  fontSize: '14px', lineHeight: '1.75', margin: 0
                 }}>
                   {question.explanation}
                 </p>
@@ -330,15 +410,16 @@ const Quiz = () => {
             {/* Next button */}
             {answered && (
               <button onClick={handleNext} style={{
-                marginTop: '14px', width: '100%',
-                background: isPost ? '#ea9600' : '#006600',
+                marginTop: '16px', width: '100%',
+                background: `linear-gradient(135deg, ${accentColor}, ${isPost ? '#cc8400' : '#005500'})`,
                 color: '#fff', border: 'none',
-                borderRadius: '12px', padding: '15px',
-                fontSize: '14px', fontWeight: '700',
+                borderRadius: '14px', padding: '16px',
+                fontSize: '15px', fontWeight: '700',
                 cursor: 'pointer', letterSpacing: '0.02em',
-                transition: 'opacity 0.2s'
+                transition: 'opacity 0.2s',
+                boxShadow: `0 4px 20px ${accentColor}40`
               }}
-                onMouseOver={e => e.currentTarget.style.opacity = '0.85'}
+                onMouseOver={e => e.currentTarget.style.opacity = '0.88'}
                 onMouseOut={e => e.currentTarget.style.opacity = '1'}>
                 {currentQ < questions.length - 1
                   ? 'Next Question →'
@@ -364,23 +445,24 @@ const Quiz = () => {
               </div>
 
               <div style={{
-                borderRadius: '14px', overflow: 'hidden',
+                borderRadius: '16px', overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.08)',
-                background: '#0d150d'
+                background: '#0d150d',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
               }}>
                 {/* Mac toolbar */}
                 <div style={{
-                  background: '#181818',
+                  background: '#1a1a1a',
                   borderBottom: '1px solid rgba(255,255,255,0.05)',
-                  padding: '10px 16px',
-                  display: 'flex', alignItems: 'center', gap: '7px'
+                  padding: '12px 18px',
+                  display: 'flex', alignItems: 'center', gap: '8px'
                 }}>
-                  <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#BB0000', opacity: 0.75 }}></div>
-                  <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ea9600', opacity: 0.75 }}></div>
-                  <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#006600', opacity: 0.75 }}></div>
+                  <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#BB0000', opacity: 0.8 }}></div>
+                  <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ea9600', opacity: 0.8 }}></div>
+                  <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#006600', opacity: 0.8 }}></div>
                   <span style={{
                     fontSize: '11px', color: 'rgba(255,255,255,0.2)',
-                    marginLeft: '10px', fontFamily: 'monospace'
+                    marginLeft: '12px', fontFamily: 'monospace'
                   }}>
                     Mail — Inbox
                   </span>
@@ -388,19 +470,19 @@ const Quiz = () => {
 
                 {/* Email headers */}
                 <div style={{
-                  padding: '16px 18px',
+                  padding: '18px 20px',
                   borderBottom: '1px solid rgba(255,255,255,0.05)'
                 }}>
-                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', gap: '12px', marginBottom: '10px', alignItems: 'center' }}>
                     <span style={{
                       fontSize: '11px', color: 'rgba(255,255,255,0.25)',
-                      width: '52px', flexShrink: 0
+                      width: '54px', flexShrink: 0
                     }}>From:</span>
                     <span style={{
                       fontSize: '12px', color: '#ff8080',
                       fontFamily: 'monospace',
                       background: 'rgba(187,0,0,0.12)',
-                      padding: '3px 8px', borderRadius: '5px',
+                      padding: '4px 10px', borderRadius: '6px',
                       border: '1px solid rgba(187,0,0,0.2)'
                     }}>
                       {emailMockup.from}
@@ -408,10 +490,10 @@ const Quiz = () => {
                   </div>
 
                   {emailMockup.to && (
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '12px', marginBottom: '10px', alignItems: 'center' }}>
                       <span style={{
                         fontSize: '11px', color: 'rgba(255,255,255,0.25)',
-                        width: '52px', flexShrink: 0
+                        width: '54px', flexShrink: 0
                       }}>To:</span>
                       <span style={{
                         fontSize: '12px', color: 'rgba(255,255,255,0.45)',
@@ -422,13 +504,13 @@ const Quiz = () => {
                     </div>
                   )}
 
-                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                     <span style={{
                       fontSize: '11px', color: 'rgba(255,255,255,0.25)',
-                      width: '52px', flexShrink: 0
+                      width: '54px', flexShrink: 0
                     }}>Subject:</span>
                     <span style={{
-                      fontSize: '13px', color: '#ffffff', fontWeight: '700'
+                      fontSize: '14px', color: '#ffffff', fontWeight: '700'
                     }}>
                       {emailMockup.subject}
                     </span>
@@ -436,30 +518,30 @@ const Quiz = () => {
                 </div>
 
                 {/* Email body */}
-                <div style={{ padding: '16px 18px' }}>
+                <div style={{ padding: '18px 20px' }}>
                   <p style={{
-                    fontSize: '13px', color: 'rgba(255,255,255,0.58)',
-                    lineHeight: '1.75', margin: '0 0 14px'
+                    fontSize: '13px', color: 'rgba(255,255,255,0.6)',
+                    lineHeight: '1.8', margin: '0 0 16px'
                   }}>
                     {emailMockup.body}
                   </p>
 
                   {emailMockup.link && (
                     <div style={{
-                      padding: '10px 14px',
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      borderRadius: '8px'
+                      padding: '12px 14px',
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      borderRadius: '10px'
                     }}>
                       <div style={{
                         fontSize: '10px', color: 'rgba(255,255,255,0.25)',
-                        marginBottom: '4px', textTransform: 'uppercase',
-                        letterSpacing: '0.06em'
+                        marginBottom: '6px', textTransform: 'uppercase',
+                        letterSpacing: '0.07em'
                       }}>
                         Link in email:
                       </div>
                       <span style={{
-                        fontSize: '11px', color: '#ff8080',
+                        fontSize: '12px', color: '#ff8080',
                         fontFamily: 'monospace', wordBreak: 'break-all'
                       }}>
                         {emailMockup.link}
