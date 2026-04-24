@@ -61,10 +61,11 @@ const ReportStep4 = () => {
           <div className="space-y-2">
             {[
               { label: 'Incident type', value: 'Phishing Email' },
-              { label: 'Sender', value: reportData.senderEmail, mono: true, red: true },
-              { label: 'Subject', value: reportData.subjectLine },
-              { label: 'Links', value: reportData.suspiciousLinks || 'None provided', mono: true },
-              { label: 'Clicked anything?', value: reportData.clickedAnything === 'no' ? 'No' : 'Yes', green: reportData.clickedAnything === 'no' }
+{ label: 'Sender', value: reportData.senderEmail, mono: true, red: true },
+{ label: 'Subject', value: reportData.subjectLine },
+{ label: 'Links', value: reportData.suspiciousLinks || 'None provided', mono: true },
+{ label: 'Clicked anything?', value: reportData.clickedAnything === 'no' ? 'No' : reportData.clickedAnything === 'link' ? 'Yes — clicked a link' : reportData.clickedAnything === 'attachment' ? 'Yes — opened an attachment' : 'Yes — both', green: reportData.clickedAnything === 'no' },
+{ label: 'Email header', value: reportData.emailHeader ? 'Provided' : 'Not provided', green: !!reportData.emailHeader }
             ].map((row, i) => (
               <div key={i} className="flex justify-between items-center py-1.5 border-b border-gray-800 last:border-0">
                 <span className="text-gray-500 text-sm">{row.label}</span>
