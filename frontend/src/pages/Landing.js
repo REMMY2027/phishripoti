@@ -7,65 +7,55 @@ const Landing = () => {
   return (
     <div className="min-h-screen flex flex-col" style={{ position: 'relative', overflow: 'hidden' }}>
 
-      {/* ── BASE — warm ivory ── */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#ede8db' }} />
+      {/* ── BASE — warmer ivory ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#e8e2d4' }} />
 
-      {/* ── MICRO DOT GRID ONLY — no diagonal lines ── */}
+      {/* ── CENTRE LIFT — wider and brighter ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 1,
-        backgroundImage: `radial-gradient(circle, rgba(0,60,15,0.09) 1px, transparent 1px)`,
-        backgroundSize: '22px 22px',
-      }} />
-
-      {/* ── CENTRE LIFT ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 62% 62% at 50% 42%, rgba(237,232,219,0.98) 0%, rgba(237,232,219,0.90) 35%, rgba(237,232,219,0.40) 65%, transparent 100%)',
+        background: 'radial-gradient(ellipse 72% 68% at 50% 42%, rgba(232,226,212,0.99) 0%, rgba(232,226,212,0.92) 38%, rgba(232,226,212,0.45) 65%, transparent 100%)',
       }} />
 
       {/* ── TOP GREEN BAND ── */}
       <div style={{
-        position: 'fixed', inset: 0, zIndex: 3,
+        position: 'fixed', inset: 0, zIndex: 2,
         background: 'linear-gradient(180deg, rgba(4,26,8,0.22) 0%, rgba(4,26,8,0.08) 14%, transparent 30%)',
       }} />
 
       {/* ── BOTTOM RED BAND ── */}
       <div style={{
-        position: 'fixed', inset: 0, zIndex: 4,
+        position: 'fixed', inset: 0, zIndex: 3,
         background: 'linear-gradient(0deg, rgba(90,0,0,0.16) 0%, rgba(90,0,0,0.06) 14%, transparent 30%)',
       }} />
 
-      {/* ── NAIROBI SKYLINE SVG — bottom right corner, ultra subtle ── */}
+      {/* ── NAIROBI SKYLINE — more visible, lower position ── */}
       <svg
         style={{
           position: 'fixed',
-          bottom: 0,
-          right: 0,
-          width: '580px',
-          height: '260px',
-          zIndex: 5,
+          bottom: '-18px',
+          right: '-10px',
+          width: '620px',
+          height: '240px',
+          zIndex: 4,
           pointerEvents: 'none',
-          opacity: 0.055,
+          opacity: 0.10,
         }}
         viewBox="0 0 580 260"
         xmlns="http://www.w3.org/2000/svg"
         fill="#1a1a1a"
       >
-        {/* Far background buildings — shortest */}
+        {/* Far background buildings */}
         <rect x="20" y="180" width="18" height="80" />
         <rect x="42" y="170" width="14" height="90" />
         <rect x="60" y="185" width="20" height="75" />
         <rect x="84" y="175" width="16" height="85" />
         <rect x="104" y="188" width="22" height="72" />
 
-        {/* CBK Pension Towers — tallest building, centre-right */}
-        {/* Main tower */}
+        {/* CBK Pension Towers — tallest */}
         <rect x="310" y="60" width="38" height="200" />
-        {/* Tower top detail */}
         <rect x="318" y="50" width="22" height="15" />
         <rect x="324" y="40" width="10" height="14" />
         <rect x="327" y="30" width="4" height="12" />
-        {/* Tower windows grid */}
         <rect x="316" y="70" width="6" height="8" fill="rgba(255,255,255,0.3)" />
         <rect x="326" y="70" width="6" height="8" fill="rgba(255,255,255,0.3)" />
         <rect x="336" y="70" width="6" height="8" fill="rgba(255,255,255,0.3)" />
@@ -79,14 +69,13 @@ const Landing = () => {
         <rect x="326" y="112" width="6" height="8" fill="rgba(255,255,255,0.3)" />
         <rect x="336" y="112" width="6" height="8" fill="rgba(255,255,255,0.3)" />
 
-        {/* KICC — cylindrical tower left of centre */}
+        {/* KICC — dome tower */}
         <rect x="200" y="90" width="32" height="170" />
-        {/* KICC dome top */}
         <ellipse cx="216" cy="90" rx="18" ry="8" />
         <rect x="212" y="75" width="8" height="18" />
         <rect x="214" y="65" width="4" height="12" />
 
-        {/* Times Tower / KRA — second tallest */}
+        {/* Times Tower */}
         <rect x="380" y="80" width="34" height="180" />
         <rect x="386" y="72" width="22" height="12" />
         <rect x="392" y="62" width="10" height="12" />
@@ -111,7 +100,7 @@ const Landing = () => {
         <rect x="0" y="258" width="580" height="2" />
       </svg>
 
-      {/* ── DECORATIVE SVG SHAPES — circles, hexagons, curves only (no rect grids) ── */}
+      {/* ── DECORATIVE SVG — no triangles, no dots, only circles/hexagons/curves ── */}
       <svg style={{
         position: 'fixed', inset: 0, width: '100%', height: '100%',
         zIndex: 6, pointerEvents: 'none',
@@ -124,7 +113,7 @@ const Landing = () => {
         <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.10)" strokeWidth="1"/>
         <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.07)" strokeWidth="1"/>
         <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(140,0,0,0.05)" strokeWidth="1"/>
-        {/* Hexagons */}
+        {/* Hexagons only */}
         <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
           fill="none" stroke="rgba(0,80,20,0.10)" strokeWidth="1.5"/>
         <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
@@ -133,23 +122,18 @@ const Landing = () => {
           fill="none" stroke="rgba(0,80,20,0.07)" strokeWidth="1"/>
         <polygon points="80,350 98,340 116,350 116,370 98,380 80,370"
           fill="none" stroke="rgba(140,0,0,0.07)" strokeWidth="1"/>
-        {/* Triangles */}
-        <polygon points="150,60 190,140 110,140"
-          fill="none" stroke="rgba(0,80,20,0.08)" strokeWidth="1.5"/>
-        <polygon points="1150,500 1200,590 1100,590"
-          fill="none" stroke="rgba(140,0,0,0.08)" strokeWidth="1.5"/>
         {/* Flowing curves */}
         <path d="M 0 500 Q 350 350 700 480 T 1400 420"
           fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1.5"/>
         <path d="M 0 600 Q 400 450 750 560 T 1400 500"
           fill="none" stroke="rgba(140,0,0,0.05)" strokeWidth="1"/>
-        {/* Accent dots */}
-        <circle cx="10%" cy="25%" r="3.5" fill="rgba(0,80,20,0.14)"/>
-        <circle cx="14%" cy="40%" r="2.5" fill="rgba(0,80,20,0.10)"/>
-        <circle cx="88%" cy="20%" r="4" fill="rgba(140,0,0,0.14)"/>
-        <circle cx="92%" cy="38%" r="2.5" fill="rgba(140,0,0,0.10)"/>
-        <circle cx="6%" cy="75%" r="3.5" fill="rgba(140,0,0,0.10)"/>
-        <circle cx="94%" cy="72%" r="3.5" fill="rgba(0,80,20,0.10)"/>
+        {/* Accent dots — tiny only */}
+        <circle cx="10%" cy="25%" r="3" fill="rgba(0,80,20,0.12)"/>
+        <circle cx="14%" cy="40%" r="2" fill="rgba(0,80,20,0.09)"/>
+        <circle cx="88%" cy="20%" r="3.5" fill="rgba(140,0,0,0.12)"/>
+        <circle cx="92%" cy="38%" r="2" fill="rgba(140,0,0,0.09)"/>
+        <circle cx="6%" cy="75%" r="3" fill="rgba(140,0,0,0.09)"/>
+        <circle cx="94%" cy="72%" r="3" fill="rgba(0,80,20,0.09)"/>
         {/* Connecting lines */}
         <line x1="10%" y1="25%" x2="14%" y2="40%"
           stroke="rgba(0,80,20,0.08)" strokeWidth="0.8"/>
@@ -166,9 +150,9 @@ const Landing = () => {
         boxShadow: '0 2px 28px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.04)',
       }}>
 
-        {/* Kenyan flag stripe — 5px bold */}
+        {/* Kenyan flag stripe — 6px bold and unmissable */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '5px',
+          position: 'absolute', top: 0, left: 0, right: 0, height: '6px',
           background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #111111 33.33%, #111111 66.66%, #006600 66.66%, #006600 100%)',
         }} />
 
@@ -193,7 +177,6 @@ const Landing = () => {
             </svg>
           </div>
 
-          {/* Wordmark — bigger, no subtitle */}
           <span style={{
             fontSize: '22px',
             fontWeight: '800',
@@ -211,7 +194,7 @@ const Landing = () => {
           </span>
         </div>
 
-        {/* IT Manager Portal button */}
+        {/* IT Manager Portal */}
         <button onClick={() => navigate('/it-login')} style={{
           display: 'flex', alignItems: 'center', gap: '8px',
           padding: '10px 20px', borderRadius: '8px',
@@ -245,7 +228,7 @@ const Landing = () => {
         </button>
       </nav>
 
-      {/* ── HERO CONTENT — completely unchanged ── */}
+      {/* ── HERO CONTENT — unchanged ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center"
         style={{ position: 'relative', zIndex: 10 }}>
 
@@ -329,9 +312,9 @@ const Landing = () => {
 
         <div className="flex flex-wrap gap-5 justify-center max-w-3xl">
           {[
-            { icon:'🔒', title:'Your identity is never stored', desc:'Fully anonymous by design. No name, no email, no IP address stored.', border:'rgba(187,0,0,0.13)', hover:'rgba(255,225,225,0.55)' },
-            { icon:'⚡', title:'AI analyses your report instantly', desc:'GPT-4o scans for phishing signals and risk tier in real time.', border:'rgba(0,0,0,0.08)', hover:'rgba(255,255,255,0.95)' },
-            { icon:'🇰🇪', title:'Built for Kenya', desc:'Tailored for M-Pesa fraud, KCB, Equity Bank, and local threat patterns.', border:'rgba(0,102,0,0.13)', hover:'rgba(225,255,225,0.55)' }
+            { icon:'🔒', title:'Your identity is never stored', desc:'Fully anonymous by design. No name, no email, no IP address stored.', border:'rgba(187,0,0,0.13)', hover:'rgba(255,225,225,0.60)' },
+            { icon:'⚡', title:'AI analyses your report instantly', desc:'GPT-4o scans for phishing signals and risk tier in real time.', border:'rgba(0,0,0,0.08)', hover:'rgba(255,255,255,0.96)' },
+            { icon:'🇰🇪', title:'Built for Kenya', desc:'Tailored for M-Pesa fraud, KCB, Equity Bank, and local threat patterns.', border:'rgba(0,102,0,0.13)', hover:'rgba(225,255,225,0.60)' }
           ].map((card, i) => (
             <div key={i} style={{
               background:'rgba(255,255,255,0.75)',
