@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 
 const ITDashboard = () => {
   const navigate = useNavigate();
-  const { token, manager, logout, isAuthenticated } = useAuth();
+  const { token, logout, isAuthenticated } = useAuth();
   const [stats, setStats] = useState(null);
   const [reports, setReports] = useState([]);
   const [awarenessStats, setAwarenessStats] = useState(null);
@@ -41,7 +41,8 @@ const ITDashboard = () => {
   const handleLogout = () => { logout(); navigate('/it/login'); };
 
   const formatDate = (d) => new Date(d).toLocaleDateString('en-KE', {
-    day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    day: 'numeric', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
   });
 
   const pieData = stats ? [
@@ -51,202 +52,283 @@ const ITDashboard = () => {
   ].filter(d => d.value > 0) : [];
 
   const barData = reports.slice(0, 7).reverse().map((r, i) => ({
-    name: `RPT-${i + 1}`, score: r.riskScore,
+    name: `R${i + 1}`, score: r.riskScore,
     fill: r.riskLevel === 'HIGH' ? '#BB0000' : r.riskLevel === 'MEDIUM' ? '#ea9600' : '#006600'
   }));
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a0d0a' }}>
-        <svg className="animate-spin" width="40" height="40" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="3"/>
-          <path d="M12 2a10 10 0 0 1 10 10" stroke="#BB0000" strokeWidth="3" strokeLinecap="round"/>
-        </svg>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#050d05' }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ textAlign: 'center' }}>
+            <svg style={{ animation: 'spin 1s linear infinite', margin: '0 auto 16px', display: 'block' }}
+              width="40" height="40" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.08)" strokeWidth="3"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="#BB0000" strokeWidth="3" strokeLinecap="round"/>
+            </svg>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}>Loading dashboard...</div>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#0a0d0a' }}>
-      <div className="flex h-1">
-        <div className="flex-1 bg-red-700"></div>
-        <div className="flex-1 bg-black"></div>
-        <div className="flex-1 bg-green-800"></div>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#050d05' }}>
+
+      {/* Navbar */}
+      <div style={{ height: '3px', display: 'flex' }}>
+        <div style={{ flex: 1, background: '#BB0000' }}></div>
+        <div style={{ flex: 1, background: '#1A1A1A' }}></div>
+        <div style={{ flex: 1, background: '#006600' }}></div>
       </div>
-      <nav className="flex items-center justify-between px-8 h-14 bg-black border-b border-gray-800 sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <nav style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 32px', height: '60px',
+        background: 'rgba(5,13,5,0.95)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        position: 'sticky', top: 0, zIndex: 50,
+        backdropFilter: 'blur(12px)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <path d="M12 2L4 6v6c0 5 3.5 9.3 8 10.4C16.5 21.3 20 17 20 12V6L12 2z" fill="#BB0000"/>
+            <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span className="text-white font-bold text-base">PhishRipoti — IT Portal</span>
+          <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '16px' }}>PhishRipoti</span>
+          <div style={{
+            width: '1px', height: '20px',
+            background: 'rgba(255,255,255,0.1)'
+          }}></div>
+          <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px' }}>Security Portal</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-xs px-2 py-1 rounded border text-red-400"
-            style={{ background: 'rgba(187,0,0,0.2)', borderColor: 'rgba(187,0,0,0.4)' }}>IT Manager</span>
-          <span className="text-gray-500 text-sm">{manager?.email}</span>
-          <button onClick={handleLogout}
-            className="text-gray-400 border border-gray-700 rounded-lg px-4 py-1.5 text-sm hover:bg-gray-800 transition-all">
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '6px 14px', borderRadius: '20px',
+            background: 'rgba(187,0,0,0.12)',
+            border: '1px solid rgba(187,0,0,0.25)'
+          }}>
+            <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#69db7c', boxShadow: '0 0 6px #69db7c' }}></div>
+            <span style={{ fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.8)' }}>
+              Admin logged in
+            </span>
+          </div>
+          <button onClick={handleLogout} style={{
+            color: 'rgba(255,255,255,0.45)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '8px', padding: '7px 16px',
+            fontSize: '13px', background: 'transparent',
+            cursor: 'pointer', transition: 'all 0.2s'
+          }}
+            onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
             Sign Out
           </button>
         </div>
       </nav>
 
-      <div className="flex-1 overflow-y-auto px-8 py-6">
-        <div className="mb-6">
-          <h2 className="text-white font-semibold text-xl mb-1">Security Dashboard</h2>
-          <p className="text-gray-500 text-sm">{new Date().toLocaleDateString('en-KE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} EAT</p>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '32px 40px' }}>
+
+        {/* Page header */}
+        <div style={{ marginBottom: '28px' }}>
+          <h2 style={{ color: '#ffffff', fontWeight: '800', fontSize: '24px', margin: '0 0 4px', letterSpacing: '-0.5px' }}>
+            Security Dashboard
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px', margin: 0 }}>
+            {new Date().toLocaleDateString('en-KE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · East Africa Time
+          </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg text-sm text-red-400 border border-red-900"
-            style={{ background: 'rgba(187,0,0,0.1)' }}>{error}</div>
+          <div style={{
+            marginBottom: '20px', padding: '12px 16px',
+            background: 'rgba(187,0,0,0.1)', border: '1px solid rgba(187,0,0,0.25)',
+            borderRadius: '10px', color: '#ff8080', fontSize: '13px'
+          }}>{error}</div>
         )}
 
+        {/* Stat cards */}
         {stats && (
-          <div className="grid grid-cols-4 gap-3 mb-6">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '28px' }}>
             {[
-              { label: 'Total Reports', value: stats.total, color: 'text-white' },
-              { label: 'HIGH Risk Alerts', value: stats.alertsSent, color: 'text-red-400', sub: 'via SendGrid' },
-              { label: 'MEDIUM Risk', value: stats.medium, color: 'text-yellow-400' },
-              { label: 'LOW Risk', value: stats.low, color: 'text-green-400' }
+              { label: 'Total Reports', value: stats.total, color: '#ffffff', icon: '📋', bg: 'rgba(255,255,255,0.04)' },
+              { label: 'HIGH Risk Alerts', value: stats.alertsSent, color: '#ff6666', icon: '🚨', bg: 'rgba(187,0,0,0.08)', border: 'rgba(187,0,0,0.2)' },
+              { label: 'MEDIUM Risk', value: stats.medium, color: '#ffd166', icon: '⚠️', bg: 'rgba(234,150,0,0.08)', border: 'rgba(234,150,0,0.2)' },
+              { label: 'LOW Risk', value: stats.low, color: '#69db7c', icon: '✓', bg: 'rgba(0,102,0,0.08)', border: 'rgba(0,102,0,0.2)' }
             ].map((s, i) => (
-              <div key={i} className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-                <div className={`text-3xl font-bold mb-1 ${s.color}`}>{s.value}</div>
-                <div className="text-gray-500 text-xs">{s.label}</div>
-                {s.sub && <div className="text-gray-600 text-xs mt-1">{s.sub}</div>}
+              <div key={i} style={{
+                borderRadius: '16px', padding: '20px',
+                background: s.bg || 'rgba(255,255,255,0.04)',
+                border: `1px solid ${s.border || 'rgba(255,255,255,0.08)'}`,
+                transition: 'transform 0.2s'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '18px' }}>{s.icon}</span>
+                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    {s.label}
+                  </span>
+                </div>
+                <div style={{ fontSize: '36px', fontWeight: '800', color: s.color, lineHeight: 1 }}>
+                  {s.value}
+                </div>
               </div>
             ))}
           </div>
         )}
 
-        <div className="flex gap-2 mb-6">
+        {/* Tabs */}
+        <div style={{ display: 'flex', gap: '4px', marginBottom: '24px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '4px', width: 'fit-content' }}>
           {['overview', 'reports', 'awareness'].map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize"
-              style={{
-                background: activeTab === tab ? '#BB0000' : '#1a1f1a',
-                color: activeTab === tab ? '#fff' : '#8b949e',
-                border: `1px solid ${activeTab === tab ? '#BB0000' : 'rgba(255,255,255,0.1)'}`
-              }}>
-              {tab === 'overview' ? 'Overview' : tab === 'reports' ? 'Reports' : 'Awareness Stats'}
+            <button key={tab} onClick={() => setActiveTab(tab)} style={{
+              padding: '8px 20px', borderRadius: '10px',
+              fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+              background: activeTab === tab ? '#BB0000' : 'transparent',
+              color: activeTab === tab ? '#fff' : 'rgba(255,255,255,0.4)',
+              border: 'none', transition: 'all 0.2s', textTransform: 'capitalize'
+            }}>
+              {tab === 'overview' ? 'Overview' : tab === 'reports' ? 'Reports' : 'Awareness'}
             </button>
           ))}
         </div>
 
+        {/* Overview tab */}
         {activeTab === 'overview' && stats && (
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-              <div className="text-white font-semibold text-sm mb-4">Risk Tier Distribution</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div style={{ borderRadius: '16px', padding: '22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px', marginBottom: '20px' }}>Risk Tier Distribution</div>
               {pieData.length > 0 ? (
-                <div className="flex items-center gap-4">
-                  <ResponsiveContainer width="60%" height={180}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                  <ResponsiveContainer width="55%" height={180}>
                     <PieChart>
-                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={3} dataKey="value">
+                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={48} outerRadius={75} paddingAngle={3} dataKey="value">
                         {pieData.map((entry, index) => <Cell key={index} fill={entry.color}/>)}
                       </Pie>
-                      <Tooltip contentStyle={{ background: '#1a1f1a', border: '1px solid #333', borderRadius: '8px' }}/>
+                      <Tooltip contentStyle={{ background: '#0d150d', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff' }}/>
                     </PieChart>
                   </ResponsiveContainer>
-                  <div className="space-y-2">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {pieData.map((item, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full" style={{ background: item.color }}></div>
-                        <span className="text-gray-400 text-xs">{item.name}: {item.value}</span>
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color }}></div>
+                        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>{item.name}: <strong style={{ color: '#fff' }}>{item.value}</strong></span>
                       </div>
                     ))}
                   </div>
                 </div>
-              ) : <div className="text-gray-600 text-sm py-8 text-center">No reports yet</div>}
+              ) : <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px', padding: '40px 0', textAlign: 'center' }}>No reports yet</div>}
             </div>
 
-            <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-              <div className="text-white font-semibold text-sm mb-4">Recent Report Risk Scores</div>
+            <div style={{ borderRadius: '16px', padding: '22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px', marginBottom: '20px' }}>Recent Risk Scores</div>
               {barData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={180}>
                   <BarChart data={barData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)"/>
-                    <XAxis dataKey="name" tick={{ fill: '#8b949e', fontSize: 10 }}/>
-                    <YAxis tick={{ fill: '#8b949e', fontSize: 10 }} domain={[0, 100]}/>
-                    <Tooltip contentStyle={{ background: '#1a1f1a', border: '1px solid #333', borderRadius: '8px' }}/>
-                    <Bar dataKey="score" radius={[4, 4, 0, 0]}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)"/>
+                    <XAxis dataKey="name" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }}/>
+                    <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} domain={[0, 100]}/>
+                    <Tooltip contentStyle={{ background: '#0d150d', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff' }}/>
+                    <Bar dataKey="score" radius={[6, 6, 0, 0]}>
                       {barData.map((entry, index) => <Cell key={index} fill={entry.fill}/>)}
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
-              ) : <div className="text-gray-600 text-sm py-8 text-center">No reports yet</div>}
+              ) : <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px', padding: '40px 0', textAlign: 'center' }}>No reports yet</div>}
             </div>
 
-            <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-              <div className="text-white font-semibold text-sm mb-4">Recent HIGH Risk Alerts</div>
-              {reports.filter(r => r.riskLevel === 'HIGH').slice(0, 4).map((report, i) => (
-                <div key={i} className="flex justify-between items-center py-2 border-b border-gray-800 last:border-0">
-                  <span className="text-gray-500 text-xs font-mono">{report.tokenId}</span>
+            <div style={{ borderRadius: '16px', padding: '22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px', marginBottom: '16px' }}>Recent HIGH Risk Alerts</div>
+              {reports.filter(r => r.riskLevel === 'HIGH').slice(0, 5).map((report, i) => (
+                <div key={i} onClick={() => navigate(`/it/report/${report.tokenId}`)} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  cursor: 'pointer'
+                }}>
+                  <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', fontFamily: 'monospace' }}>{report.tokenId}</span>
                   <RiskBadge level={report.riskLevel}/>
                 </div>
               ))}
               {reports.filter(r => r.riskLevel === 'HIGH').length === 0 && (
-                <div className="text-gray-600 text-sm">No HIGH risk reports yet</div>
+                <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: '13px' }}>No HIGH risk reports yet</div>
               )}
             </div>
 
-            <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-              <div className="text-white font-semibold text-sm mb-4">Awareness Hub Summary</div>
+            <div style={{ borderRadius: '16px', padding: '22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px', marginBottom: '16px' }}>Awareness Hub Summary</div>
               {awarenessStats ? (
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Total quiz sessions</span>
-                    <span className="text-white font-bold">{awarenessStats.totalSessions}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 14px', borderRadius: '10px', background: 'rgba(0,102,0,0.08)', border: '1px solid rgba(0,102,0,0.15)' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Total quiz sessions</span>
+                    <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '16px' }}>{awarenessStats.totalSessions}</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Average improvement</span>
-                    <span className="text-green-400 font-bold">+{awarenessStats.avgDelta} pts</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 14px', borderRadius: '10px', background: 'rgba(0,102,0,0.08)', border: '1px solid rgba(0,102,0,0.15)' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Average improvement</span>
+                    <span style={{ color: '#69db7c', fontWeight: '700', fontSize: '16px' }}>+{awarenessStats.avgDelta} pts</span>
                   </div>
                 </div>
-              ) : <div className="text-gray-600 text-sm">No awareness sessions yet</div>}
+              ) : <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: '13px' }}>No awareness sessions yet</div>}
             </div>
           </div>
         )}
 
+        {/* Reports tab */}
         {activeTab === 'reports' && (
-          <div className="rounded-xl border border-gray-800 overflow-hidden" style={{ background: '#1a1f1a' }}>
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800">
-              <div className="text-white font-semibold text-sm">Anonymised Reports</div>
-              <button onClick={fetchData}
-                className="text-xs text-gray-400 border border-gray-700 rounded px-3 py-1 hover:bg-gray-800 transition-all">
-                Refresh
-              </button>
+          <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px' }}>Anonymised Reports</span>
+              <button onClick={fetchData} style={{
+                fontSize: '12px', color: 'rgba(255,255,255,0.45)',
+                border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+                padding: '6px 14px', background: 'transparent', cursor: 'pointer'
+              }}>Refresh</button>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr className="border-b border-gray-800">
-                    {['Token ID', 'Risk', 'Score', 'Dept', 'Date', 'Status'].map(h => (
-                      <th key={h} className="text-left text-gray-500 text-xs font-medium px-5 py-3 uppercase tracking-wider">{h}</th>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    {['Token ID', 'Risk', 'Score', 'Header', 'Date', 'Status'].map(h => (
+                      <th key={h} style={{ textAlign: 'left', color: 'rgba(255,255,255,0.3)', fontSize: '11px', fontWeight: '600', padding: '12px 20px', textTransform: 'uppercase', letterSpacing: '0.07em' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {reports.slice(0, 20).map((report, i) => (
-                    <tr key={i} className="border-b border-gray-900 hover:bg-gray-900 cursor-pointer transition-all"
-                      onClick={() => navigate(`/it/report/${report.tokenId}`)}>
-                      <td className="px-5 py-3 font-mono text-gray-400 text-xs">{report.tokenId}</td>
-                      <td className="px-5 py-3"><RiskBadge level={report.riskLevel}/></td>
-                      <td className="px-5 py-3 text-gray-400 text-xs">{report.riskScore}%</td>
-                      <td className="px-5 py-3 text-gray-500 text-xs">Stripped</td>
-                      <td className="px-5 py-3 text-gray-500 text-xs">{formatDate(report.createdAt)}</td>
-                      <td className="px-5 py-3">
-                        <span className={`text-xs px-2 py-1 rounded border ${
-                          report.alertSent ? 'text-red-400 border-red-900 bg-red-900 bg-opacity-20' :
-                          report.status === 'resolved' ? 'text-green-400 border-green-900 bg-green-900 bg-opacity-20' :
-                          'text-yellow-400 border-yellow-900 bg-yellow-900 bg-opacity-20'
-                        }`}>
+                    <tr key={i} onClick={() => navigate(`/it/report/${report.tokenId}`)} style={{
+                      borderBottom: '1px solid rgba(255,255,255,0.04)',
+                      cursor: 'pointer', transition: 'background 0.15s'
+                    }}
+                      onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+                      onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+                      <td style={{ padding: '14px 20px', fontFamily: 'monospace', color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>{report.tokenId}</td>
+                      <td style={{ padding: '14px 20px' }}><RiskBadge level={report.riskLevel}/></td>
+                      <td style={{ padding: '14px 20px', color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>{report.riskScore}%</td>
+                      <td style={{ padding: '14px 20px' }}>
+                        <span style={{
+                          fontSize: '11px', padding: '2px 8px', borderRadius: '6px',
+                          background: report.emailHeader ? 'rgba(0,102,0,0.15)' : 'rgba(255,255,255,0.05)',
+                          color: report.emailHeader ? '#69db7c' : 'rgba(255,255,255,0.25)',
+                          border: report.emailHeader ? '1px solid rgba(0,102,0,0.25)' : '1px solid rgba(255,255,255,0.08)'
+                        }}>
+                          {report.emailHeader ? 'Provided' : 'None'}
+                        </span>
+                      </td>
+                      <td style={{ padding: '14px 20px', color: 'rgba(255,255,255,0.35)', fontSize: '12px' }}>{formatDate(report.createdAt)}</td>
+                      <td style={{ padding: '14px 20px' }}>
+                        <span style={{
+                          fontSize: '11px', padding: '3px 10px', borderRadius: '6px',
+                          background: report.alertSent ? 'rgba(187,0,0,0.15)' : report.status === 'resolved' ? 'rgba(0,102,0,0.15)' : 'rgba(234,150,0,0.1)',
+                          color: report.alertSent ? '#ff8080' : report.status === 'resolved' ? '#69db7c' : '#ffd166',
+                          border: report.alertSent ? '1px solid rgba(187,0,0,0.25)' : report.status === 'resolved' ? '1px solid rgba(0,102,0,0.25)' : '1px solid rgba(234,150,0,0.2)'
+                        }}>
                           {report.alertSent ? 'Alert Sent' : report.status === 'resolved' ? 'Resolved' : 'Under Review'}
                         </span>
                       </td>
                     </tr>
                   ))}
                   {reports.length === 0 && (
-                    <tr><td colSpan={6} className="px-5 py-8 text-center text-gray-600 text-sm">No reports yet.</td></tr>
+                    <tr><td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: '13px' }}>No reports yet</td></tr>
                   )}
                 </tbody>
               </table>
@@ -254,49 +336,64 @@ const ITDashboard = () => {
           </div>
         )}
 
+        {/* Awareness tab */}
         {activeTab === 'awareness' && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-                <div className="text-3xl font-bold text-green-400 mb-1">{awarenessStats?.totalSessions || 0}</div>
-                <div className="text-gray-500 text-xs">Total Quiz Sessions</div>
-              </div>
-              <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-                <div className="text-3xl font-bold text-yellow-400 mb-1">+{awarenessStats?.avgDelta || 0}</div>
-                <div className="text-gray-500 text-xs">Average Score Improvement</div>
-              </div>
-              <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-                <div className="text-3xl font-bold text-white mb-1">{Object.keys(awarenessStats?.byModule || {}).length}</div>
-                <div className="text-gray-500 text-xs">Active Modules</div>
-              </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+              {[
+                { label: 'Total Sessions', value: awarenessStats?.totalSessions || 0, color: '#69db7c', icon: '📊' },
+                { label: 'Avg Improvement', value: `+${awarenessStats?.avgDelta || 0} pts`, color: '#ffd166', icon: '📈' },
+                { label: 'Active Modules', value: Object.keys(awarenessStats?.byModule || {}).length, color: '#ffffff', icon: '📚' }
+              ].map((s, i) => (
+                <div key={i} style={{ borderRadius: '16px', padding: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  <div style={{ fontSize: '20px', marginBottom: '10px' }}>{s.icon}</div>
+                  <div style={{ fontSize: '28px', fontWeight: '800', color: s.color, marginBottom: '4px' }}>{s.value}</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
+                </div>
+              ))}
             </div>
-            <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-              <div className="text-white font-semibold text-sm mb-4">Module Breakdown</div>
+
+            <div style={{ borderRadius: '16px', padding: '22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px', marginBottom: '16px' }}>Module Breakdown</div>
               {awarenessStats && Object.entries(awarenessStats.byModule).map(([mod, data], i) => (
-                <div key={i} className="py-3 border-b border-gray-800 last:border-0">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-white text-sm">{mod}</span>
-                    <span className="text-green-400 text-sm font-semibold">
-                      avg +{data.count > 0 ? (data.totalDelta / data.count).toFixed(1) : 0} pts
+                <div key={i} style={{ marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px' }}>{mod}</span>
+                    <span style={{ color: '#69db7c', fontSize: '13px', fontWeight: '600' }}>
+                      +{data.count > 0 ? (data.totalDelta / data.count).toFixed(1) : 0} pts avg
                     </span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="text-gray-500 text-xs">{data.count} sessions</span>
-                    <div className="flex-1 rounded-full" style={{ height: '4px', background: '#0a0d0a' }}>
-                      <div className="rounded-full" style={{
-                        height: '4px', background: '#006600',
-                        width: `${Math.min((data.count / (awarenessStats.totalSessions || 1)) * 100, 100)}%`
-                      }}/>
-                    </div>
+                  <div style={{ height: '6px', background: 'rgba(255,255,255,0.06)', borderRadius: '6px', overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%', background: '#006600', borderRadius: '6px',
+                      width: `${Math.min((data.count / (awarenessStats.totalSessions || 1)) * 100, 100)}%`,
+                      transition: 'width 0.5s ease'
+                    }}></div>
                   </div>
+                  <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: '11px', marginTop: '4px' }}>{data.count} sessions</div>
                 </div>
               ))}
               {(!awarenessStats || Object.keys(awarenessStats.byModule).length === 0) && (
-                <div className="text-gray-600 text-sm">No awareness sessions recorded yet.</div>
+                <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: '13px' }}>No sessions recorded yet</div>
               )}
             </div>
           </div>
         )}
+
+        {/* Back button bottom */}
+        <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <button onClick={() => navigate('/')} style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '10px', padding: '10px 20px',
+            color: 'rgba(255,255,255,0.45)', fontSize: '13px',
+            cursor: 'pointer', transition: 'all 0.2s'
+          }}
+            onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+            onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}>
+            ← Back to PhishRipoti
+          </button>
+        </div>
       </div>
     </div>
   );
