@@ -245,10 +245,8 @@ const ReportStep1 = () => {
           }}>Step 1 of 4</span>
         </div>
 
-        {/* ── HEADLINE with watermark + gradient word ── */}
+        {/* ── HEADLINE with watermark ── */}
         <div style={{ position: 'relative', marginBottom: '22px' }}>
-
-          {/* Giant faint watermark */}
           <div style={{
             position: 'absolute', top: '-14px', left: '-4px',
             fontSize: '82px', fontWeight: '900',
@@ -260,7 +258,6 @@ const ReportStep1 = () => {
           }}>
             INCIDENT
           </div>
-
           <h2 style={{
             position: 'relative', zIndex: 1,
             fontWeight: '800', fontSize: '22px',
@@ -276,7 +273,6 @@ const ReportStep1 = () => {
             }}>incident</span>
             <span style={{ color: '#1a1a1a' }}> are you reporting?</span>
           </h2>
-
           <p style={{
             position: 'relative', zIndex: 1,
             color: 'rgba(0,0,0,0.42)', fontSize: '13px',
@@ -326,7 +322,16 @@ const ReportStep1 = () => {
                       : '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
                     : '0 2px 12px rgba(0,0,0,0.18)',
                   opacity: type.active ? 1 : 0.55,
+                  backdropFilter: 'blur(28px)',
+                  WebkitBackdropFilter: 'blur(28px)',
                 }}>
+
+                {/* Glass sheen */}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0) 100%)',
+                  pointerEvents: 'none', borderRadius: '13px',
+                }} />
 
                 {/* Left accent strip */}
                 <div style={{
@@ -346,8 +351,8 @@ const ReportStep1 = () => {
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
                   background: type.active
                     ? hov
-                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)'
+                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.30), transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)'
                     : 'none',
                 }} />
 
