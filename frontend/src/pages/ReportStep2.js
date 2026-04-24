@@ -9,51 +9,57 @@ const departments = [
     label: 'Customer Service / Teller',
     icon: '🎧',
     desc: 'High target for M-Pesa impersonation and account takeover phishing.',
-    accent: '#006600'
+    accent: '#22c55e',
+    accentRaw: 'green',
   },
   {
     id: 'finance',
     label: 'Finance & Accounts',
     icon: '📊',
     desc: 'Targeted by invoice fraud, payment diversion and CFO impersonation.',
-    accent: '#BB0000'
+    accent: '#BB0000',
+    accentRaw: 'red',
   },
   {
     id: 'compliance',
     label: 'Compliance / Risk',
     icon: '⚖️',
     desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
-    accent: '#006600'
+    accent: '#22c55e',
+    accentRaw: 'green',
   },
   {
     id: 'loans',
     label: 'Loans / Credit Officer',
     icon: '💳',
     desc: 'At risk from fake loan documents and credential harvesting attacks.',
-    accent: '#BB0000'
+    accent: '#BB0000',
+    accentRaw: 'red',
   },
   {
     id: 'operations',
     label: 'Operations',
     icon: '⚙️',
     desc: 'Targeted by system access phishing and fake IT support credential emails.',
-    accent: '#006600'
+    accent: '#22c55e',
+    accentRaw: 'green',
   },
   {
     id: 'hr',
     label: 'Human Resources',
     icon: '👥',
     desc: 'Targeted by payroll diversion and fake employee document phishing.',
-    accent: '#BB0000'
+    accent: '#BB0000',
+    accentRaw: 'red',
   },
   {
     id: 'other',
     label: 'Other Department',
     icon: '✏️',
-    desc: 'My department is not listed — I will enter it manually.',
-    accent: '#555555',
-    dashed: true
-  }
+    desc: 'Not listed above — enter manually.',
+    accent: '#888888',
+    accentRaw: 'neutral',
+  },
 ];
 
 const ReportStep2 = () => {
@@ -87,13 +93,15 @@ const ReportStep2 = () => {
     if (selected) navigate('/report/step3');
   };
 
+  const isSelected = (dept) => selected === dept.label;
+
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* ── BASE — same warm ivory as Landing ── */}
+      {/* ── BASE ── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#e8e2d4' }} />
 
       {/* ── CENTRE RADIAL LIFT ── */}
@@ -191,7 +199,7 @@ const ReportStep2 = () => {
           stroke="rgba(140,0,0,0.07)" strokeWidth="0.8"/>
       </svg>
 
-      {/* ── NAVBAR — exact match to Landing ── */}
+      {/* ── NAVBAR ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -263,13 +271,13 @@ const ReportStep2 = () => {
       {/* ── PAGE CONTENT ── */}
       <div style={{
         flex: 1, position: 'relative', zIndex: 10,
-        padding: '28px 44px 20px',
+        padding: '26px 44px 20px',
         display: 'flex', flexDirection: 'column',
         overflowY: 'auto',
       }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '14px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
@@ -284,7 +292,6 @@ const ReportStep2 = () => {
           }}>Step 2 of 4</span>
         </div>
 
-        {/* Headline */}
         <h2 style={{
           color: '#1a1a1a', fontWeight: '800', fontSize: '22px',
           margin: '0 0 5px', letterSpacing: '-0.4px',
@@ -293,258 +300,254 @@ const ReportStep2 = () => {
         </h2>
         <p style={{
           color: 'rgba(0,0,0,0.42)', fontSize: '13px',
-          margin: '0 0 24px', lineHeight: '1.6',
+          margin: '0 0 22px', lineHeight: '1.6',
         }}>
           Your department helps us contextualise the threat. It is stripped before storage — never linked to your identity.
         </p>
 
-        {/* ── DEPARTMENT CARDS GRID ── */}
+        {/* ── 7-CARD GRID including Other ── */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '14px',
+          gap: '12px',
           width: '100%',
-          marginBottom: '14px',
         }}>
-          {departments.filter(d => d.id !== 'other').map((dept) => (
-            <div
-              key={dept.id}
-              onClick={() => handleSelect(dept)}
-              onMouseEnter={() => setHovered(dept.id)}
-              onMouseLeave={() => setHovered(null)}
-              style={{
-                borderRadius: '14px',
-                padding: '20px 18px 16px',
-                cursor: 'pointer',
-                position: 'relative',
-                overflow: 'hidden',
-                background: selected === dept.label
-                  ? 'rgba(6,22,10,0.94)'
-                  : hovered === dept.id
-                  ? 'rgba(8,28,12,0.88)'
-                  : 'rgba(8,28,12,0.82)',
-                border: selected === dept.label
-                  ? `1px solid ${dept.accent === '#006600' ? 'rgba(34,197,94,0.30)' : 'rgba(187,0,0,0.35)'}`
-                  : hovered === dept.id
-                  ? '1px solid rgba(255,255,255,0.10)'
-                  : '1px solid rgba(255,255,255,0.06)',
-                transform: hovered === dept.id && selected !== dept.label
-                  ? 'translateY(-3px)' : 'translateY(0)',
-                transition: 'all 0.2s ease',
-                boxShadow: selected === dept.label
-                  ? `0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px ${dept.accent === '#006600' ? 'rgba(34,197,94,0.12)' : 'rgba(187,0,0,0.12)'}`
-                  : hovered === dept.id
-                  ? '0 8px 28px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
-                  : '0 4px 16px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.03)',
-              }}>
+          {departments.map((dept) => {
+            const sel = isSelected(dept) || (dept.id === 'other' && showOtherInput);
+            const hov = hovered === dept.id;
+            const isOther = dept.id === 'other';
 
-              {/* Left accent strip */}
-              <div style={{
-                position: 'absolute', top: 0, left: 0,
-                width: '3px', height: '100%',
-                background: dept.accent === '#006600'
-                  ? selected === dept.label
-                    ? 'linear-gradient(180deg, #22c55e, #006600)'
-                    : '#006600'
-                  : selected === dept.label
-                  ? 'linear-gradient(180deg, #ff6b6b, #BB0000)'
-                  : '#BB0000',
-                opacity: selected === dept.label ? 1 : hovered === dept.id ? 0.8 : 0.5,
-                transition: 'opacity 0.2s',
-              }} />
-
-              {/* Top inner glow */}
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                background: selected === dept.label
-                  ? dept.accent === '#006600'
-                    ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.25), transparent)'
-                    : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.25), transparent)'
-                  : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)',
-              }} />
-
-              {/* Selected checkmark */}
-              {selected === dept.label && (
-                <div style={{
-                  position: 'absolute', top: '12px', right: '12px',
-                  width: '20px', height: '20px', borderRadius: '50%',
-                  background: dept.accent === '#006600' ? '#22c55e' : '#BB0000',
-                  display: 'flex', alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '10px', color: '#fff', fontWeight: '800',
-                  boxShadow: dept.accent === '#006600'
-                    ? '0 2px 8px rgba(34,197,94,0.4)'
-                    : '0 2px 8px rgba(187,0,0,0.4)',
-                }}>✓</div>
-              )}
-
-              {/* Icon */}
-              <div style={{
-                width: '40px', height: '40px', borderRadius: '11px',
-                background: selected === dept.label || hovered === dept.id
-                  ? 'rgba(255,255,255,0.08)'
-                  : 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '18px',
-                marginBottom: '12px', transition: 'all 0.2s',
-              }}>
-                {dept.icon}
-              </div>
-
-              {/* Label */}
-              <div style={{
-                color: selected === dept.label
-                  ? 'rgba(255,255,255,0.95)'
-                  : 'rgba(255,255,255,0.80)',
-                fontWeight: '700', fontSize: '13px',
-                marginBottom: '6px', lineHeight: '1.3',
-              }}>
-                {dept.label}
-              </div>
-
-              {/* Description */}
-              <div style={{
-                color: selected === dept.label
-                  ? 'rgba(255,255,255,0.45)'
-                  : 'rgba(255,255,255,0.30)',
-                fontSize: '11px', lineHeight: '1.55',
-              }}>
-                {dept.desc}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ── OTHER DEPARTMENT ── */}
-        <div style={{ width: '100%', marginBottom: '16px' }}>
-          <div
-            onClick={() => handleSelect(departments.find(d => d.id === 'other'))}
-            onMouseEnter={() => setHovered('other')}
-            onMouseLeave={() => setHovered(null)}
-            style={{
-              borderRadius: '14px', padding: '14px 18px',
-              cursor: 'pointer', display: 'flex',
-              alignItems: 'center', gap: '14px',
-              background: showOtherInput
-                ? 'rgba(8,28,12,0.88)'
-                : hovered === 'other'
-                ? 'rgba(8,28,12,0.75)'
-                : 'rgba(8,28,12,0.65)',
-              border: showOtherInput
-                ? '1px solid rgba(255,255,255,0.12)'
-                : `1px dashed ${hovered === 'other' ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.10)'}`,
-              transition: 'all 0.2s ease',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
-            }}>
-            <div style={{
-              width: '36px', height: '36px', borderRadius: '10px',
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '16px', flexShrink: 0,
-            }}>✏️</div>
-            <div style={{ flex: 1 }}>
-              <div style={{
-                color: 'rgba(255,255,255,0.70)',
-                fontWeight: '600', fontSize: '13px',
-              }}>
-                Other Department
-              </div>
-              <div style={{ color: 'rgba(255,255,255,0.32)', fontSize: '11px' }}>
-                Not listed above — enter manually
-              </div>
-            </div>
-            <div style={{
-              color: hovered === 'other'
-                ? 'rgba(255,255,255,0.55)'
-                : 'rgba(255,255,255,0.20)',
-              fontSize: '14px', transition: 'color 0.2s',
-            }}>→</div>
-          </div>
-
-          {/* Other input */}
-          {showOtherInput && (
-            <div style={{
-              borderRadius: '14px', padding: '18px',
-              border: '1px solid rgba(255,255,255,0.10)',
-              background: 'rgba(8,28,12,0.92)',
-              marginTop: '10px',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.22)',
-            }}>
-              <div style={{
-                color: 'rgba(255,255,255,0.85)',
-                fontWeight: '600', fontSize: '13px', marginBottom: '4px',
-              }}>
-                Enter your department
-              </div>
-              <div style={{
-                color: 'rgba(255,255,255,0.35)',
-                fontSize: '12px', marginBottom: '12px',
-              }}>
-                Type your department name — it will be stripped before storage.
-              </div>
-              <input
-                value={otherDept}
-                onChange={e => setOtherDept(e.target.value)}
-                placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
+            return (
+              <div
+                key={dept.id}
+                onClick={() => handleSelect(dept)}
+                onMouseEnter={() => setHovered(dept.id)}
+                onMouseLeave={() => setHovered(null)}
                 style={{
-                  width: '100%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  borderRadius: '8px', color: '#ffffff',
-                  padding: '10px 14px', fontSize: '13px',
-                  outline: 'none', marginBottom: '12px',
-                  boxSizing: 'border-box',
-                }}
-                onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
-                autoFocus
-              />
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button
-                  onClick={handleOtherConfirm}
-                  disabled={!otherDept.trim()}
-                  style={{
-                    background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
-                    color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
-                    border: 'none', borderRadius: '8px',
-                    padding: '8px 18px', fontSize: '13px',
-                    fontWeight: '600',
-                    cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
-                    transition: 'all 0.16s',
-                  }}>
-                  Confirm →
-                </button>
-                <button
-                  onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
-                  style={{
-                    background: 'transparent',
-                    color: 'rgba(255,255,255,0.4)',
-                    border: '1px solid rgba(255,255,255,0.10)',
-                    borderRadius: '8px', padding: '8px 18px',
-                    fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-                  }}>
-                  Cancel
-                </button>
+                  borderRadius: '13px',
+                  padding: isOther ? '14px 16px' : '16px 16px 14px',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  // Deep dark — almost black with warm undertone
+                  background: sel
+                    ? 'rgba(12,16,12,0.97)'
+                    : hov
+                    ? 'rgba(14,19,14,0.95)'
+                    : 'rgba(16,20,15,0.90)',
+                  border: sel
+                    ? `1px solid ${dept.accentRaw === 'green' ? 'rgba(34,197,94,0.35)' : dept.accentRaw === 'red' ? 'rgba(187,0,0,0.35)' : 'rgba(255,255,255,0.18)'}`
+                    : hov
+                    ? '1px solid rgba(255,255,255,0.10)'
+                    : '1px solid rgba(255,255,255,0.06)',
+                  transform: hov && !sel ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'all 0.18s ease',
+                  boxShadow: sel
+                    ? dept.accentRaw === 'green'
+                      ? '0 0 0 1px rgba(34,197,94,0.10), 0 8px 28px rgba(0,0,0,0.30)'
+                      : dept.accentRaw === 'red'
+                      ? '0 0 0 1px rgba(187,0,0,0.10), 0 8px 28px rgba(0,0,0,0.30)'
+                      : '0 8px 28px rgba(0,0,0,0.25)'
+                    : hov
+                    ? '0 6px 24px rgba(0,0,0,0.22)'
+                    : '0 2px 12px rgba(0,0,0,0.18)',
+                  // Last card (Other) spans behaviour handled by grid
+                  gridColumn: isOther && departments.length % 3 === 1 ? 'span 3' : 'auto',
+                }}>
+
+                {/* Left accent strip */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '3px', height: '100%',
+                  background: dept.accentRaw === 'green'
+                    ? sel ? 'linear-gradient(180deg, #4ade80, #22c55e)' : '#22c55e'
+                    : dept.accentRaw === 'red'
+                    ? sel ? 'linear-gradient(180deg, #ff6b6b, #BB0000)' : '#BB0000'
+                    : 'rgba(255,255,255,0.15)',
+                  opacity: sel ? 1 : hov ? 0.75 : 0.40,
+                  transition: 'opacity 0.18s',
+                }} />
+
+                {/* Top shimmer */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
+                  background: sel
+                    ? dept.accentRaw === 'green'
+                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)'
+                      : dept.accentRaw === 'red'
+                      ? 'linear-gradient(90deg, transparent, rgba(187,0,0,0.22), transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)'
+                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)',
+                }} />
+
+                {isOther ? (
+                  // Other — horizontal compact layout
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '8px' }}>
+                    <div style={{
+                      width: '32px', height: '32px', borderRadius: '9px',
+                      background: 'rgba(255,255,255,0.06)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '15px', flexShrink: 0,
+                    }}>✏️</div>
+                    <div>
+                      <div style={{
+                        color: 'rgba(255,255,255,0.72)',
+                        fontWeight: '600', fontSize: '13px',
+                      }}>Other Department</div>
+                      <div style={{
+                        color: 'rgba(255,255,255,0.30)',
+                        fontSize: '11px',
+                      }}>Not listed above — enter manually</div>
+                    </div>
+                    <div style={{
+                      marginLeft: 'auto',
+                      color: hov ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.18)',
+                      fontSize: '14px', transition: 'color 0.18s',
+                      paddingRight: '4px',
+                    }}>→</div>
+                  </div>
+                ) : (
+                  // Regular card — vertical layout
+                  <>
+                    {/* Icon + checkmark row */}
+                    <div style={{
+                      display: 'flex', justifyContent: 'space-between',
+                      alignItems: 'flex-start', marginBottom: '10px',
+                      paddingLeft: '8px',
+                    }}>
+                      <div style={{
+                        width: '36px', height: '36px', borderRadius: '10px',
+                        background: sel || hov
+                          ? 'rgba(255,255,255,0.08)'
+                          : 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        display: 'flex', alignItems: 'center',
+                        justifyContent: 'center', fontSize: '17px',
+                        transition: 'all 0.18s',
+                      }}>
+                        {dept.icon}
+                      </div>
+                      {sel && (
+                        <div style={{
+                          width: '18px', height: '18px', borderRadius: '50%',
+                          background: dept.accentRaw === 'green' ? '#22c55e' : '#BB0000',
+                          display: 'flex', alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '9px', color: '#fff', fontWeight: '800',
+                          boxShadow: dept.accentRaw === 'green'
+                            ? '0 2px 8px rgba(34,197,94,0.45)'
+                            : '0 2px 8px rgba(187,0,0,0.45)',
+                        }}>✓</div>
+                      )}
+                    </div>
+
+                    {/* Label */}
+                    <div style={{
+                      paddingLeft: '8px',
+                      color: sel ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.78)',
+                      fontWeight: '700', fontSize: '13px',
+                      marginBottom: '5px', lineHeight: '1.3',
+                    }}>
+                      {dept.label}
+                    </div>
+
+                    {/* Description */}
+                    <div style={{
+                      paddingLeft: '8px',
+                      color: sel ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.28)',
+                      fontSize: '11px', lineHeight: '1.55',
+                    }}>
+                      {dept.desc}
+                    </div>
+                  </>
+                )}
               </div>
-            </div>
-          )}
+            );
+          })}
         </div>
 
-        {/* Selected confirmation */}
+        {/* Other input — appears below grid */}
+        {showOtherInput && (
+          <div style={{
+            borderRadius: '13px', padding: '18px',
+            border: '1px solid rgba(255,255,255,0.10)',
+            background: 'rgba(12,16,12,0.96)',
+            marginTop: '12px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+          }}>
+            <div style={{
+              color: 'rgba(255,255,255,0.85)',
+              fontWeight: '600', fontSize: '13px', marginBottom: '4px',
+            }}>
+              Enter your department
+            </div>
+            <div style={{
+              color: 'rgba(255,255,255,0.35)',
+              fontSize: '12px', marginBottom: '12px',
+            }}>
+              Type your department name — it will be stripped before storage.
+            </div>
+            <input
+              value={otherDept}
+              onChange={e => setOtherDept(e.target.value)}
+              placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
+              style={{
+                width: '100%',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.10)',
+                borderRadius: '8px', color: '#ffffff',
+                padding: '10px 14px', fontSize: '13px',
+                outline: 'none', marginBottom: '12px',
+                boxSizing: 'border-box',
+              }}
+              onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
+              autoFocus
+            />
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={handleOtherConfirm}
+                disabled={!otherDept.trim()}
+                style={{
+                  background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
+                  color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
+                  border: 'none', borderRadius: '8px',
+                  padding: '8px 18px', fontSize: '13px', fontWeight: '600',
+                  cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
+                  transition: 'all 0.16s',
+                }}>
+                Confirm →
+              </button>
+              <button
+                onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
+                style={{
+                  background: 'transparent',
+                  color: 'rgba(255,255,255,0.4)',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  borderRadius: '8px', padding: '8px 18px',
+                  fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+                }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Selected confirmation — compact inline */}
         {selected && (
           <div style={{
-            width: '100%', marginBottom: '8px',
-            padding: '11px 16px', borderRadius: '10px',
-            background: 'rgba(0,102,0,0.10)',
-            border: '1px solid rgba(0,102,0,0.22)',
-            display: 'flex', alignItems: 'center', gap: '8px',
+            marginTop: '14px',
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            padding: '8px 14px', borderRadius: '8px',
+            background: 'rgba(34,197,94,0.08)',
+            border: '1px solid rgba(34,197,94,0.18)',
+            alignSelf: 'flex-start',
           }}>
-            <span style={{ color: '#4ade80', fontSize: '13px' }}>✓</span>
-            <span style={{ color: '#4ade80', fontSize: '13px', fontWeight: '600' }}>
-              Selected: {selected}
+            <span style={{ color: '#4ade80', fontSize: '12px' }}>✓</span>
+            <span style={{ color: '#4ade80', fontSize: '12px', fontWeight: '600' }}>
+              {selected}
             </span>
-            <span style={{ color: 'rgba(0,0,0,0.35)', fontSize: '12px', marginLeft: '4px' }}>
+            <span style={{ color: 'rgba(0,0,0,0.35)', fontSize: '11px' }}>
               — stripped before storage
             </span>
           </div>
