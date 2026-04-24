@@ -313,7 +313,7 @@ const ReportStep2 = () => {
           </p>
         </div>
 
-        {/* ── 6 DEPARTMENT CARDS — 3 column grid ── */}
+        {/* ── 6 DEPARTMENT CARDS ── */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
@@ -460,8 +460,6 @@ const ReportStep2 = () => {
               transition: 'all 0.18s ease',
               boxShadow: '0 2px 10px rgba(0,0,0,0.20)',
             }}>
-
-            {/* Left accent strip */}
             <div style={{
               position: 'absolute', top: 0, left: 0,
               width: '3px', height: '100%',
@@ -469,7 +467,6 @@ const ReportStep2 = () => {
               opacity: hovered === 'other' ? 0.6 : 0.25,
               transition: 'opacity 0.18s',
             }} />
-
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '8px' }}>
               <div style={{
                 width: '32px', height: '32px', borderRadius: '9px',
@@ -577,7 +574,7 @@ const ReportStep2 = () => {
             <span style={{ color: '#4ade80', fontSize: '12px', fontWeight: '600' }}>
               {selected}
             </span>
-            <span style={{ color: 'rgba(0,0,0,0.35)', fontSize: '11px' }}>
+            <span style={{ color: 'rgba(0,0,0,0.58)', fontSize: '11px', fontWeight: '500' }}>
               — stripped before storage
             </span>
           </div>
