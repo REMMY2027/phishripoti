@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import NextStrip from '../components/NextStrip';
 import { useReport } from '../context/ReportContext';
 
@@ -50,216 +49,305 @@ const ReportStep1 = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+    <div style={{
+      minHeight: '100vh', display: 'flex', flexDirection: 'column',
+      position: 'relative', overflow: 'hidden',
+    }}>
 
-      {/* Same gradient as landing page */}
+      {/* ── BASE — same warm ivory as Landing ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#e8e2d4' }} />
+
+      {/* ── CENTRE RADIAL LIFT ── */}
       <div style={{
-        position: 'absolute', inset: 0, zIndex: 0,
-        background: 'linear-gradient(135deg, #e8f5e8 0%, #f5f5f5 50%, #fde8e8 100%)'
-      }}/>
+        position: 'fixed', inset: 0, zIndex: 1,
+        background: 'radial-gradient(ellipse 70% 65% at 50% 38%, rgba(255,253,248,0.97) 0%, rgba(248,244,234,0.94) 25%, rgba(240,234,220,0.82) 50%, rgba(220,213,196,0.45) 72%, transparent 100%)',
+      }} />
 
-      {/* Green blob top left */}
+      {/* ── EDGE DARKENING ── */}
       <div style={{
-        position: 'absolute', top: '-120px', left: '-120px',
-        width: '500px', height: '500px', borderRadius: '50%',
-        background: 'rgba(0,102,0,0.07)', filter: 'blur(60px)', zIndex: 0
-      }}/>
+        position: 'fixed', inset: 0, zIndex: 2,
+        background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(180,165,140,0.28) 100%)',
+      }} />
 
-      {/* Red blob bottom right */}
+      {/* ── TOP GREEN BAND ── */}
       <div style={{
-        position: 'absolute', bottom: '-80px', right: '-80px',
-        width: '400px', height: '400px', borderRadius: '50%',
-        background: 'rgba(187,0,0,0.05)', filter: 'blur(60px)', zIndex: 0
-      }}/>
+        position: 'fixed', inset: 0, zIndex: 3,
+        background: 'linear-gradient(180deg, rgba(4,26,8,0.24) 0%, rgba(4,26,8,0.08) 14%, transparent 30%)',
+      }} />
 
-      {/* SVG abstract shapes — same style as landing */}
+      {/* ── BOTTOM RED BAND ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 4,
+        background: 'linear-gradient(0deg, rgba(90,0,0,0.18) 0%, rgba(90,0,0,0.07) 14%, transparent 30%)',
+      }} />
+
+      {/* ── NAIROBI SKYLINE — fades in from right ── */}
+      <div style={{
+        position: 'fixed', bottom: 0, right: 0,
+        width: '580px', height: '220px',
+        zIndex: 5, pointerEvents: 'none',
+        WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
+        maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
+      }}>
+        <svg width="100%" height="100%" viewBox="0 0 580 260"
+          xmlns="http://www.w3.org/2000/svg" fill="#5a4a35" opacity="0.13">
+          <rect x="20" y="180" width="18" height="80" />
+          <rect x="42" y="170" width="14" height="90" />
+          <rect x="60" y="185" width="20" height="75" />
+          <rect x="84" y="175" width="16" height="85" />
+          <rect x="104" y="188" width="22" height="72" />
+          <rect x="310" y="60" width="38" height="200" />
+          <rect x="318" y="50" width="22" height="15" />
+          <rect x="324" y="40" width="10" height="14" />
+          <rect x="327" y="30" width="4" height="12" />
+          <rect x="200" y="90" width="32" height="170" />
+          <ellipse cx="216" cy="90" rx="18" ry="8" />
+          <rect x="212" y="75" width="8" height="18" />
+          <rect x="214" y="65" width="4" height="12" />
+          <rect x="380" y="80" width="34" height="180" />
+          <rect x="386" y="72" width="22" height="12" />
+          <rect x="392" y="62" width="10" height="12" />
+          <rect x="395" y="52" width="4" height="12" />
+          <rect x="150" y="120" width="26" height="140" />
+          <rect x="180" y="130" width="18" height="130" />
+          <rect x="250" y="110" width="24" height="150" />
+          <rect x="278" y="125" width="28" height="135" />
+          <rect x="418" y="100" width="28" height="160" />
+          <rect x="450" y="115" width="22" height="145" />
+          <rect x="476" y="130" width="26" height="130" />
+          <rect x="130" y="155" width="18" height="105" />
+          <rect x="500" y="150" width="20" height="110" />
+          <rect x="524" y="160" width="24" height="100" />
+          <rect x="552" y="155" width="18" height="105" />
+          <rect x="0" y="258" width="580" height="2" />
+        </svg>
+      </div>
+
+      {/* ── DECORATIVE SVG — same as Landing ── */}
       <svg style={{
-        position: 'absolute', inset: 0, width: '100%', height: '100%',
-        zIndex: 1, pointerEvents: 'none'
+        position: 'fixed', inset: 0, width: '100%', height: '100%',
+        zIndex: 6, pointerEvents: 'none',
       }} xmlns="http://www.w3.org/2000/svg">
-
-        {/* Circles top left */}
-        <circle cx="-50" cy="150" r="300"
-          fill="none" stroke="rgba(0,102,0,0.1)" strokeWidth="1.5"/>
-        <circle cx="-50" cy="150" r="230"
-          fill="none" stroke="rgba(0,102,0,0.07)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="160"
-          fill="none" stroke="rgba(0,102,0,0.04)" strokeWidth="1"/>
-
-        {/* Circles bottom right */}
-        <circle cx="110%" cy="80%" r="280"
-          fill="none" stroke="rgba(187,0,0,0.1)" strokeWidth="1.5"/>
-        <circle cx="110%" cy="80%" r="210"
-          fill="none" stroke="rgba(187,0,0,0.07)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="140"
-          fill="none" stroke="rgba(187,0,0,0.04)" strokeWidth="1"/>
-
-        {/* Floating rectangles */}
-        <rect x="8%" y="12%" width="55" height="55" rx="14"
-          fill="none" stroke="rgba(0,102,0,0.12)" strokeWidth="1.5"
-          transform="rotate(20 100 150)"/>
-        <rect x="82%" y="8%" width="65" height="65" rx="16"
-          fill="none" stroke="rgba(187,0,0,0.12)" strokeWidth="1.5"
-          transform="rotate(-15 1150 120)"/>
-        <rect x="75%" y="65%" width="40" height="40" rx="10"
-          fill="none" stroke="rgba(0,102,0,0.1)" strokeWidth="1"
-          transform="rotate(30 1050 550)"/>
-        <rect x="5%" y="70%" width="50" height="50" rx="12"
-          fill="none" stroke="rgba(187,0,0,0.1)" strokeWidth="1"
-          transform="rotate(-25 80 600)"/>
-
-        {/* Triangles */}
-        <polygon points="150,60 190,140 110,140"
-          fill="none" stroke="rgba(0,102,0,0.1)" strokeWidth="1.5"/>
-        <polygon points="1100,480 1150,570 1050,570"
-          fill="none" stroke="rgba(187,0,0,0.1)" strokeWidth="1.5"/>
-
-        {/* Hexagons */}
+        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,80,20,0.04)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.06)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
         <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
-          fill="none" stroke="rgba(0,102,0,0.12)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1.5"/>
         <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
-          fill="none" stroke="rgba(187,0,0,0.12)" strokeWidth="1.5"/>
-
-        {/* Wave lines */}
-        <path d="M 0 500 Q 350 400 700 480 T 1400 460"
-          fill="none" stroke="rgba(0,102,0,0.07)" strokeWidth="1.5"/>
-        <path d="M 0 600 Q 400 500 750 560 T 1400 540"
-          fill="none" stroke="rgba(187,0,0,0.05)" strokeWidth="1"/>
-
-        {/* Dots */}
-        <circle cx="10%" cy="25%" r="4" fill="rgba(0,102,0,0.18)"/>
-        <circle cx="14%" cy="40%" r="3" fill="rgba(0,102,0,0.12)"/>
-        <circle cx="88%" cy="20%" r="5" fill="rgba(187,0,0,0.18)"/>
-        <circle cx="92%" cy="38%" r="3" fill="rgba(187,0,0,0.12)"/>
-        <circle cx="6%" cy="75%" r="4" fill="rgba(187,0,0,0.12)"/>
-        <circle cx="94%" cy="72%" r="4" fill="rgba(0,102,0,0.12)"/>
-        <circle cx="45%" cy="6%" r="3" fill="rgba(0,0,0,0.06)"/>
-        <circle cx="55%" cy="94%" r="3" fill="rgba(0,0,0,0.06)"/>
-
-        {/* Connecting lines */}
+          fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1.5"/>
+        <path d="M 0 500 Q 350 350 700 480 T 1400 420"
+          fill="none" stroke="rgba(0,80,20,0.055)" strokeWidth="1.5"/>
+        <path d="M 0 600 Q 400 450 750 560 T 1400 500"
+          fill="none" stroke="rgba(140,0,0,0.045)" strokeWidth="1"/>
+        <circle cx="10%" cy="25%" r="3" fill="rgba(0,80,20,0.11)"/>
+        <circle cx="14%" cy="40%" r="2" fill="rgba(0,80,20,0.08)"/>
+        <circle cx="88%" cy="20%" r="3.5" fill="rgba(140,0,0,0.11)"/>
+        <circle cx="92%" cy="38%" r="2" fill="rgba(140,0,0,0.08)"/>
         <line x1="10%" y1="25%" x2="14%" y2="40%"
-          stroke="rgba(0,102,0,0.1)" strokeWidth="0.8"/>
+          stroke="rgba(0,80,20,0.07)" strokeWidth="0.8"/>
         <line x1="88%" y1="20%" x2="92%" y2="38%"
-          stroke="rgba(187,0,0,0.1)" strokeWidth="0.8"/>
+          stroke="rgba(140,0,0,0.07)" strokeWidth="0.8"/>
       </svg>
 
-      {/* Navbar */}
-      <div style={{ position: 'relative', zIndex: 2 }}>
-        <Navbar light={true} />
-      </div>
-
-      {/* Header */}
-      <div style={{
-        position: 'relative', zIndex: 2,
-        background: 'rgba(255,255,255,0.5)',
-        borderBottom: '1px solid rgba(0,0,0,0.06)',
-        backdropFilter: 'blur(12px)',
-        padding: '0'
+      {/* ── NAVBAR — exact same as Landing ── */}
+      <nav style={{
+        position: 'relative', zIndex: 20,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 2.5rem', height: '66px',
+        background: '#061508',
+        boxShadow: '0 2px 28px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.04)',
+        flexShrink: 0,
       }}>
-        <div style={{ height: '3px', background: 'linear-gradient(90deg, #BB0000, #1A1A1A, #006600)' }}></div>
-        <div style={{ padding: '24px 40px 20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} style={{
-                width: i === 1 ? '28px' : '20px', height: '4px', borderRadius: '2px',
-                background: i === 1 ? '#BB0000' : 'rgba(0,0,0,0.1)',
-                transition: 'all 0.3s'
-              }}></div>
-            ))}
-            <span style={{
-              fontSize: '11px', color: 'rgba(0,0,0,0.35)',
-              marginLeft: '4px', textTransform: 'uppercase', letterSpacing: '0.07em'
-            }}>
-              Step 1 of 4
-            </span>
-          </div>
-          <h2 style={{
-            color: '#1a1a1a', fontWeight: '800', fontSize: '24px',
-            margin: '0 0 6px', letterSpacing: '-0.5px'
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, height: '6px',
+          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #111111 33.33%, #111111 66.66%, #006600 66.66%, #006600 100%)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)',
+        }} />
+
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
+          <div style={{
+            width: '38px', height: '38px', borderRadius: '10px',
+            background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 0 0 1px rgba(255,80,80,0.18), 0 4px 16px rgba(187,0,0,0.50)',
+            flexShrink: 0,
           }}>
-            What type of incident are you reporting?
-          </h2>
-          <p style={{ color: 'rgba(0,0,0,0.45)', fontSize: '13px', margin: 0, lineHeight: '1.6' }}>
-            Select the incident type that best describes what you received.
-            Only Phishing Email is active in v1.0.
-          </p>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
+                fill="rgba(255,255,255,0.95)"/>
+            </svg>
+          </div>
+          <span style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '-0.5px', lineHeight: 1 }}>
+            <span style={{ color: '#ffffff' }}>Phish</span>
+            <span style={{
+              color: 'transparent',
+              background: 'linear-gradient(90deg, #22c55e 0%, #4ade80 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>Ripoti</span>
+          </span>
         </div>
+
+        <button onClick={() => navigate('/it-login')} style={{
+          display: 'flex', alignItems: 'center', gap: '8px',
+          padding: '10px 20px', borderRadius: '8px',
+          background: 'rgba(255,255,255,0.07)',
+          border: '1px solid rgba(255,255,255,0.13)',
+          color: 'rgba(255,255,255,0.82)',
+          fontSize: '13px', fontWeight: '600',
+          cursor: 'pointer', letterSpacing: '0.015em',
+          transition: 'all 0.16s ease',
+        }}
+          onMouseOver={e => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+          }}
+          onMouseOut={e => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+            e.currentTarget.style.color = 'rgba(255,255,255,0.82)';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+          </svg>
+          IT Manager Portal
+        </button>
+      </nav>
+
+      {/* ── STEP HEADER ── */}
+      <div style={{
+        position: 'relative', zIndex: 10,
+        padding: '28px 40px 22px',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        background: 'rgba(255,253,248,0.55)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        flexShrink: 0,
+      }}>
+        {/* Step progress */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '14px' }}>
+          {[1,2,3,4].map(i => (
+            <div key={i} style={{
+              height: '4px', borderRadius: '2px',
+              width: i === 1 ? '32px' : '20px',
+              background: i === 1 ? '#BB0000' : 'rgba(0,0,0,0.10)',
+            }} />
+          ))}
+          <span style={{
+            fontSize: '10px', letterSpacing: '0.18em',
+            color: 'rgba(0,0,0,0.35)', textTransform: 'uppercase',
+            marginLeft: '6px',
+          }}>Step 1 of 4</span>
+        </div>
+
+        <h2 style={{
+          color: '#1a1a1a', fontWeight: '800', fontSize: '22px',
+          margin: '0 0 5px', letterSpacing: '-0.4px',
+        }}>
+          What type of incident are you reporting?
+        </h2>
+        <p style={{ color: 'rgba(0,0,0,0.42)', fontSize: '13px', margin: 0, lineHeight: '1.6' }}>
+          Select the incident type that best describes what you received. Only Phishing Email is active in v1.0.
+        </p>
       </div>
 
-      {/* Cards */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '32px 40px', position: 'relative', zIndex: 2 }}>
+      {/* ── FULL WIDTH CARDS GRID ── */}
+      <div style={{
+        flex: 1, overflowY: 'auto',
+        padding: '32px 40px 24px',
+        position: 'relative', zIndex: 10,
+      }}>
         <div style={{
-          maxWidth: '800px', display: 'grid',
-          gridTemplateColumns: '1fr 1fr', gap: '16px'
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '18px',
+          maxWidth: '960px',
+          width: '100%',
         }}>
           {incidentTypes.map((type) => (
             <div
               key={type.id}
               onClick={type.active ? handleSelect : undefined}
-              onMouseOver={() => type.active && setHovered(type.id)}
-              onMouseOut={() => setHovered(null)}
+              onMouseEnter={() => type.active && setHovered(type.id)}
+              onMouseLeave={() => setHovered(null)}
               style={{
-                borderRadius: '18px', padding: '26px',
+                borderRadius: '16px',
+                padding: '28px 28px 22px',
                 cursor: type.active ? 'pointer' : 'not-allowed',
-                position: 'relative', overflow: 'hidden',
-                opacity: type.active ? 1 : 0.45,
+                position: 'relative',
+                overflow: 'hidden',
                 background: hovered === type.id
                   ? 'rgba(255,255,255,0.95)'
-                  : 'rgba(255,255,255,0.75)',
-                border: hovered === type.id
-                  ? '1px solid rgba(187,0,0,0.4)'
-                  : '1px solid rgba(0,0,0,0.08)',
+                  : 'rgba(255,255,255,0.72)',
+                border: type.active
+                  ? hovered === type.id
+                    ? '1px solid rgba(187,0,0,0.35)'
+                    : '1px solid rgba(0,0,0,0.09)'
+                  : '1px solid rgba(0,0,0,0.06)',
                 transform: hovered === type.id ? 'translateY(-4px)' : 'translateY(0)',
-                transition: 'all 0.25s ease',
+                transition: 'all 0.22s ease',
                 boxShadow: hovered === type.id
-                  ? '0 12px 40px rgba(187,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)'
-                  : '0 2px 12px rgba(0,0,0,0.06)',
-                backdropFilter: 'blur(12px)'
+                  ? '0 16px 48px rgba(0,0,0,0.10), 0 4px 16px rgba(187,0,0,0.08)'
+                  : '0 2px 16px rgba(0,0,0,0.06)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                opacity: type.active ? 1 : 0.5,
               }}>
 
-              {/* Top accent */}
+              {/* Left accent strip */}
               <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+                position: 'absolute', top: 0, left: 0,
+                width: '4px', height: '100%',
                 background: type.active
                   ? hovered === type.id
-                    ? 'linear-gradient(90deg, #BB0000, #006600)'
+                    ? 'linear-gradient(180deg, #BB0000, #006600)'
                     : '#BB0000'
-                  : '#cccccc',
-                opacity: hovered === type.id ? 1 : type.active ? 0.7 : 0.3,
-                transition: 'all 0.25s'
-              }}></div>
+                  : 'rgba(0,0,0,0.12)',
+                transition: 'all 0.22s',
+              }} />
 
-              {/* Icon and badge */}
+              {/* Icon + badge row */}
               <div style={{
                 display: 'flex', alignItems: 'flex-start',
-                justifyContent: 'space-between', marginBottom: '18px'
+                justifyContent: 'space-between', marginBottom: '16px',
+                paddingLeft: '8px',
               }}>
                 <div style={{
-                  width: '56px', height: '56px', borderRadius: '16px',
-                  background: hovered === type.id
-                    ? 'rgba(187,0,0,0.08)'
-                    : 'rgba(0,0,0,0.04)',
+                  width: '52px', height: '52px', borderRadius: '14px',
+                  background: type.active
+                    ? hovered === type.id
+                      ? 'rgba(187,0,0,0.07)'
+                      : 'rgba(0,0,0,0.04)'
+                    : 'rgba(0,0,0,0.03)',
                   border: hovered === type.id
-                    ? '1px solid rgba(187,0,0,0.2)'
+                    ? '1px solid rgba(187,0,0,0.15)'
                     : '1px solid rgba(0,0,0,0.06)',
                   display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: '26px',
-                  transition: 'all 0.25s'
+                  justifyContent: 'center', fontSize: '24px',
+                  transition: 'all 0.22s',
                 }}>
                   {type.icon}
                 </div>
 
                 <span style={{
                   fontSize: '10px', fontWeight: '700',
-                  padding: '4px 12px', borderRadius: '20px',
+                  padding: '4px 10px', borderRadius: '20px',
                   letterSpacing: '0.06em', textTransform: 'uppercase',
-                  background: type.active
-                    ? 'rgba(0,102,0,0.1)'
-                    : 'rgba(0,0,0,0.05)',
-                  color: type.active ? '#006600' : 'rgba(0,0,0,0.3)',
+                  background: type.active ? 'rgba(0,102,0,0.08)' : 'rgba(0,0,0,0.04)',
+                  color: type.active ? '#006600' : 'rgba(0,0,0,0.28)',
                   border: type.active
-                    ? '1px solid rgba(0,102,0,0.2)'
-                    : '1px solid rgba(0,0,0,0.08)'
+                    ? '1px solid rgba(0,102,0,0.18)'
+                    : '1px solid rgba(0,0,0,0.07)',
                 }}>
                   {type.active ? '✓ Active' : 'v2.0'}
                 </span>
@@ -267,46 +355,49 @@ const ReportStep1 = () => {
 
               {/* Title */}
               <div style={{
-                color: type.active ? '#1a1a1a' : '#888888',
-                fontWeight: '700', fontSize: '17px',
-                marginBottom: '8px', letterSpacing: '-0.2px'
+                paddingLeft: '8px',
+                color: type.active ? '#1a1a1a' : '#999999',
+                fontWeight: '700', fontSize: '16px',
+                marginBottom: '8px', letterSpacing: '-0.2px',
               }}>
                 {type.title}
               </div>
 
               {/* Description */}
               <div style={{
-                color: 'rgba(0,0,0,0.5)',
-                fontSize: '13px', lineHeight: '1.65', marginBottom: '16px'
+                paddingLeft: '8px',
+                color: type.active ? 'rgba(0,0,0,0.52)' : 'rgba(0,0,0,0.3)',
+                fontSize: '13px', lineHeight: '1.65', marginBottom: '16px',
               }}>
                 {type.description}
               </div>
 
               {/* Threat tag */}
               <div style={{
+                marginLeft: '8px',
                 padding: '8px 12px', borderRadius: '8px',
                 background: type.active
-                  ? 'rgba(187,0,0,0.06)'
-                  : 'rgba(0,0,0,0.03)',
+                  ? 'rgba(187,0,0,0.05)'
+                  : 'rgba(0,0,0,0.02)',
                 border: type.active
-                  ? '1px solid rgba(187,0,0,0.12)'
-                  : '1px solid rgba(0,0,0,0.06)',
+                  ? '1px solid rgba(187,0,0,0.10)'
+                  : '1px solid rgba(0,0,0,0.05)',
                 fontSize: '11px',
-                color: type.active ? 'rgba(187,0,0,0.8)' : 'rgba(0,0,0,0.25)',
-                lineHeight: '1.5'
+                color: type.active ? 'rgba(187,0,0,0.75)' : 'rgba(0,0,0,0.22)',
+                lineHeight: '1.5',
               }}>
                 ⚠ {type.threat}
               </div>
 
-              {/* Arrow */}
+              {/* Arrow — active only */}
               {type.active && (
                 <div style={{
                   position: 'absolute', bottom: '22px', right: '22px',
                   color: hovered === type.id
-                    ? 'rgba(187,0,0,0.7)'
-                    : 'rgba(0,0,0,0.2)',
-                  fontSize: '20px', transition: 'all 0.25s',
-                  transform: hovered === type.id ? 'translateX(3px)' : 'translateX(0)'
+                    ? 'rgba(187,0,0,0.65)'
+                    : 'rgba(0,0,0,0.18)',
+                  fontSize: '18px', transition: 'all 0.22s',
+                  transform: hovered === type.id ? 'translateX(4px)' : 'translateX(0)',
                 }}>→</div>
               )}
             </div>
@@ -314,7 +405,8 @@ const ReportStep1 = () => {
         </div>
       </div>
 
-      <div style={{ position: 'relative', zIndex: 2 }}>
+      {/* ── NEXT STRIP ── */}
+      <div style={{ position: 'relative', zIndex: 20, flexShrink: 0 }}>
         <NextStrip
           steps={['Incident Type', 'Department', 'Email Details', 'Submit']}
           currentStep={0}
