@@ -245,20 +245,48 @@ const ReportStep1 = () => {
           }}>Step 1 of 4</span>
         </div>
 
-        <h2 style={{
-          color: '#1a1a1a', fontWeight: '800', fontSize: '22px',
-          margin: '0 0 5px', letterSpacing: '-0.4px',
-        }}>
-          What type of incident are you reporting?
-        </h2>
-        <p style={{
-          color: 'rgba(0,0,0,0.42)', fontSize: '13px',
-          margin: '0 0 22px', lineHeight: '1.6',
-        }}>
-          Select the incident type that best describes what you received. Only Phishing Email is active in v1.0.
-        </p>
+        {/* ── HEADLINE with watermark + gradient word ── */}
+        <div style={{ position: 'relative', marginBottom: '22px' }}>
 
-        {/* ── 2x2 GRID — same dark style as ReportStep2 ── */}
+          {/* Giant faint watermark */}
+          <div style={{
+            position: 'absolute', top: '-14px', left: '-4px',
+            fontSize: '82px', fontWeight: '900',
+            color: 'transparent',
+            WebkitTextStroke: '1px rgba(187,0,0,0.06)',
+            letterSpacing: '-4px', lineHeight: 1,
+            pointerEvents: 'none', userSelect: 'none',
+            zIndex: 0,
+          }}>
+            INCIDENT
+          </div>
+
+          <h2 style={{
+            position: 'relative', zIndex: 1,
+            fontWeight: '800', fontSize: '22px',
+            margin: '0 0 6px', letterSpacing: '-0.4px',
+          }}>
+            <span style={{ color: '#1a1a1a' }}>What type of </span>
+            <span style={{
+              color: 'transparent',
+              background: 'linear-gradient(90deg, #BB0000 0%, #8B0000 45%, #006600 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>incident</span>
+            <span style={{ color: '#1a1a1a' }}> are you reporting?</span>
+          </h2>
+
+          <p style={{
+            position: 'relative', zIndex: 1,
+            color: 'rgba(0,0,0,0.42)', fontSize: '13px',
+            margin: 0, lineHeight: '1.6',
+          }}>
+            Select the incident type that best describes what you received. Only Phishing Email is active in v1.0.
+          </p>
+        </div>
+
+        {/* ── CARDS GRID ── */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
@@ -280,7 +308,6 @@ const ReportStep1 = () => {
                   cursor: type.active ? 'pointer' : 'not-allowed',
                   position: 'relative',
                   overflow: 'hidden',
-                  // Same near-black as ReportStep2
                   background: type.active
                     ? hov
                       ? 'rgba(12,16,12,0.97)'
@@ -324,7 +351,7 @@ const ReportStep1 = () => {
                     : 'none',
                 }} />
 
-                {/* Icon + badge row */}
+                {/* Icon + badge */}
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
                   alignItems: 'flex-start', marginBottom: '10px',
@@ -338,11 +365,9 @@ const ReportStep1 = () => {
                     border: '1px solid rgba(255,255,255,0.08)',
                     display: 'flex', alignItems: 'center',
                     justifyContent: 'center', fontSize: '17px',
-                    transition: 'all 0.18s',
                   }}>
                     {type.icon}
                   </div>
-
                   <span style={{
                     fontSize: '9px', fontWeight: '700',
                     padding: '3px 8px', borderRadius: '20px',
