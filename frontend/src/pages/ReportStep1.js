@@ -224,13 +224,13 @@ const ReportStep1 = () => {
       {/* ── PAGE CONTENT ── */}
       <div style={{
         flex: 1, position: 'relative', zIndex: 10,
-        padding: '28px 44px 20px',
+        padding: '26px 44px 20px',
         display: 'flex', flexDirection: 'column',
         overflowY: 'auto',
       }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '14px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
@@ -245,7 +245,6 @@ const ReportStep1 = () => {
           }}>Step 1 of 4</span>
         </div>
 
-        {/* Headline */}
         <h2 style={{
           color: '#1a1a1a', fontWeight: '800', fontSize: '22px',
           margin: '0 0 5px', letterSpacing: '-0.4px',
@@ -254,156 +253,164 @@ const ReportStep1 = () => {
         </h2>
         <p style={{
           color: 'rgba(0,0,0,0.42)', fontSize: '13px',
-          margin: '0 0 24px', lineHeight: '1.6',
+          margin: '0 0 22px', lineHeight: '1.6',
         }}>
           Select the incident type that best describes what you received. Only Phishing Email is active in v1.0.
         </p>
 
-        {/* ── DARK CARDS GRID ── */}
+        {/* ── 2x2 GRID — same dark style as ReportStep2 ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '16px',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '12px',
           width: '100%',
+          maxWidth: '780px',
         }}>
-          {incidentTypes.map((type) => (
-            <div
-              key={type.id}
-              onClick={type.active ? handleSelect : undefined}
-              onMouseEnter={() => type.active && setHovered(type.id)}
-              onMouseLeave={() => setHovered(null)}
-              style={{
-                borderRadius: '14px',
-                padding: '22px 22px 18px',
-                cursor: type.active ? 'pointer' : 'not-allowed',
-                position: 'relative',
-                overflow: 'hidden',
-                background: type.active
-                  ? hovered === type.id
-                    ? 'rgba(6,22,10,0.94)'
-                    : 'rgba(8,28,12,0.88)'
-                  : 'rgba(38,32,24,0.68)',
-                border: type.active
-                  ? hovered === type.id
-                    ? '1px solid rgba(34,197,94,0.25)'
-                    : '1px solid rgba(255,255,255,0.08)'
-                  : '1px solid rgba(255,255,255,0.05)',
-                transform: hovered === type.id ? 'translateY(-4px)' : 'translateY(0)',
-                transition: 'all 0.22s ease',
-                boxShadow: type.active
-                  ? hovered === type.id
-                    ? '0 20px 50px rgba(0,0,0,0.30), 0 4px 16px rgba(187,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.06)'
-                    : '0 8px 32px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
-                  : '0 4px 16px rgba(0,0,0,0.15)',
-              }}>
+          {incidentTypes.map((type) => {
+            const hov = hovered === type.id;
+            return (
+              <div
+                key={type.id}
+                onClick={type.active ? handleSelect : undefined}
+                onMouseEnter={() => type.active && setHovered(type.id)}
+                onMouseLeave={() => setHovered(null)}
+                style={{
+                  borderRadius: '13px',
+                  padding: '16px 16px 14px',
+                  cursor: type.active ? 'pointer' : 'not-allowed',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  // Same near-black as ReportStep2
+                  background: type.active
+                    ? hov
+                      ? 'rgba(12,16,12,0.97)'
+                      : 'rgba(14,19,14,0.95)'
+                    : 'rgba(16,20,15,0.90)',
+                  border: type.active
+                    ? hov
+                      ? '1px solid rgba(34,197,94,0.25)'
+                      : '1px solid rgba(255,255,255,0.08)'
+                    : '1px solid rgba(255,255,255,0.05)',
+                  transform: hov ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'all 0.18s ease',
+                  boxShadow: type.active
+                    ? hov
+                      ? '0 0 0 1px rgba(34,197,94,0.10), 0 10px 32px rgba(0,0,0,0.30)'
+                      : '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
+                    : '0 2px 12px rgba(0,0,0,0.18)',
+                  opacity: type.active ? 1 : 0.55,
+                }}>
 
-              {/* Left accent strip */}
-              <div style={{
-                position: 'absolute', top: 0, left: 0,
-                width: '3px', height: '100%',
-                background: type.active
-                  ? hovered === type.id
-                    ? 'linear-gradient(180deg, #22c55e, #BB0000)'
-                    : '#BB0000'
-                  : 'rgba(255,255,255,0.08)',
-                transition: 'all 0.22s',
-              }} />
+                {/* Left accent strip */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '3px', height: '100%',
+                  background: type.active
+                    ? hov
+                      ? 'linear-gradient(180deg, #4ade80, #BB0000)'
+                      : '#BB0000'
+                    : 'rgba(255,255,255,0.08)',
+                  opacity: type.active ? (hov ? 1 : 0.7) : 0.3,
+                  transition: 'all 0.18s',
+                }} />
 
-              {/* Top inner glow — active only */}
-              {type.active && (
+                {/* Top shimmer */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                  background: hovered === type.id
-                    ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.3), transparent)'
-                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
-                }} />
-              )}
-
-              {/* Icon + badge */}
-              <div style={{
-                display: 'flex', alignItems: 'flex-start',
-                justifyContent: 'space-between', marginBottom: '14px',
-                paddingLeft: '8px',
-              }}>
-                <div style={{
-                  width: '44px', height: '44px', borderRadius: '12px',
                   background: type.active
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.04)',
-                  border: type.active
-                    ? '1px solid rgba(255,255,255,0.10)'
-                    : '1px solid rgba(255,255,255,0.06)',
-                  display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: '22px',
+                    ? hov
+                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)'
+                    : 'none',
+                }} />
+
+                {/* Icon + badge row */}
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  alignItems: 'flex-start', marginBottom: '10px',
+                  paddingLeft: '8px',
                 }}>
-                  {type.icon}
+                  <div style={{
+                    width: '36px', height: '36px', borderRadius: '10px',
+                    background: type.active
+                      ? 'rgba(255,255,255,0.06)'
+                      : 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', fontSize: '17px',
+                    transition: 'all 0.18s',
+                  }}>
+                    {type.icon}
+                  </div>
+
+                  <span style={{
+                    fontSize: '9px', fontWeight: '700',
+                    padding: '3px 8px', borderRadius: '20px',
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    background: type.active
+                      ? 'rgba(34,197,94,0.12)'
+                      : 'rgba(255,255,255,0.05)',
+                    color: type.active ? '#4ade80' : 'rgba(255,255,255,0.25)',
+                    border: type.active
+                      ? '1px solid rgba(34,197,94,0.20)'
+                      : '1px solid rgba(255,255,255,0.07)',
+                  }}>
+                    {type.active ? '✓ Active' : 'v2.0'}
+                  </span>
                 </div>
 
-                <span style={{
-                  fontSize: '9px', fontWeight: '700',
-                  padding: '3px 9px', borderRadius: '20px',
-                  letterSpacing: '0.08em', textTransform: 'uppercase',
-                  background: type.active
-                    ? 'rgba(34,197,94,0.12)'
-                    : 'rgba(255,255,255,0.06)',
-                  color: type.active ? '#4ade80' : 'rgba(255,255,255,0.28)',
-                  border: type.active
-                    ? '1px solid rgba(34,197,94,0.22)'
-                    : '1px solid rgba(255,255,255,0.08)',
-                }}>
-                  {type.active ? '✓ Active' : 'v2.0'}
-                </span>
-              </div>
-
-              {/* Title */}
-              <div style={{
-                paddingLeft: '8px',
-                color: type.active ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.35)',
-                fontWeight: '700', fontSize: '15px',
-                marginBottom: '7px', letterSpacing: '-0.2px',
-              }}>
-                {type.title}
-              </div>
-
-              {/* Description */}
-              <div style={{
-                paddingLeft: '8px',
-                color: type.active ? 'rgba(255,255,255,0.48)' : 'rgba(255,255,255,0.22)',
-                fontSize: '12px', lineHeight: '1.65', marginBottom: '14px',
-              }}>
-                {type.description}
-              </div>
-
-              {/* Threat tag */}
-              <div style={{
-                marginLeft: '8px',
-                padding: '7px 11px', borderRadius: '7px',
-                background: type.active
-                  ? 'rgba(187,0,0,0.12)'
-                  : 'rgba(255,255,255,0.04)',
-                border: type.active
-                  ? '1px solid rgba(187,0,0,0.20)'
-                  : '1px solid rgba(255,255,255,0.06)',
-                fontSize: '11px',
-                color: type.active ? 'rgba(255,120,120,0.85)' : 'rgba(255,255,255,0.18)',
-                lineHeight: '1.5',
-              }}>
-                ⚠ {type.threat}
-              </div>
-
-              {/* Arrow */}
-              {type.active && (
+                {/* Title */}
                 <div style={{
-                  position: 'absolute', bottom: '18px', right: '18px',
-                  color: hovered === type.id
-                    ? 'rgba(34,197,94,0.7)'
-                    : 'rgba(255,255,255,0.18)',
-                  fontSize: '16px', transition: 'all 0.22s',
-                  transform: hovered === type.id ? 'translateX(3px)' : 'translateX(0)',
-                }}>→</div>
-              )}
-            </div>
-          ))}
+                  paddingLeft: '8px',
+                  color: type.active ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.32)',
+                  fontWeight: '700', fontSize: '13px',
+                  marginBottom: '5px', letterSpacing: '-0.1px',
+                }}>
+                  {type.title}
+                </div>
+
+                {/* Description */}
+                <div style={{
+                  paddingLeft: '8px',
+                  color: type.active ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.18)',
+                  fontSize: '11px', lineHeight: '1.6', marginBottom: '12px',
+                }}>
+                  {type.description}
+                </div>
+
+                {/* Threat tag */}
+                <div style={{
+                  marginLeft: '8px',
+                  padding: '6px 10px', borderRadius: '7px',
+                  background: type.active
+                    ? 'rgba(187,0,0,0.10)'
+                    : 'rgba(255,255,255,0.03)',
+                  border: type.active
+                    ? '1px solid rgba(187,0,0,0.18)'
+                    : '1px solid rgba(255,255,255,0.05)',
+                  fontSize: '10px',
+                  color: type.active
+                    ? 'rgba(255,110,110,0.80)'
+                    : 'rgba(255,255,255,0.16)',
+                  lineHeight: '1.5',
+                }}>
+                  ⚠ {type.threat}
+                </div>
+
+                {/* Arrow */}
+                {type.active && (
+                  <div style={{
+                    position: 'absolute', bottom: '14px', right: '14px',
+                    color: hov
+                      ? 'rgba(34,197,94,0.70)'
+                      : 'rgba(255,255,255,0.16)',
+                    fontSize: '14px', transition: 'all 0.18s',
+                    transform: hov ? 'translateX(3px)' : 'translateX(0)',
+                  }}>→</div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
