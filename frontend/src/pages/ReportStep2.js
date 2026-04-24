@@ -313,12 +313,13 @@ const ReportStep2 = () => {
           </p>
         </div>
 
-        {/* ── 6 DEPARTMENT CARDS — same size as ReportStep1 + glass effect ── */}
+        {/* ── 2-COLUMN GRID — same width as ReportStep1 cards ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
+          gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '12px',
           width: '100%',
+          maxWidth: '780px',
           marginBottom: '12px',
         }}>
           {departments.map((dept) => {
@@ -336,7 +337,6 @@ const ReportStep2 = () => {
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
-                  // Same darkness as ReportStep1 + glass
                   background: sel
                     ? 'rgba(12,16,12,0.97)'
                     : hov
@@ -356,15 +356,14 @@ const ReportStep2 = () => {
                     : hov
                     ? '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
                     : '0 2px 12px rgba(0,0,0,0.18)',
-                  // Glass effect
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
+                  backdropFilter: 'blur(28px)',
+                  WebkitBackdropFilter: 'blur(28px)',
                 }}>
 
-                {/* Glass sheen overlay */}
+                {/* Glass sheen — stronger */}
                 <div style={{
                   position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 100%)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0) 100%)',
                   pointerEvents: 'none', borderRadius: '13px',
                 }} />
 
@@ -384,11 +383,11 @@ const ReportStep2 = () => {
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
                   background: sel
                     ? dept.accentRaw === 'green'
-                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.22), transparent)'
+                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.30), transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.30), transparent)'
                     : hov
-                    ? 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)'
-                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)',
+                    ? 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)'
+                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
                 }} />
 
                 {/* Icon + checkmark */}
@@ -445,12 +444,13 @@ const ReportStep2 = () => {
           })}
         </div>
 
-        {/* ── OTHER DEPARTMENT — one card width ── */}
+        {/* ── OTHER — one card width ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
+          gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '12px',
           width: '100%',
+          maxWidth: '780px',
         }}>
           <div
             onClick={() => handleSelect({ id: 'other', label: '' })}
@@ -474,14 +474,14 @@ const ReportStep2 = () => {
                 : '1px dashed rgba(255,255,255,0.12)',
               transition: 'all 0.18s ease',
               boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
+              backdropFilter: 'blur(28px)',
+              WebkitBackdropFilter: 'blur(28px)',
             }}>
 
             {/* Glass sheen */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 100%)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0) 100%)',
               pointerEvents: 'none', borderRadius: '13px',
             }} />
 
@@ -526,9 +526,9 @@ const ReportStep2 = () => {
             borderRadius: '13px', padding: '16px',
             border: '1px solid rgba(255,255,255,0.10)',
             background: 'rgba(12,16,12,0.97)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            marginTop: '10px',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
+            marginTop: '10px', maxWidth: '780px',
             boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
           }}>
             <div style={{
