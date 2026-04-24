@@ -7,174 +7,213 @@ const Landing = () => {
   return (
     <div className="min-h-screen flex flex-col" style={{ position: 'relative', overflow: 'hidden' }}>
 
-      {/* ── BASE BACKGROUND ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 0,
-        background: '#fdf8f0',
-      }} />
+      {/* ── BASE IVORY ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#f7f3ec' }} />
 
-      {/* ── DEEP FOREST GREEN — top-left ── */}
+      {/* ── BANKNOTE MICRO PATTERN — diagonal fine lines ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse 80% 70% at -10% -10%, #0a2e12 0%, #1a5c28 25%, #2d7a3e 45%, transparent 70%)',
+        backgroundImage: `
+          repeating-linear-gradient(
+            52deg,
+            transparent,
+            transparent 18px,
+            rgba(0,80,20,0.028) 18px,
+            rgba(0,80,20,0.028) 19px
+          ),
+          repeating-linear-gradient(
+            -52deg,
+            transparent,
+            transparent 18px,
+            rgba(0,80,20,0.018) 18px,
+            rgba(0,80,20,0.018) 19px
+          )
+        `,
       }} />
 
-      {/* ── RICH DEEP RED — bottom-right ── */}
+      {/* ── SECOND LAYER — tighter red diagonal lines ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 70% 65% at 110% 110%, #6b0000 0%, #990000 20%, #bb2200 38%, transparent 65%)',
+        backgroundImage: `
+          repeating-linear-gradient(
+            38deg,
+            transparent,
+            transparent 28px,
+            rgba(140,0,0,0.018) 28px,
+            rgba(140,0,0,0.018) 29px
+          )
+        `,
       }} />
 
-      {/* ── WARM IVORY CENTRE LIFT — makes hero float ── */}
+      {/* ── MICRO DOT GRID — banknote security pattern ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 3,
-        background: 'radial-gradient(ellipse 55% 55% at 50% 44%, #fdf8f0 0%, #faf4ea 30%, #f5ede0 55%, transparent 75%)',
+        backgroundImage: `radial-gradient(circle, rgba(0,60,15,0.07) 1px, transparent 1px)`,
+        backgroundSize: '24px 24px',
       }} />
 
-      {/* ── SOFT GREEN SECONDARY LIGHT — top-right warmth ── */}
+      {/* ── CENTRE LIFT — keeps hero readable ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 4,
-        background: 'radial-gradient(ellipse 50% 40% at 105% 0%, #0d4a1f 0%, #1a6b30 20%, transparent 55%)',
-        opacity: 0.7,
+        background: 'radial-gradient(ellipse 60% 60% at 50% 42%, rgba(247,243,236,0.96) 0%, rgba(247,243,236,0.85) 40%, rgba(247,243,236,0.3) 70%, transparent 100%)',
       }} />
 
-      {/* ── DEEP RED SECONDARY — bottom-left echo ── */}
+      {/* ── VERY SOFT GREEN DEPTH — top edge only ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 5,
-        background: 'radial-gradient(ellipse 40% 35% at -5% 105%, #7a0000 0%, transparent 55%)',
-        opacity: 0.5,
+        background: 'linear-gradient(180deg, rgba(8,40,16,0.12) 0%, rgba(8,40,16,0.04) 18%, transparent 35%)',
+      }} />
+
+      {/* ── VERY SOFT RED DEPTH — bottom edge only ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 6,
+        background: 'linear-gradient(0deg, rgba(120,0,0,0.09) 0%, rgba(120,0,0,0.03) 18%, transparent 35%)',
       }} />
 
       {/* ── SVG GEOMETRIC SHAPES ── */}
       <svg style={{
         position: 'fixed', inset: 0, width: '100%', height: '100%',
-        zIndex: 6, pointerEvents: 'none',
+        zIndex: 7, pointerEvents: 'none',
       }} xmlns="http://www.w3.org/2000/svg">
-
-        {/* Concentric circles top-left */}
-        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
-
-        {/* Concentric circles bottom-right */}
-        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
-
-        {/* Floating rectangles */}
+        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,80,20,0.07)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,80,20,0.05)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,80,20,0.04)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.07)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.05)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
         <rect x="8%" y="12%" width="55" height="55" rx="14"
-          fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1.5"
+          fill="none" stroke="rgba(0,80,20,0.08)" strokeWidth="1.5"
           transform="rotate(20 100 150)"/>
         <rect x="82%" y="8%" width="70" height="70" rx="18"
-          fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1.5"
+          fill="none" stroke="rgba(140,0,0,0.08)" strokeWidth="1.5"
           transform="rotate(-15 1150 120)"/>
         <rect x="75%" y="65%" width="45" height="45" rx="10"
-          fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1"
+          fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1"
           transform="rotate(30 1050 550)"/>
         <rect x="5%" y="70%" width="60" height="60" rx="12"
-          fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1"
+          fill="none" stroke="rgba(140,0,0,0.06)" strokeWidth="1"
           transform="rotate(-25 80 600)"/>
-
-        {/* Triangles */}
         <polygon points="150,60 190,140 110,140"
-          fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,80,20,0.07)" strokeWidth="1.5"/>
         <polygon points="1150,500 1200,590 1100,590"
-          fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5"/>
-
-        {/* Hexagons */}
+          fill="none" stroke="rgba(140,0,0,0.07)" strokeWidth="1.5"/>
         <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
-          fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,80,20,0.08)" strokeWidth="1.5"/>
         <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
-          fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1.5"/>
-
-        {/* Flowing curves */}
+          fill="none" stroke="rgba(140,0,0,0.08)" strokeWidth="1.5"/>
         <path d="M 0 500 Q 350 350 700 480 T 1400 420"
-          fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,80,20,0.05)" strokeWidth="1.5"/>
         <path d="M 0 600 Q 400 450 750 560 T 1400 500"
-          fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
-
-        {/* Accent dots */}
-        <circle cx="10%" cy="25%" r="4" fill="rgba(255,255,255,0.15)"/>
-        <circle cx="14%" cy="40%" r="3" fill="rgba(255,255,255,0.10)"/>
-        <circle cx="88%" cy="20%" r="5" fill="rgba(255,255,255,0.15)"/>
-        <circle cx="92%" cy="38%" r="3" fill="rgba(255,255,255,0.10)"/>
-        <circle cx="6%" cy="75%" r="4" fill="rgba(255,255,255,0.10)"/>
-        <circle cx="94%" cy="72%" r="4" fill="rgba(255,255,255,0.10)"/>
-        <circle cx="45%" cy="8%" r="3" fill="rgba(0,0,0,0.08)"/>
-        <circle cx="55%" cy="92%" r="3" fill="rgba(0,0,0,0.08)"/>
-
-        {/* Connecting lines */}
+          fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="10%" cy="25%" r="3.5" fill="rgba(0,80,20,0.12)"/>
+        <circle cx="14%" cy="40%" r="2.5" fill="rgba(0,80,20,0.09)"/>
+        <circle cx="88%" cy="20%" r="4" fill="rgba(140,0,0,0.12)"/>
+        <circle cx="92%" cy="38%" r="2.5" fill="rgba(140,0,0,0.09)"/>
+        <circle cx="6%" cy="75%" r="3.5" fill="rgba(140,0,0,0.09)"/>
+        <circle cx="94%" cy="72%" r="3.5" fill="rgba(0,80,20,0.09)"/>
         <line x1="10%" y1="25%" x2="14%" y2="40%"
-          stroke="rgba(255,255,255,0.08)" strokeWidth="0.8"/>
+          stroke="rgba(0,80,20,0.08)" strokeWidth="0.8"/>
         <line x1="88%" y1="20%" x2="92%" y2="38%"
-          stroke="rgba(255,255,255,0.08)" strokeWidth="0.8"/>
+          stroke="rgba(140,0,0,0.08)" strokeWidth="0.8"/>
       </svg>
 
       {/* ── NAVBAR ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2.5rem', height: '64px',
-        background: 'rgba(253,248,240,0.25)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderBottom: '1px solid rgba(255,255,255,0.18)',
-        boxShadow: '0 1px 0 rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.08)',
+        padding: '0 2.5rem', height: '66px',
+        background: '#082010',
+        borderBottom: 'none',
+        boxShadow: '0 2px 24px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.04)',
       }}>
-        {/* Kenyan flag stripe along top of navbar */}
+
+        {/* Kenyan flag stripe — top of navbar */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '2.5px',
-          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33%, #1a1a1a 33%, #1a1a1a 66%, #006600 66%, #006600 100%)',
+          position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.3%, #1a1a1a 33.3%, #1a1a1a 66.6%, #006600 66.6%, #006600 100%)',
+        }} />
+
+        {/* Bottom highlight line */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
         }} />
 
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '34px', height: '34px', borderRadius: '9px',
-            background: 'linear-gradient(135deg, #BB0000 0%, #7a0000 100%)',
+            width: '36px', height: '36px', borderRadius: '10px',
+            background: 'linear-gradient(135deg, #cc0000 0%, #880000 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 2px 12px rgba(187,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)',
+            boxShadow: '0 0 0 1px rgba(255,255,255,0.1), 0 4px 16px rgba(187,0,0,0.5)',
             flexShrink: 0,
           }}>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
                 fill="rgba(255,255,255,0.95)"/>
             </svg>
           </div>
-          <span style={{
-            fontSize: '17px', fontWeight: '800',
-            color: '#1a1a1a', letterSpacing: '-0.4px',
-          }}>
-            Phish<span style={{ color: '#006600' }}>Ripoti</span>
-          </span>
+
+          {/* WordMark */}
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <span style={{
+              fontSize: '19px',
+              fontWeight: '800',
+              letterSpacing: '-0.5px',
+              color: 'transparent',
+              background: 'linear-gradient(135deg, #ffffff 0%, #a8d5b0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              Phish<span style={{
+                background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}>Ripoti</span>
+            </span>
+            <span style={{
+              fontSize: '9px',
+              letterSpacing: '0.18em',
+              color: 'rgba(255,255,255,0.35)',
+              textTransform: 'uppercase',
+              marginTop: '1px',
+            }}>
+              Threat Intelligence
+            </span>
+          </div>
         </div>
 
         {/* IT Manager Portal button */}
         <button onClick={() => navigate('/it-login')} style={{
-          display: 'flex', alignItems: 'center', gap: '7px',
-          padding: '9px 18px', borderRadius: '9px',
-          background: 'rgba(255,255,255,0.55)',
-          border: '1px solid rgba(0,0,0,0.12)',
-          color: '#1a1a1a', fontSize: '13px',
-          fontWeight: '600', cursor: 'pointer',
-          backdropFilter: 'blur(8px)',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+          display: 'flex', alignItems: 'center', gap: '8px',
+          padding: '10px 20px', borderRadius: '9px',
+          background: 'rgba(255,255,255,0.07)',
+          border: '1px solid rgba(255,255,255,0.14)',
+          color: 'rgba(255,255,255,0.85)',
+          fontSize: '13px', fontWeight: '600',
+          cursor: 'pointer', letterSpacing: '0.02em',
           transition: 'all 0.18s ease',
-          letterSpacing: '0.01em',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
         }}
           onMouseOver={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.85)';
-            e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.12)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+            e.currentTarget.style.color = '#ffffff';
             e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.12)';
           }}
           onMouseOut={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.55)';
-            e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.08)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
+            e.currentTarget.style.color = 'rgba(255,255,255,0.85)';
             e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.08)';
           }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8"/>
-            <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
           </svg>
           IT Manager Portal
         </button>
@@ -187,11 +226,11 @@ const Landing = () => {
         {/* Badge */}
         <div className="flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-sm font-medium"
           style={{
-            background: 'rgba(255,255,255,0.75)',
-            border: '1px solid rgba(0,0,0,0.1)',
+            background: 'rgba(255,255,255,0.82)',
+            border: '1px solid rgba(0,0,0,0.09)',
             color: '#444444',
             backdropFilter: 'blur(12px)',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
           }}>
           <div className="flex gap-1">
             <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#BB0000' }}/>
@@ -246,11 +285,11 @@ const Landing = () => {
           <button disabled
             className="flex items-center gap-2 px-7 py-4 rounded-xl font-semibold transition-all cursor-not-allowed"
             style={{
-              background:'rgba(255,255,255,0.5)',
+              background:'rgba(255,255,255,0.6)',
               color:'#aaaaaa',
               border:'1px solid rgba(0,0,0,0.08)',
               fontSize:'15px',
-              backdropFilter: 'blur(8px)',
+              backdropFilter:'blur(8px)',
             }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" stroke="#cccccc" strokeWidth="2"/>
@@ -270,30 +309,30 @@ const Landing = () => {
         {/* Assurance Cards */}
         <div className="flex flex-wrap gap-5 justify-center max-w-3xl">
           {[
-            { icon:'🔒', title:'Your identity is never stored', desc:'Fully anonymous by design. No name, no email, no IP address stored.', border:'rgba(187,0,0,0.15)', hover:'rgba(187,0,0,0.06)' },
-            { icon:'⚡', title:'AI analyses your report instantly', desc:'GPT-4o scans for phishing signals and risk tier in real time.', border:'rgba(0,0,0,0.08)', hover:'rgba(255,255,255,0.9)' },
-            { icon:'🇰🇪', title:'Built for Kenya', desc:'Tailored for M-Pesa fraud, KCB, Equity Bank, and local threat patterns.', border:'rgba(0,102,0,0.15)', hover:'rgba(0,102,0,0.05)' }
+            { icon:'🔒', title:'Your identity is never stored', desc:'Fully anonymous by design. No name, no email, no IP address stored.', border:'rgba(187,0,0,0.12)', hover:'rgba(255,220,220,0.5)' },
+            { icon:'⚡', title:'AI analyses your report instantly', desc:'GPT-4o scans for phishing signals and risk tier in real time.', border:'rgba(0,0,0,0.07)', hover:'rgba(255,255,255,0.95)' },
+            { icon:'🇰🇪', title:'Built for Kenya', desc:'Tailored for M-Pesa fraud, KCB, Equity Bank, and local threat patterns.', border:'rgba(0,102,0,0.12)', hover:'rgba(220,255,220,0.5)' }
           ].map((card, i) => (
             <div key={i} style={{
-              background:'rgba(255,255,255,0.72)',
+              background:'rgba(255,255,255,0.78)',
               border:`1px solid ${card.border}`,
               borderRadius:'16px', padding:'24px 20px',
               minWidth:'180px', maxWidth:'210px', flex:'1',
               textAlign:'center',
-              boxShadow:'0 4px 24px rgba(0,0,0,0.07)',
+              boxShadow:'0 4px 24px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)',
               backdropFilter:'blur(16px)',
               WebkitBackdropFilter:'blur(16px)',
               transition:'transform 0.2s, box-shadow 0.2s, background 0.2s',
             }}
               onMouseOver={e => {
                 e.currentTarget.style.transform='translateY(-4px)';
-                e.currentTarget.style.boxShadow='0 12px 36px rgba(0,0,0,0.12)';
+                e.currentTarget.style.boxShadow='0 16px 40px rgba(0,0,0,0.11)';
                 e.currentTarget.style.background=card.hover;
               }}
               onMouseOut={e => {
                 e.currentTarget.style.transform='translateY(0)';
-                e.currentTarget.style.boxShadow='0 4px 24px rgba(0,0,0,0.07)';
-                e.currentTarget.style.background='rgba(255,255,255,0.72)';
+                e.currentTarget.style.boxShadow='0 4px 24px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)';
+                e.currentTarget.style.background='rgba(255,255,255,0.78)';
               }}>
               <div style={{ fontSize:'28px', marginBottom:'10px' }}>{card.icon}</div>
               <div style={{ fontWeight:'700', fontSize:'14px', color:'#1a1a1a', marginBottom:'6px' }}>{card.title}</div>
