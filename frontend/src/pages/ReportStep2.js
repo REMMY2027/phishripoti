@@ -9,7 +9,6 @@ const departments = [
     label: 'Customer Service / Teller',
     icon: '🎧',
     desc: 'High target for M-Pesa impersonation and account takeover phishing.',
-    accent: '#22c55e',
     accentRaw: 'green',
   },
   {
@@ -17,7 +16,6 @@ const departments = [
     label: 'Finance & Accounts',
     icon: '📊',
     desc: 'Targeted by invoice fraud, payment diversion and CFO impersonation.',
-    accent: '#BB0000',
     accentRaw: 'red',
   },
   {
@@ -25,7 +23,6 @@ const departments = [
     label: 'Compliance / Risk',
     icon: '⚖️',
     desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
-    accent: '#22c55e',
     accentRaw: 'green',
   },
   {
@@ -33,7 +30,6 @@ const departments = [
     label: 'Loans / Credit Officer',
     icon: '💳',
     desc: 'At risk from fake loan documents and credential harvesting attacks.',
-    accent: '#BB0000',
     accentRaw: 'red',
   },
   {
@@ -41,7 +37,6 @@ const departments = [
     label: 'Operations',
     icon: '⚙️',
     desc: 'Targeted by system access phishing and fake IT support credential emails.',
-    accent: '#22c55e',
     accentRaw: 'green',
   },
   {
@@ -49,16 +44,7 @@ const departments = [
     label: 'Human Resources',
     icon: '👥',
     desc: 'Targeted by payroll diversion and fake employee document phishing.',
-    accent: '#BB0000',
     accentRaw: 'red',
-  },
-  {
-    id: 'other',
-    label: 'Other Department',
-    icon: '✏️',
-    desc: 'Not listed above — enter manually.',
-    accent: '#888888',
-    accentRaw: 'neutral',
   },
 ];
 
@@ -92,8 +78,6 @@ const ReportStep2 = () => {
   const handleNext = () => {
     if (selected) navigate('/report/step3');
   };
-
-  const isSelected = (dept) => selected === dept.label;
 
   return (
     <div style={{
@@ -292,31 +276,54 @@ const ReportStep2 = () => {
           }}>Step 2 of 4</span>
         </div>
 
-        <h2 style={{
-          color: '#1a1a1a', fontWeight: '800', fontSize: '22px',
-          margin: '0 0 5px', letterSpacing: '-0.4px',
-        }}>
-          Which department are you from?
-        </h2>
-        <p style={{
-          color: 'rgba(0,0,0,0.42)', fontSize: '13px',
-          margin: '0 0 22px', lineHeight: '1.6',
-        }}>
-          Your department helps us contextualise the threat. It is stripped before storage — never linked to your identity.
-        </p>
+        {/* ── HEADLINE with watermark ── */}
+        <div style={{ position: 'relative', marginBottom: '22px' }}>
+          <div style={{
+            position: 'absolute', top: '-14px', left: '-4px',
+            fontSize: '82px', fontWeight: '900',
+            color: 'transparent',
+            WebkitTextStroke: '1px rgba(0,102,0,0.06)',
+            letterSpacing: '-4px', lineHeight: 1,
+            pointerEvents: 'none', userSelect: 'none',
+            zIndex: 0,
+          }}>
+            DEPARTMENT
+          </div>
+          <h2 style={{
+            position: 'relative', zIndex: 1,
+            fontWeight: '800', fontSize: '22px',
+            margin: '0 0 6px', letterSpacing: '-0.4px',
+          }}>
+            <span style={{ color: '#1a1a1a' }}>Which </span>
+            <span style={{
+              color: 'transparent',
+              background: 'linear-gradient(90deg, #006600 0%, #004400 45%, #BB0000 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>department</span>
+            <span style={{ color: '#1a1a1a' }}> are you from?</span>
+          </h2>
+          <p style={{
+            position: 'relative', zIndex: 1,
+            color: 'rgba(0,0,0,0.42)', fontSize: '13px',
+            margin: 0, lineHeight: '1.6',
+          }}>
+            Your department helps us contextualise the threat. It is stripped before storage — never linked to your identity.
+          </p>
+        </div>
 
-        {/* ── 7-CARD GRID including Other ── */}
+        {/* ── 6 DEPARTMENT CARDS — 3 column grid ── */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '12px',
+          gap: '10px',
           width: '100%',
+          marginBottom: '10px',
         }}>
           {departments.map((dept) => {
-            const sel = isSelected(dept) || (dept.id === 'other' && showOtherInput);
+            const sel = selected === dept.label;
             const hov = hovered === dept.id;
-            const isOther = dept.id === 'other';
-
             return (
               <div
                 key={dept.id}
@@ -324,35 +331,30 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '13px',
-                  padding: isOther ? '14px 16px' : '16px 16px 14px',
+                  borderRadius: '12px',
+                  padding: '14px 14px 12px',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
-                  // Deep dark — almost black with warm undertone
                   background: sel
+                    ? 'rgba(10,14,10,0.98)'
+                    : hov
                     ? 'rgba(12,16,12,0.97)'
-                    : hov
-                    ? 'rgba(14,19,14,0.95)'
-                    : 'rgba(16,20,15,0.90)',
+                    : 'rgba(14,18,13,0.95)',
                   border: sel
-                    ? `1px solid ${dept.accentRaw === 'green' ? 'rgba(34,197,94,0.35)' : dept.accentRaw === 'red' ? 'rgba(187,0,0,0.35)' : 'rgba(255,255,255,0.18)'}`
+                    ? `1px solid ${dept.accentRaw === 'green' ? 'rgba(34,197,94,0.32)' : 'rgba(187,0,0,0.32)'}`
                     : hov
-                    ? '1px solid rgba(255,255,255,0.10)'
-                    : '1px solid rgba(255,255,255,0.06)',
+                    ? '1px solid rgba(255,255,255,0.09)'
+                    : '1px solid rgba(255,255,255,0.05)',
                   transform: hov && !sel ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'all 0.18s ease',
                   boxShadow: sel
                     ? dept.accentRaw === 'green'
-                      ? '0 0 0 1px rgba(34,197,94,0.10), 0 8px 28px rgba(0,0,0,0.30)'
-                      : dept.accentRaw === 'red'
-                      ? '0 0 0 1px rgba(187,0,0,0.10), 0 8px 28px rgba(0,0,0,0.30)'
-                      : '0 8px 28px rgba(0,0,0,0.25)'
+                      ? '0 0 0 1px rgba(34,197,94,0.08), 0 6px 24px rgba(0,0,0,0.32)'
+                      : '0 0 0 1px rgba(187,0,0,0.08), 0 6px 24px rgba(0,0,0,0.32)'
                     : hov
-                    ? '0 6px 24px rgba(0,0,0,0.22)'
-                    : '0 2px 12px rgba(0,0,0,0.18)',
-                  // Last card (Other) spans behaviour handled by grid
-                  gridColumn: isOther && departments.length % 3 === 1 ? 'span 3' : 'auto',
+                    ? '0 4px 20px rgba(0,0,0,0.25)'
+                    : '0 2px 10px rgba(0,0,0,0.20)',
                 }}>
 
                 {/* Left accent strip */}
@@ -361,10 +363,8 @@ const ReportStep2 = () => {
                   width: '3px', height: '100%',
                   background: dept.accentRaw === 'green'
                     ? sel ? 'linear-gradient(180deg, #4ade80, #22c55e)' : '#22c55e'
-                    : dept.accentRaw === 'red'
-                    ? sel ? 'linear-gradient(180deg, #ff6b6b, #BB0000)' : '#BB0000'
-                    : 'rgba(255,255,255,0.15)',
-                  opacity: sel ? 1 : hov ? 0.75 : 0.40,
+                    : sel ? 'linear-gradient(180deg, #ff6b6b, #BB0000)' : '#BB0000',
+                  opacity: sel ? 1 : hov ? 0.70 : 0.35,
                   transition: 'opacity 0.18s',
                 }} />
 
@@ -373,118 +373,148 @@ const ReportStep2 = () => {
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
                   background: sel
                     ? dept.accentRaw === 'green'
-                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)'
-                      : dept.accentRaw === 'red'
-                      ? 'linear-gradient(90deg, transparent, rgba(187,0,0,0.22), transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)'
-                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)',
+                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.20), transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.20), transparent)'
+                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)',
                 }} />
 
-                {isOther ? (
-                  // Other — horizontal compact layout
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '8px' }}>
-                    <div style={{
-                      width: '32px', height: '32px', borderRadius: '9px',
-                      background: 'rgba(255,255,255,0.06)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '15px', flexShrink: 0,
-                    }}>✏️</div>
-                    <div>
-                      <div style={{
-                        color: 'rgba(255,255,255,0.72)',
-                        fontWeight: '600', fontSize: '13px',
-                      }}>Other Department</div>
-                      <div style={{
-                        color: 'rgba(255,255,255,0.30)',
-                        fontSize: '11px',
-                      }}>Not listed above — enter manually</div>
-                    </div>
-                    <div style={{
-                      marginLeft: 'auto',
-                      color: hov ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.18)',
-                      fontSize: '14px', transition: 'color 0.18s',
-                      paddingRight: '4px',
-                    }}>→</div>
+                {/* Icon + checkmark */}
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginBottom: '8px', paddingLeft: '8px',
+                }}>
+                  <div style={{
+                    width: '32px', height: '32px', borderRadius: '9px',
+                    background: sel || hov ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', fontSize: '15px',
+                    transition: 'all 0.18s',
+                  }}>
+                    {dept.icon}
                   </div>
-                ) : (
-                  // Regular card — vertical layout
-                  <>
-                    {/* Icon + checkmark row */}
+                  {sel && (
                     <div style={{
-                      display: 'flex', justifyContent: 'space-between',
-                      alignItems: 'flex-start', marginBottom: '10px',
-                      paddingLeft: '8px',
-                    }}>
-                      <div style={{
-                        width: '36px', height: '36px', borderRadius: '10px',
-                        background: sel || hov
-                          ? 'rgba(255,255,255,0.08)'
-                          : 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        display: 'flex', alignItems: 'center',
-                        justifyContent: 'center', fontSize: '17px',
-                        transition: 'all 0.18s',
-                      }}>
-                        {dept.icon}
-                      </div>
-                      {sel && (
-                        <div style={{
-                          width: '18px', height: '18px', borderRadius: '50%',
-                          background: dept.accentRaw === 'green' ? '#22c55e' : '#BB0000',
-                          display: 'flex', alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '9px', color: '#fff', fontWeight: '800',
-                          boxShadow: dept.accentRaw === 'green'
-                            ? '0 2px 8px rgba(34,197,94,0.45)'
-                            : '0 2px 8px rgba(187,0,0,0.45)',
-                        }}>✓</div>
-                      )}
-                    </div>
+                      width: '16px', height: '16px', borderRadius: '50%',
+                      background: dept.accentRaw === 'green' ? '#22c55e' : '#BB0000',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '8px', color: '#fff', fontWeight: '800',
+                      boxShadow: dept.accentRaw === 'green'
+                        ? '0 2px 6px rgba(34,197,94,0.40)'
+                        : '0 2px 6px rgba(187,0,0,0.40)',
+                    }}>✓</div>
+                  )}
+                </div>
 
-                    {/* Label */}
-                    <div style={{
-                      paddingLeft: '8px',
-                      color: sel ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.78)',
-                      fontWeight: '700', fontSize: '13px',
-                      marginBottom: '5px', lineHeight: '1.3',
-                    }}>
-                      {dept.label}
-                    </div>
+                {/* Label */}
+                <div style={{
+                  paddingLeft: '8px',
+                  color: sel ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.75)',
+                  fontWeight: '700', fontSize: '12px',
+                  marginBottom: '4px', lineHeight: '1.3',
+                }}>
+                  {dept.label}
+                </div>
 
-                    {/* Description */}
-                    <div style={{
-                      paddingLeft: '8px',
-                      color: sel ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.28)',
-                      fontSize: '11px', lineHeight: '1.55',
-                    }}>
-                      {dept.desc}
-                    </div>
-                  </>
-                )}
+                {/* Description */}
+                <div style={{
+                  paddingLeft: '8px',
+                  color: sel ? 'rgba(255,255,255,0.38)' : 'rgba(255,255,255,0.25)',
+                  fontSize: '10px', lineHeight: '1.5',
+                }}>
+                  {dept.desc}
+                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Other input — appears below grid */}
+        {/* ── OTHER DEPARTMENT — one card width ── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '10px',
+          width: '100%',
+        }}>
+          <div
+            onClick={() => handleSelect({ id: 'other', label: '' })}
+            onMouseEnter={() => setHovered('other')}
+            onMouseLeave={() => setHovered(null)}
+            style={{
+              borderRadius: '12px',
+              padding: '12px 14px',
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              background: showOtherInput
+                ? 'rgba(10,14,10,0.98)'
+                : hovered === 'other'
+                ? 'rgba(12,16,12,0.97)'
+                : 'rgba(14,18,13,0.95)',
+              border: showOtherInput
+                ? '1px solid rgba(255,255,255,0.14)'
+                : hovered === 'other'
+                ? '1px solid rgba(255,255,255,0.09)'
+                : '1px dashed rgba(255,255,255,0.12)',
+              transition: 'all 0.18s ease',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.20)',
+            }}>
+
+            {/* Left accent strip */}
+            <div style={{
+              position: 'absolute', top: 0, left: 0,
+              width: '3px', height: '100%',
+              background: 'rgba(255,255,255,0.15)',
+              opacity: hovered === 'other' ? 0.6 : 0.25,
+              transition: 'opacity 0.18s',
+            }} />
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '8px' }}>
+              <div style={{
+                width: '32px', height: '32px', borderRadius: '9px',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.07)',
+                display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: '15px', flexShrink: 0,
+              }}>✏️</div>
+              <div>
+                <div style={{
+                  color: 'rgba(255,255,255,0.70)',
+                  fontWeight: '700', fontSize: '12px',
+                }}>Other Department</div>
+                <div style={{
+                  color: 'rgba(255,255,255,0.28)',
+                  fontSize: '10px',
+                }}>Not listed — enter manually</div>
+              </div>
+              <div style={{
+                marginLeft: 'auto',
+                color: hovered === 'other' ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.18)',
+                fontSize: '13px', transition: 'color 0.18s',
+              }}>→</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Other input */}
         {showOtherInput && (
           <div style={{
-            borderRadius: '13px', padding: '18px',
+            borderRadius: '12px', padding: '16px',
             border: '1px solid rgba(255,255,255,0.10)',
-            background: 'rgba(12,16,12,0.96)',
-            marginTop: '12px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+            background: 'rgba(10,14,10,0.98)',
+            marginTop: '10px',
+            boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
           }}>
             <div style={{
               color: 'rgba(255,255,255,0.85)',
-              fontWeight: '600', fontSize: '13px', marginBottom: '4px',
+              fontWeight: '600', fontSize: '13px', marginBottom: '3px',
             }}>
               Enter your department
             </div>
             <div style={{
               color: 'rgba(255,255,255,0.35)',
-              fontSize: '12px', marginBottom: '12px',
+              fontSize: '12px', marginBottom: '10px',
             }}>
               Type your department name — it will be stripped before storage.
             </div>
@@ -497,8 +527,8 @@ const ReportStep2 = () => {
                 background: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.10)',
                 borderRadius: '8px', color: '#ffffff',
-                padding: '10px 14px', fontSize: '13px',
-                outline: 'none', marginBottom: '12px',
+                padding: '9px 12px', fontSize: '13px',
+                outline: 'none', marginBottom: '10px',
                 boxSizing: 'border-box',
               }}
               onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
@@ -512,7 +542,7 @@ const ReportStep2 = () => {
                   background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
                   color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
                   border: 'none', borderRadius: '8px',
-                  padding: '8px 18px', fontSize: '13px', fontWeight: '600',
+                  padding: '8px 16px', fontSize: '13px', fontWeight: '600',
                   cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
                   transition: 'all 0.16s',
                 }}>
@@ -524,7 +554,7 @@ const ReportStep2 = () => {
                   background: 'transparent',
                   color: 'rgba(255,255,255,0.4)',
                   border: '1px solid rgba(255,255,255,0.10)',
-                  borderRadius: '8px', padding: '8px 18px',
+                  borderRadius: '8px', padding: '8px 16px',
                   fontSize: '13px', fontWeight: '600', cursor: 'pointer',
                 }}>
                 Cancel
@@ -533,12 +563,12 @@ const ReportStep2 = () => {
           </div>
         )}
 
-        {/* Selected confirmation — compact inline */}
+        {/* Selected confirmation */}
         {selected && (
           <div style={{
-            marginTop: '14px',
+            marginTop: '12px',
             display: 'inline-flex', alignItems: 'center', gap: '8px',
-            padding: '8px 14px', borderRadius: '8px',
+            padding: '7px 12px', borderRadius: '8px',
             background: 'rgba(34,197,94,0.08)',
             border: '1px solid rgba(34,197,94,0.18)',
             alignSelf: 'flex-start',
