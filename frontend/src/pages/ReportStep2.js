@@ -313,13 +313,13 @@ const ReportStep2 = () => {
           </p>
         </div>
 
-        {/* ── 6 DEPARTMENT CARDS ── */}
+        {/* ── 6 DEPARTMENT CARDS — same size as ReportStep1 + glass effect ── */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '10px',
+          gap: '12px',
           width: '100%',
-          marginBottom: '10px',
+          marginBottom: '12px',
         }}>
           {departments.map((dept) => {
             const sel = selected === dept.label;
@@ -331,31 +331,42 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '12px',
-                  padding: '14px 14px 12px',
+                  borderRadius: '13px',
+                  padding: '16px 16px 14px',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
+                  // Same darkness as ReportStep1 + glass
                   background: sel
-                    ? 'rgba(10,14,10,0.98)'
-                    : hov
                     ? 'rgba(12,16,12,0.97)'
-                    : 'rgba(14,18,13,0.95)',
-                  border: sel
-                    ? `1px solid ${dept.accentRaw === 'green' ? 'rgba(34,197,94,0.32)' : 'rgba(187,0,0,0.32)'}`
                     : hov
-                    ? '1px solid rgba(255,255,255,0.09)'
+                    ? 'rgba(14,19,14,0.95)'
+                    : 'rgba(16,20,15,0.90)',
+                  border: sel
+                    ? `1px solid ${dept.accentRaw === 'green' ? 'rgba(34,197,94,0.25)' : 'rgba(187,0,0,0.25)'}`
+                    : hov
+                    ? '1px solid rgba(255,255,255,0.08)'
                     : '1px solid rgba(255,255,255,0.05)',
                   transform: hov && !sel ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'all 0.18s ease',
                   boxShadow: sel
                     ? dept.accentRaw === 'green'
-                      ? '0 0 0 1px rgba(34,197,94,0.08), 0 6px 24px rgba(0,0,0,0.32)'
-                      : '0 0 0 1px rgba(187,0,0,0.08), 0 6px 24px rgba(0,0,0,0.32)'
+                      ? '0 0 0 1px rgba(34,197,94,0.10), 0 10px 32px rgba(0,0,0,0.30)'
+                      : '0 0 0 1px rgba(187,0,0,0.10), 0 10px 32px rgba(0,0,0,0.30)'
                     : hov
-                    ? '0 4px 20px rgba(0,0,0,0.25)'
-                    : '0 2px 10px rgba(0,0,0,0.20)',
+                    ? '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
+                    : '0 2px 12px rgba(0,0,0,0.18)',
+                  // Glass effect
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
                 }}>
+
+                {/* Glass sheen overlay */}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 100%)',
+                  pointerEvents: 'none', borderRadius: '13px',
+                }} />
 
                 {/* Left accent strip */}
                 <div style={{
@@ -373,8 +384,10 @@ const ReportStep2 = () => {
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
                   background: sel
                     ? dept.accentRaw === 'green'
-                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.20), transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.20), transparent)'
+                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.22), transparent)'
+                    : hov
+                    ? 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)'
                     : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)',
                 }} />
 
@@ -382,27 +395,29 @@ const ReportStep2 = () => {
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: '8px', paddingLeft: '8px',
+                  marginBottom: '10px', paddingLeft: '8px',
                 }}>
                   <div style={{
-                    width: '32px', height: '32px', borderRadius: '9px',
-                    background: sel || hov ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.07)',
+                    width: '36px', height: '36px', borderRadius: '10px',
+                    background: sel || hov
+                      ? 'rgba(255,255,255,0.08)'
+                      : 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.08)',
                     display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', fontSize: '15px',
+                    justifyContent: 'center', fontSize: '17px',
                     transition: 'all 0.18s',
                   }}>
                     {dept.icon}
                   </div>
                   {sel && (
                     <div style={{
-                      width: '16px', height: '16px', borderRadius: '50%',
+                      width: '18px', height: '18px', borderRadius: '50%',
                       background: dept.accentRaw === 'green' ? '#22c55e' : '#BB0000',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '8px', color: '#fff', fontWeight: '800',
+                      fontSize: '9px', color: '#fff', fontWeight: '800',
                       boxShadow: dept.accentRaw === 'green'
-                        ? '0 2px 6px rgba(34,197,94,0.40)'
-                        : '0 2px 6px rgba(187,0,0,0.40)',
+                        ? '0 2px 8px rgba(34,197,94,0.45)'
+                        : '0 2px 8px rgba(187,0,0,0.45)',
                     }}>✓</div>
                   )}
                 </div>
@@ -410,9 +425,9 @@ const ReportStep2 = () => {
                 {/* Label */}
                 <div style={{
                   paddingLeft: '8px',
-                  color: sel ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.75)',
-                  fontWeight: '700', fontSize: '12px',
-                  marginBottom: '4px', lineHeight: '1.3',
+                  color: sel ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.78)',
+                  fontWeight: '700', fontSize: '13px',
+                  marginBottom: '5px', letterSpacing: '-0.1px',
                 }}>
                   {dept.label}
                 </div>
@@ -420,8 +435,8 @@ const ReportStep2 = () => {
                 {/* Description */}
                 <div style={{
                   paddingLeft: '8px',
-                  color: sel ? 'rgba(255,255,255,0.38)' : 'rgba(255,255,255,0.25)',
-                  fontSize: '10px', lineHeight: '1.5',
+                  color: sel ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.28)',
+                  fontSize: '11px', lineHeight: '1.6',
                 }}>
                   {dept.desc}
                 </div>
@@ -434,7 +449,7 @@ const ReportStep2 = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '10px',
+          gap: '12px',
           width: '100%',
         }}>
           <div
@@ -442,24 +457,34 @@ const ReportStep2 = () => {
             onMouseEnter={() => setHovered('other')}
             onMouseLeave={() => setHovered(null)}
             style={{
-              borderRadius: '12px',
-              padding: '12px 14px',
+              borderRadius: '13px',
+              padding: '14px 16px',
               cursor: 'pointer',
               position: 'relative',
               overflow: 'hidden',
               background: showOtherInput
-                ? 'rgba(10,14,10,0.98)'
-                : hovered === 'other'
                 ? 'rgba(12,16,12,0.97)'
-                : 'rgba(14,18,13,0.95)',
+                : hovered === 'other'
+                ? 'rgba(14,19,14,0.95)'
+                : 'rgba(16,20,15,0.90)',
               border: showOtherInput
                 ? '1px solid rgba(255,255,255,0.14)'
                 : hovered === 'other'
-                ? '1px solid rgba(255,255,255,0.09)'
+                ? '1px solid rgba(255,255,255,0.08)'
                 : '1px dashed rgba(255,255,255,0.12)',
               transition: 'all 0.18s ease',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.20)',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
             }}>
+
+            {/* Glass sheen */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 100%)',
+              pointerEvents: 'none', borderRadius: '13px',
+            }} />
+
             <div style={{
               position: 'absolute', top: 0, left: 0,
               width: '3px', height: '100%',
@@ -467,28 +492,29 @@ const ReportStep2 = () => {
               opacity: hovered === 'other' ? 0.6 : 0.25,
               transition: 'opacity 0.18s',
             }} />
+
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '8px' }}>
               <div style={{
-                width: '32px', height: '32px', borderRadius: '9px',
+                width: '36px', height: '36px', borderRadius: '10px',
                 background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.07)',
+                border: '1px solid rgba(255,255,255,0.08)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '15px', flexShrink: 0,
+                justifyContent: 'center', fontSize: '17px', flexShrink: 0,
               }}>✏️</div>
               <div>
                 <div style={{
-                  color: 'rgba(255,255,255,0.70)',
-                  fontWeight: '700', fontSize: '12px',
+                  color: 'rgba(255,255,255,0.72)',
+                  fontWeight: '700', fontSize: '13px',
                 }}>Other Department</div>
                 <div style={{
-                  color: 'rgba(255,255,255,0.28)',
-                  fontSize: '10px',
+                  color: 'rgba(255,255,255,0.30)',
+                  fontSize: '11px',
                 }}>Not listed — enter manually</div>
               </div>
               <div style={{
                 marginLeft: 'auto',
-                color: hovered === 'other' ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.18)',
-                fontSize: '13px', transition: 'color 0.18s',
+                color: hovered === 'other' ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.20)',
+                fontSize: '14px', transition: 'color 0.18s',
               }}>→</div>
             </div>
           </div>
@@ -497,9 +523,11 @@ const ReportStep2 = () => {
         {/* Other input */}
         {showOtherInput && (
           <div style={{
-            borderRadius: '12px', padding: '16px',
+            borderRadius: '13px', padding: '16px',
             border: '1px solid rgba(255,255,255,0.10)',
-            background: 'rgba(10,14,10,0.98)',
+            background: 'rgba(12,16,12,0.97)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
             marginTop: '10px',
             boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
           }}>
