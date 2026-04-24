@@ -1,24 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import RiskBadge from '../components/RiskBadge';
 import { useReport } from '../context/ReportContext';
 import { useToast } from '../context/ToastContext';
+import Navbar from '../components/Navbar';
+import RiskBadge from '../components/RiskBadge';
 
 const Result = () => {
   const navigate = useNavigate();
   const { result, clearReport } = useReport();
   const { showToast } = useToast();
+  const [scoreAnimated, setScoreAnimated] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (result) {
+      setTimeout(() => setVisible(true), 100);
       if (result.riskLevel === 'HIGH') {
-        showToast('HIGH risk detected — IT Manager alerted via email', 'error');
+        showToast('HIGH risk detected — security team notified anonymously', 'error');
       } else if (result.riskLevel === 'MEDIUM') {
-        showToast('MEDIUM risk detected — exercise caution', 'warning');
+        showToast('MEDIUM risk — exercise caution with this email', 'warning');
       } else {
         showToast('Report submitted successfully', 'success');
       }
+      // Animate score counter
+      let current = 0;
+      const target = result.riskScore;
+      const increment = target / 40;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          setScoreAnimated(target);
+          clearInterval(timer);
+        } else {
+          setScoreAnimated(Math.round(current));
+        }
+      }, 30);
+      return () => clearInterval(timer);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -27,147 +44,427 @@ const Result = () => {
     return null;
   }
 
-  const riskColors = {
-    HIGH: { bg: 'rgba(187,0,0,0.08)', border: 'rgba(187,0,0,0.3)', banner: '#BB0000', text: '#ff6b6b' },
-    MEDIUM: { bg: 'rgba(234,150,0,0.08)', border: 'rgba(234,150,0,0.3)', banner: '#ea9600', text: '#ffd166' },
-    LOW: { bg: 'rgba(0,102,0,0.08)', border: 'rgba(0,102,0,0.3)', banner: '#006600', text: '#69db7c' }
+  const riskConfig = {
+    HIGH: {
+      bg: 'linear-gradient(135deg, #2a0505 0%, #1a0a0a 100%)',
+      accent: '#BB0000',
+      accentLight: '#ff6666',
+      border: 'rgba(187,0,0,0.4)',
+      glow: 'rgba(187,0,0,0.3)',
+      label: 'High Risk Phishing Detected',
+      sublabel: 'Do NOT click any links or open any attachments. Delete this email immediately.',
+      gaugeColor: '#BB0000',
+      badgeBg: 'rgba(187,0,0,0.15)'
+    },
+    MEDIUM: {
+      bg: 'linear-gradient(135deg, #2a1a05 0%, #1a1505 100%)',
+      accent: '#ea9600',
+      accentLight: '#ffd166',
+      border: 'rgba(234,150,0,0.4)',
+      glow: 'rgba(234,150,0,0.3)',
+      label: 'Medium Risk — Exercise Caution',
+      sublabel: 'Do not click any links until you have verified the sender through official channels.',
+      gaugeColor: '#ea9600',
+      badgeBg: 'rgba(234,150,0,0.15)'
+    },
+    LOW: {
+      bg: 'linear-gradient(135deg, #051a05 0%, #0a150a 100%)',
+      accent: '#006600',
+      accentLight: '#69db7c',
+      border: 'rgba(0,102,0,0.4)',
+      glow: 'rgba(0,102,0,0.3)',
+      label: 'Low Risk — Likely Safe',
+      sublabel: 'Both analysis layers returned weak signals. The email appears legitimate.',
+      gaugeColor: '#006600',
+      badgeBg: 'rgba(0,102,0,0.15)'
+    }
   };
 
-  const colors = riskColors[result.riskLevel] || riskColors.LOW;
+  const config = riskConfig[result.riskLevel] || riskConfig.LOW;
+  const circumference = 2 * Math.PI * 52;
+  const strokeDashoffset = circumference * (1 - scoreAnimated / 100);
 
-  const handleHome = () => {
-    clearReport();
-    navigate('/');
-  };
+  const handleHome = () => { clearReport(); navigate('/'); };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#0a0d0a' }}>
+    <div style={{
+      minHeight: '100vh', display: 'flex', flexDirection: 'column',
+      background: '#050d05', opacity: visible ? 1 : 0,
+      transition: 'opacity 0.5s ease'
+    }}>
       <Navbar />
 
-      <div className="px-8 py-6" style={{ background: colors.banner }}>
-        <div className="flex items-center gap-6">
-          <div className="relative flex-shrink-0">
-            <svg width="90" height="90" viewBox="0 0 90 90">
-              <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="8"/>
-              <circle cx="45" cy="45" r="38" fill="none" stroke="white" strokeWidth="8"
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-ring {
+          0%, 100% { box-shadow: 0 0 0 0 ${config.glow}; }
+          50% { box-shadow: 0 0 0 12px transparent; }
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
+
+      {/* Hero risk banner */}
+      <div style={{
+        background: config.bg,
+        borderBottom: `1px solid ${config.border}`,
+        padding: '32px 40px',
+        position: 'relative', overflow: 'hidden'
+      }}>
+        {/* Background glow */}
+        <div style={{
+          position: 'absolute', top: '-60px', right: '-60px',
+          width: '300px', height: '300px', borderRadius: '50%',
+          background: `radial-gradient(circle, ${config.glow} 0%, transparent 70%)`,
+          pointerEvents: 'none'
+        }}/>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '32px', position: 'relative', zIndex: 1 }}>
+          {/* Circular gauge */}
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <svg width="130" height="130" viewBox="0 0 120 120">
+              {/* Background ring */}
+              <circle cx="60" cy="60" r="52"
+                fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8"/>
+              {/* Progress ring */}
+              <circle cx="60" cy="60" r="52"
+                fill="none" stroke={config.gaugeColor} strokeWidth="8"
                 strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 38}`}
-                strokeDashoffset={`${2 * Math.PI * 38 * (1 - result.riskScore / 100)}`}
-                transform="rotate(-90 45 45)"
-                style={{ transition: 'stroke-dashoffset 1s ease' }}/>
-              <text x="45" y="45" textAnchor="middle" dominantBaseline="middle"
-                fill="white" fontSize="16" fontWeight="bold">
-                {result.riskScore}%
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                transform="rotate(-90 60 60)"
+                style={{ transition: 'stroke-dashoffset 0.1s linear, stroke 0.3s' }}/>
+              {/* Inner glow ring */}
+              <circle cx="60" cy="60" r="44"
+                fill="none" stroke={config.gaugeColor} strokeWidth="1" opacity="0.2"/>
+              {/* Score text */}
+              <text x="60" y="55" textAnchor="middle"
+                fill="white" fontSize="22" fontWeight="800"
+                fontFamily="-apple-system, sans-serif">
+                {scoreAnimated}%
+              </text>
+              <text x="60" y="72" textAnchor="middle"
+                fill="rgba(255,255,255,0.4)" fontSize="10"
+                fontFamily="-apple-system, sans-serif">
+                RISK SCORE
               </text>
             </svg>
           </div>
-          <div>
-            <div className="text-white font-bold text-xl mb-1">
-              {result.riskLevel === 'HIGH' && 'High Risk Phishing Detected'}
-              {result.riskLevel === 'MEDIUM' && 'Medium Risk — Exercise Caution'}
-              {result.riskLevel === 'LOW' && 'Low Risk — Likely Safe'}
+
+          {/* Risk info */}
+          <div style={{ flex: 1 }}>
+            <div style={{ marginBottom: '10px' }}>
+              <RiskBadge level={result.riskLevel} />
             </div>
-            <div className="text-white text-sm mb-2" style={{ opacity: 0.85 }}>
-              {result.riskLevel === 'HIGH' && 'Do NOT click any links or open any attachments. Delete this email immediately.'}
-              {result.riskLevel === 'MEDIUM' && 'Exercise caution. Do not click any links until verified.'}
-              {result.riskLevel === 'LOW' && 'Both analysis layers returned weak signals. The email appears safe.'}
+            <h2 style={{
+              color: '#ffffff', fontWeight: '800', fontSize: '22px',
+              margin: '0 0 8px', letterSpacing: '-0.3px'
+            }}>
+              {config.label}
+            </h2>
+            <p style={{
+              color: 'rgba(255,255,255,0.6)', fontSize: '14px',
+              margin: '0 0 16px', lineHeight: '1.6', maxWidth: '480px'
+            }}>
+              {config.sublabel}
+            </p>
+
+            {/* Score breakdown pills */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{
+                padding: '5px 12px', borderRadius: '20px', fontSize: '12px',
+                fontWeight: '600', background: 'rgba(255,255,255,0.08)',
+                color: 'rgba(255,255,255,0.6)',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}>
+                🤖 GPT-4o: {Math.round(result.riskScore * 0.7)}% weight
+              </div>
+              <div style={{
+                padding: '5px 12px', borderRadius: '20px', fontSize: '12px',
+                fontWeight: '600', background: 'rgba(255,255,255,0.08)',
+                color: 'rgba(255,255,255,0.6)',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}>
+                🔍 Safe Browsing: {Math.round(result.riskScore * 0.3)}% weight
+              </div>
             </div>
-            <RiskBadge level={result.riskLevel} />
           </div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-8 py-6">
-        <div className="grid grid-cols-2 gap-4 max-w-3xl">
-          <div className="rounded-xl p-5 border" style={{ background: '#1a1f1a', borderColor: colors.border }}>
-            <div className="text-white font-semibold text-sm mb-3">What to do next</div>
-            <div className="space-y-2">
-              {result.recommendedActions?.map((action, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="text-xs font-bold mt-0.5 px-1.5 py-0.5 rounded"
-                    style={{ background: colors.banner, color: 'white', minWidth: '20px', textAlign: 'center' }}>
-                    {i + 1}
-                  </span>
-                  <span className="text-gray-300 text-sm leading-relaxed">{action}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* Content */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '32px 40px' }}>
+        <div style={{ maxWidth: '900px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
 
-          <div className="rounded-xl p-5 border" style={{ background: colors.bg, borderColor: colors.border }}>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: colors.text }}></div>
-              <div className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.text }}>
-                GPT-4o Analysis
+            {/* What to do next */}
+            <div style={{
+              borderRadius: '16px', padding: '22px',
+              background: 'rgba(255,255,255,0.03)',
+              border: `1px solid ${config.border}`,
+              animation: 'fadeInUp 0.4s ease 0.1s both'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '10px',
+                  background: config.badgeBg,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px'
+                }}>🚨</div>
+                <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '15px' }}>
+                  What to do next
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {result.recommendedActions?.map((action, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{
+                      width: '24px', height: '24px', borderRadius: '8px',
+                      background: config.badgeBg, border: `1px solid ${config.border}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '11px', fontWeight: '800', color: config.accentLight,
+                      flexShrink: 0, marginTop: '1px'
+                    }}>{i + 1}</div>
+                    <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '13px', lineHeight: '1.65' }}>
+                      {action}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="space-y-2">
-              {[
-                { label: 'Domain spoofing', value: result.aiAnalysis?.domainSpoofing },
-                { label: 'Urgency language', value: result.aiAnalysis?.urgencyLanguage },
-                { label: 'Credential harvesting', value: result.aiAnalysis?.credentialHarvesting },
-                { label: 'M-Pesa abuse signals', value: result.aiAnalysis?.mpesaAbuse }
-              ].map((item, i) => (
-                <div key={i} className="flex justify-between items-center py-1 border-b border-gray-800 last:border-0">
-                  <span className="text-gray-400 text-sm">{item.label}</span>
-                  <span className={`text-sm font-semibold ${item.value ? 'text-red-400' : 'text-green-400'}`}>
-                    {item.value ? 'Detected' : 'Not detected'}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-            <div className="text-white font-semibold text-sm mb-3">Threat Indicators</div>
-            <div className="space-y-2">
-              {result.reasons?.map((reason, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <span style={{ color: colors.text }} className="mt-1">⚠</span>
-                  <span className="text-gray-300 text-sm leading-relaxed">{reason}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-xl p-5 border border-gray-800" style={{ background: '#1a1f1a' }}>
-            <div className="flex items-center gap-2 mb-3">
-              <span style={{ fontSize: '16px' }}>💡</span>
-              <div className="text-white font-semibold text-sm">Did You Know?</div>
-            </div>
-            <div className="text-gray-300 text-sm leading-relaxed">{result.didYouKnow}</div>
-          </div>
-
-          <div className="col-span-2 rounded-xl p-5 border"
-            style={{ background: 'rgba(0,102,0,0.08)', borderColor: 'rgba(0,102,0,0.3)' }}>
-            <div className="text-center">
-              <div className="text-gray-400 text-sm mb-2">Anonymous Report Token</div>
-              <div className="font-mono text-lg font-bold text-green-400 px-4 py-3 rounded-lg inline-block"
-                style={{ background: 'rgba(0,102,0,0.15)' }}>
-                {result.tokenId}
+            {/* GPT-4o Analysis */}
+            <div style={{
+              borderRadius: '16px', padding: '22px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              animation: 'fadeInUp 0.4s ease 0.2s both'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <div style={{
+                  width: '8px', height: '8px', borderRadius: '50%',
+                  background: '#69db7c',
+                  boxShadow: '0 0 6px #69db7c'
+                }}></div>
+                <span style={{
+                  fontSize: '11px', fontWeight: '700', color: '#69db7c',
+                  textTransform: 'uppercase', letterSpacing: '0.08em'
+                }}>GPT-4o Analysis</span>
               </div>
-              <div className="text-gray-500 text-xs mt-2 leading-relaxed">
-                This token is not linked to your identity.
-                {result.alertSent && ' A HIGH risk alert has been sent to your IT security team.'}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {[
+                  { label: 'Domain spoofing', value: result.aiAnalysis?.domainSpoofing },
+                  { label: 'Urgency language', value: result.aiAnalysis?.urgencyLanguage },
+                  { label: 'Credential harvesting', value: result.aiAnalysis?.credentialHarvesting },
+                  { label: 'M-Pesa abuse signals', value: result.aiAnalysis?.mpesaAbuse }
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    display: 'flex', justifyContent: 'space-between',
+                    alignItems: 'center', padding: '10px 14px',
+                    borderRadius: '10px',
+                    background: item.value
+                      ? 'rgba(187,0,0,0.08)'
+                      : 'rgba(0,102,0,0.06)',
+                    border: item.value
+                      ? '1px solid rgba(187,0,0,0.2)'
+                      : '1px solid rgba(0,102,0,0.15)'
+                  }}>
+                    <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '13px' }}>
+                      {item.label}
+                    </span>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: '6px',
+                      padding: '3px 10px', borderRadius: '20px',
+                      background: item.value
+                        ? 'rgba(187,0,0,0.15)'
+                        : 'rgba(0,102,0,0.15)',
+                      border: item.value
+                        ? '1px solid rgba(187,0,0,0.3)'
+                        : '1px solid rgba(0,102,0,0.3)'
+                    }}>
+                      <div style={{
+                        width: '6px', height: '6px', borderRadius: '50%',
+                        background: item.value ? '#ff6666' : '#69db7c'
+                      }}></div>
+                      <span style={{
+                        fontSize: '11px', fontWeight: '700',
+                        color: item.value ? '#ff8080' : '#69db7c'
+                      }}>
+                        {item.value ? 'Detected' : 'Clear'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="flex gap-3 mt-6 max-w-3xl flex-wrap">
-          <button onClick={() => { clearReport(); navigate('/report/step1'); }}
-            className="px-5 py-2.5 rounded-lg font-semibold text-sm text-white"
-            style={{ background: '#BB0000' }}>
-            Report Another Email
-          </button>
-          <button onClick={handleHome}
-            className="px-5 py-2.5 rounded-lg font-semibold text-sm border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all">
-            Return to Home
-          </button>
-          <button onClick={() => navigate('/awareness')}
-            className="px-5 py-2.5 rounded-lg font-semibold text-sm border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all">
-            Go to Awareness Hub
-          </button>
+            {/* Threat indicators */}
+            <div style={{
+              borderRadius: '16px', padding: '22px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              animation: 'fadeInUp 0.4s ease 0.3s both'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '10px',
+                  background: 'rgba(187,0,0,0.12)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px'
+                }}>⚠️</div>
+                <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '15px' }}>
+                  Threat Indicators
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {result.reasons?.map((reason, i) => (
+                  <div key={i} style={{
+                    display: 'flex', alignItems: 'flex-start', gap: '10px',
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(187,0,0,0.06)',
+                    border: '1px solid rgba(187,0,0,0.12)'
+                  }}>
+                    <span style={{ color: config.accentLight, fontSize: '12px', marginTop: '2px', flexShrink: 0 }}>▸</span>
+                    <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', lineHeight: '1.6' }}>
+                      {reason}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Did You Know */}
+            <div style={{
+              borderRadius: '16px', padding: '22px',
+              background: 'linear-gradient(135deg, rgba(234,150,0,0.1), rgba(234,150,0,0.04))',
+              border: '1px solid rgba(234,150,0,0.25)',
+              animation: 'fadeInUp 0.4s ease 0.4s both'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+                <div style={{
+                  width: '36px', height: '36px', borderRadius: '10px',
+                  background: 'rgba(234,150,0,0.2)',
+                  border: '1px solid rgba(234,150,0,0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '18px'
+                }}>💡</div>
+                <div>
+                  <div style={{
+                    fontSize: '10px', fontWeight: '700', color: '#ffd166',
+                    textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px'
+                  }}>Did You Know?</div>
+                  <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '14px' }}>
+                    Awareness tip
+                  </div>
+                </div>
+              </div>
+              <p style={{
+                color: 'rgba(255,255,255,0.72)',
+                fontSize: '14px', lineHeight: '1.75', margin: 0
+              }}>
+                {result.didYouKnow}
+              </p>
+            </div>
+          </div>
+
+          {/* Anonymous token */}
+          <div style={{
+            borderRadius: '16px', padding: '24px',
+            background: 'linear-gradient(135deg, rgba(0,102,0,0.1), rgba(0,102,0,0.04))',
+            border: '1px solid rgba(0,102,0,0.3)',
+            marginBottom: '24px', textAlign: 'center',
+            animation: 'fadeInUp 0.4s ease 0.5s both',
+            position: 'relative', overflow: 'hidden'
+          }}>
+            <div style={{
+              position: 'absolute', top: '-30px', right: '-30px',
+              width: '120px', height: '120px', borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(0,102,0,0.15) 0%, transparent 70%)',
+              pointerEvents: 'none'
+            }}/>
+            <div style={{
+              fontSize: '11px', fontWeight: '700', color: 'rgba(0,102,0,0.8)',
+              textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px'
+            }}>
+              🔐 Anonymous Report Token
+            </div>
+            <div style={{
+              display: 'inline-block',
+              fontFamily: 'monospace', fontSize: '20px', fontWeight: '800',
+              color: '#69db7c', letterSpacing: '0.15em',
+              padding: '12px 28px', borderRadius: '12px',
+              background: 'rgba(0,102,0,0.12)',
+              border: '1px solid rgba(0,102,0,0.3)',
+              marginBottom: '10px',
+              backgroundImage: 'linear-gradient(90deg, rgba(0,102,0,0.12), rgba(0,150,0,0.15), rgba(0,102,0,0.12))',
+              backgroundSize: '200% 100%',
+              animation: 'shimmer 3s linear infinite'
+            }}>
+              {result.tokenId}
+            </div>
+            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', lineHeight: '1.6' }}>
+              This token cannot be traced back to your identity in any way.
+              {result.alertSent && (
+                <span style={{
+                  display: 'block', marginTop: '6px',
+                  color: '#ff8080', fontWeight: '600'
+                }}>
+                  ⚡ HIGH risk alert sent to security team anonymously
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', animation: 'fadeInUp 0.4s ease 0.6s both' }}>
+            <button
+              onClick={() => { clearReport(); navigate('/report/step1'); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '14px 24px', borderRadius: '12px',
+                fontWeight: '700', fontSize: '14px', color: '#ffffff',
+                background: 'linear-gradient(135deg, #BB0000, #880000)',
+                border: '1px solid rgba(255,100,100,0.2)',
+                cursor: 'pointer', transition: 'all 0.2s',
+                boxShadow: '0 4px 16px rgba(187,0,0,0.3)'
+              }}
+              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(187,0,0,0.4)'; }}
+              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(187,0,0,0.3)'; }}>
+              Report Another Email
+            </button>
+            <button
+              onClick={handleHome}
+              style={{
+                padding: '14px 24px', borderRadius: '12px',
+                fontWeight: '600', fontSize: '14px',
+                color: 'rgba(255,255,255,0.7)',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                cursor: 'pointer', transition: 'all 0.2s'
+              }}
+              onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+              onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}>
+              Return to Home
+            </button>
+            <button
+              onClick={() => navigate('/awareness')}
+              style={{
+                padding: '14px 24px', borderRadius: '12px',
+                fontWeight: '600', fontSize: '14px',
+                color: '#69db7c',
+                background: 'rgba(0,102,0,0.08)',
+                border: '1px solid rgba(0,102,0,0.25)',
+                cursor: 'pointer', transition: 'all 0.2s'
+              }}
+              onMouseOver={e => e.currentTarget.style.background = 'rgba(0,102,0,0.15)'}
+              onMouseOut={e => e.currentTarget.style.background = 'rgba(0,102,0,0.08)'}>
+              Go to Awareness Hub
+            </button>
+          </div>
         </div>
       </div>
     </div>
