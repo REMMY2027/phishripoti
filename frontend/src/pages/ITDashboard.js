@@ -110,12 +110,15 @@ const ITDashboard = () => {
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 10);
 
-  // Shared styles
+  const BG = '#d4d9d4';       // main page background — darker green-grey
+  const CARD_BG = '#f0f2f0';  // stat cards
+  const PANEL_BG = '#f7f8f7'; // chart/table cards
+
   const card = {
     borderRadius: '16px',
-    background: '#f7f8f7',
+    background: PANEL_BG,
     border: '1px solid rgba(0,0,0,0.09)',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
     overflow: 'hidden',
   };
 
@@ -139,7 +142,7 @@ const ITDashboard = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#e8ebe8' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG }}>
         <div style={{ textAlign: 'center' }}>
           <svg style={{ animation: 'spin 1s linear infinite', margin: '0 auto 16px', display: 'block' }}
             width="36" height="36" viewBox="0 0 24 24" fill="none">
@@ -147,14 +150,14 @@ const ITDashboard = () => {
             <path d="M12 2a10 10 0 0 1 10 10" stroke="#BB0000" strokeWidth="3" strokeLinecap="round"/>
           </svg>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-          <div style={{ color: 'rgba(0,0,0,0.42)', fontSize: '14px', fontWeight: '600' }}>Loading dashboard...</div>
+          <div style={{ color: 'rgba(0,0,0,0.45)', fontSize: '14px', fontWeight: '600' }}>Loading dashboard...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#e8ebe8' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: BG }}>
 
       {/* Kenyan flag stripe */}
       <div style={{ height: '4px', display: 'flex', flexShrink: 0 }}>
@@ -170,7 +173,7 @@ const ITDashboard = () => {
         background: '#ffffff',
         borderBottom: '1px solid rgba(0,0,0,0.09)',
         position: 'sticky', top: 0, zIndex: 50,
-        boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
+        boxShadow: '0 2px 20px rgba(0,0,0,0.09)',
         flexShrink: 0,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -246,7 +249,7 @@ const ITDashboard = () => {
             background: '#f4f5f4', cursor: 'pointer', transition: 'all 0.15s',
             fontWeight: '700',
           }}
-            onMouseOver={e => e.currentTarget.style.background = '#ececec'}
+            onMouseOver={e => e.currentTarget.style.background = '#e8ebe8'}
             onMouseOut={e => e.currentTarget.style.background = '#f4f5f4'}>
             ↻ Refresh
           </button>
@@ -273,7 +276,7 @@ const ITDashboard = () => {
             <h2 style={{ color: '#111111', fontWeight: '900', fontSize: '26px', margin: '0 0 5px', letterSpacing: '-0.6px' }}>
               Security Dashboard
             </h2>
-            <p style={{ color: 'rgba(0,0,0,0.45)', fontSize: '13px', margin: 0, fontWeight: '500' }}>
+            <p style={{ color: 'rgba(0,0,0,0.48)', fontSize: '13px', margin: 0, fontWeight: '500' }}>
               {new Date().toLocaleDateString('en-KE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · East Africa Time
             </p>
           </div>
@@ -309,9 +312,9 @@ const ITDashboard = () => {
             ].map((s, i) => (
               <div key={i} style={{
                 borderRadius: '16px',
-                background: '#f0f2f0',
+                background: CARD_BG,
                 border: '1px solid rgba(0,0,0,0.09)',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
                 overflow: 'hidden', display: 'flex',
               }}>
                 <div style={{ width: '5px', flexShrink: 0, background: s.borderColor }}/>
@@ -341,7 +344,7 @@ const ITDashboard = () => {
         {/* ── TABS ── */}
         <div style={{
           display: 'flex', gap: '2px', marginBottom: '20px',
-          background: 'rgba(0,0,0,0.08)',
+          background: 'rgba(0,0,0,0.10)',
           borderRadius: '12px', padding: '4px',
           width: 'fit-content',
           border: '1px solid rgba(0,0,0,0.08)',
@@ -549,7 +552,7 @@ const ITDashboard = () => {
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Search by token ID or department..."
                   style={{
-                    width: '100%', background: '#f0f2f0',
+                    width: '100%', background: CARD_BG,
                     border: '1px solid rgba(0,0,0,0.10)',
                     borderRadius: '10px', color: '#111',
                     padding: '10px 14px 10px 36px', fontSize: '13px',
@@ -568,7 +571,7 @@ const ITDashboard = () => {
                         : level === 'MEDIUM' ? '#d97706'
                         : level === 'LOW' ? '#006600'
                         : '#111111'
-                      : '#f0f2f0',
+                      : CARD_BG,
                     color: riskFilter === level ? '#fff' : 'rgba(0,0,0,0.55)',
                     border: '1px solid rgba(0,0,0,0.10)',
                     boxShadow: riskFilter === level ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
@@ -586,7 +589,7 @@ const ITDashboard = () => {
               <button onClick={fetchData} style={{
                 fontSize: '12px', color: 'rgba(0,0,0,0.55)',
                 border: '1px solid rgba(0,0,0,0.12)', borderRadius: '9px',
-                padding: '9px 16px', background: '#f0f2f0', cursor: 'pointer', fontWeight: '800',
+                padding: '9px 16px', background: CARD_BG, cursor: 'pointer', fontWeight: '800',
               }}>↻ Refresh</button>
             </div>
 
@@ -594,10 +597,10 @@ const ITDashboard = () => {
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#ebebeb' }}>
+                    <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.09)', background: '#e4e7e4' }}>
                       {['Token ID', 'Department', 'Risk', 'Score', 'Header', 'Date', 'Status'].map(h => (
                         <th key={h} style={{
-                          textAlign: 'left', color: 'rgba(0,0,0,0.55)',
+                          textAlign: 'left', color: 'rgba(0,0,0,0.58)',
                           fontSize: '10px', fontWeight: '800', padding: '13px 20px',
                           textTransform: 'uppercase', letterSpacing: '0.09em',
                         }}>{h}</th>
@@ -687,7 +690,7 @@ const ITDashboard = () => {
                 { label: 'Active Modules', value: Object.keys(awarenessStats?.byModule || {}).length, color: '#111111', icon: '📚', sub: 'Training areas', border: '#333333' },
               ].map((s, i) => (
                 <div key={i} style={{
-                  borderRadius: '16px', background: '#f0f2f0',
+                  borderRadius: '16px', background: CARD_BG,
                   border: '1px solid rgba(0,0,0,0.09)',
                   boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
                   overflow: 'hidden', display: 'flex',
@@ -734,16 +737,16 @@ const ITDashboard = () => {
           </div>
         )}
 
-        <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+        <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid rgba(0,0,0,0.09)' }}>
           <button onClick={() => navigate('/')} style={{
             display: 'flex', alignItems: 'center', gap: '7px',
-            background: '#f0f2f0', border: '1px solid rgba(0,0,0,0.10)',
+            background: CARD_BG, border: '1px solid rgba(0,0,0,0.10)',
             borderRadius: '9px', padding: '10px 20px',
             color: 'rgba(0,0,0,0.50)', fontSize: '12px', fontWeight: '800',
             cursor: 'pointer', transition: 'all 0.15s',
           }}
-            onMouseOver={e => e.currentTarget.style.background = '#e8ebe8'}
-            onMouseOut={e => e.currentTarget.style.background = '#f0f2f0'}>
+            onMouseOver={e => e.currentTarget.style.background = BG}
+            onMouseOut={e => e.currentTarget.style.background = CARD_BG}>
             ← Back to PhishRipoti
           </button>
         </div>
