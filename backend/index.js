@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const awarenessRoutes = require('./routes/awareness');
 
 const app = express();
+app.set('trust proxy', 1);
 
 // CORS
 app.use(cors({
