@@ -54,49 +54,63 @@ const ReportStep1 = () => {
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* ── BASE — warm parchment ── */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#c8bfa8' }} />
+      {/* ── BASE — pure white ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#ffffff' }} />
 
-      {/* ── STRONG CENTRE SPOTLIGHT ── */}
+      {/* ── SUBTLE RADIAL DEPTH — centre slightly warmer ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse 65% 60% at 50% 40%, rgba(255,252,245,0.98) 0%, rgba(250,244,232,0.95) 20%, rgba(238,230,212,0.88) 42%, rgba(210,198,175,0.60) 65%, transparent 100%)',
+        background: 'radial-gradient(ellipse 70% 65% at 50% 42%, rgba(248,250,248,1) 0%, rgba(244,246,244,0.95) 40%, rgba(236,240,236,0.80) 70%, rgba(220,226,220,0.50) 100%)',
       }} />
 
-      {/* ── DEEP WARM VIGNETTE ── */}
+      {/* ── VERY FAINT GREEN TOP ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 110% 110% at 50% 50%, transparent 42%, rgba(100,80,45,0.32) 75%, rgba(70,52,22,0.55) 100%)',
+        background: 'linear-gradient(180deg, rgba(0,60,10,0.04) 0%, transparent 25%)',
       }} />
 
-      {/* ── TOP GREEN BAND ── */}
+      {/* ── VERY FAINT RED BOTTOM ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 3,
-        background: 'linear-gradient(180deg, rgba(3,22,6,0.30) 0%, rgba(3,22,6,0.10) 16%, transparent 32%)',
+        background: 'linear-gradient(0deg, rgba(100,0,0,0.04) 0%, transparent 25%)',
       }} />
 
-      {/* ── BOTTOM RED BAND ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 4,
-        background: 'linear-gradient(0deg, rgba(80,0,0,0.24) 0%, rgba(80,0,0,0.08) 16%, transparent 32%)',
-      }} />
-
-      {/* ── DIAGONAL LIGHT RAY ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 5,
-        background: 'linear-gradient(135deg, rgba(255,252,240,0.16) 0%, rgba(255,252,240,0.05) 30%, transparent 55%)',
-      }} />
+      {/* ── SUBTLE SVG TEXTURE ── */}
+      <svg style={{
+        position: 'fixed', inset: 0, width: '100%', height: '100%',
+        zIndex: 4, pointerEvents: 'none',
+      }} xmlns="http://www.w3.org/2000/svg">
+        {/* Transaction flow curves */}
+        <path d="M -100 300 Q 200 180 500 320 T 1100 280 T 1600 300"
+          fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1.5"/>
+        <path d="M -100 450 Q 250 330 600 460 T 1200 400"
+          fill="none" stroke="rgba(0,80,20,0.03)" strokeWidth="1"/>
+        <path d="M 0 600 Q 350 480 750 600 T 1400 560"
+          fill="none" stroke="rgba(140,0,0,0.03)" strokeWidth="1"/>
+        {/* Corner arcs */}
+        <circle cx="-60" cy="120" r="220" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1"/>
+        <circle cx="-60" cy="120" r="160" fill="none" stroke="rgba(0,100,30,0.03)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="140" fill="none" stroke="rgba(140,0,0,0.03)" strokeWidth="1"/>
+        {/* Network dots */}
+        <circle cx="8%" cy="22%" r="2.5" fill="rgba(0,100,30,0.08)"/>
+        <circle cx="13%" cy="42%" r="1.8" fill="rgba(0,100,30,0.06)"/>
+        <circle cx="89%" cy="20%" r="2.5" fill="rgba(140,0,0,0.08)"/>
+        <circle cx="93%" cy="38%" r="1.8" fill="rgba(140,0,0,0.06)"/>
+        <line x1="8%" y1="22%" x2="13%" y2="42%" stroke="rgba(0,100,30,0.05)" strokeWidth="0.7"/>
+        <line x1="89%" y1="20%" x2="93%" y2="38%" stroke="rgba(140,0,0,0.05)" strokeWidth="0.7"/>
+      </svg>
 
       {/* ── NAIROBI SKYLINE ── */}
       <div style={{
         position: 'fixed', bottom: '-30px', right: 0,
         width: '580px', height: '220px',
-        zIndex: 6, pointerEvents: 'none',
-        WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
-        maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
+        zIndex: 5, pointerEvents: 'none',
+        WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
+        maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
       }}>
         <svg width="100%" height="100%" viewBox="0 0 580 260"
-          xmlns="http://www.w3.org/2000/svg" fill="#4a3a20" opacity="0.20">
+          xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
           <rect x="20" y="180" width="18" height="80" />
           <rect x="42" y="170" width="14" height="90" />
           <rect x="60" y="185" width="20" height="75" />
@@ -129,94 +143,61 @@ const ReportStep1 = () => {
         </svg>
       </div>
 
-      {/* ── DECORATIVE SVG ── */}
-      <svg style={{
-        position: 'fixed', inset: 0, width: '100%', height: '100%',
-        zIndex: 7, pointerEvents: 'none',
-      }} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,80,20,0.10)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,80,20,0.07)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,80,20,0.04)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.10)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.07)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
-        <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
-          fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1.5"/>
-        <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
-          fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1.5"/>
-        <path d="M 0 500 Q 350 350 700 480 T 1400 420"
-          fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1.5"/>
-        <path d="M 0 600 Q 400 450 750 560 T 1400 500"
-          fill="none" stroke="rgba(140,0,0,0.05)" strokeWidth="1"/>
-        <circle cx="10%" cy="25%" r="3" fill="rgba(0,80,20,0.12)"/>
-        <circle cx="14%" cy="40%" r="2" fill="rgba(0,80,20,0.09)"/>
-        <circle cx="88%" cy="20%" r="3.5" fill="rgba(140,0,0,0.12)"/>
-        <circle cx="92%" cy="38%" r="2" fill="rgba(140,0,0,0.09)"/>
-        <line x1="10%" y1="25%" x2="14%" y2="40%"
-          stroke="rgba(0,80,20,0.07)" strokeWidth="0.8"/>
-        <line x1="88%" y1="20%" x2="92%" y2="38%"
-          stroke="rgba(140,0,0,0.07)" strokeWidth="0.8"/>
-      </svg>
-
       {/* ── NAVBAR ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 2.5rem', height: '66px',
-        background: '#061508',
-        boxShadow: '0 2px 28px rgba(0,0,0,0.25)',
+        background: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06)',
         flexShrink: 0,
       }}>
+        {/* Kenyan flag stripe */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '6px',
-          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #111111 33.33%, #111111 66.66%, #006600 66.66%, #006600 100%)',
+          position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)',
         }} />
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)',
-        }} />
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
           <div style={{
-            width: '38px', height: '38px', borderRadius: '10px',
+            width: '36px', height: '36px', borderRadius: '9px',
             background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 0 1px rgba(255,80,80,0.18), 0 4px 16px rgba(187,0,0,0.50)',
+            boxShadow: '0 2px 10px rgba(187,0,0,0.30)',
             flexShrink: 0,
           }}>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
                 fill="rgba(255,255,255,0.95)"/>
             </svg>
           </div>
-          <span style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '-0.5px', lineHeight: 1 }}>
-            <span style={{ color: '#ffffff' }}>Phish</span>
-            <span style={{
-              color: 'transparent',
-              background: 'linear-gradient(90deg, #22c55e 0%, #4ade80 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>Ripoti</span>
+          <span style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
+            <span style={{ color: '#111111' }}>Phish</span>
+            <span style={{ color: '#006600' }}>Ripoti</span>
           </span>
         </div>
+
         <button onClick={() => navigate('/it/login')} style={{
           display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '10px 20px', borderRadius: '8px',
-          background: 'rgba(255,255,255,0.07)',
-          border: '1px solid rgba(255,255,255,0.13)',
-          color: 'rgba(255,255,255,0.82)',
-          fontSize: '13px', fontWeight: '600',
-          cursor: 'pointer', letterSpacing: '0.015em',
+          padding: '9px 18px', borderRadius: '8px',
+          background: 'rgba(255,255,255,0.70)',
+          border: '1px solid rgba(0,0,0,0.10)',
+          color: '#333333', fontSize: '13px', fontWeight: '600',
+          cursor: 'pointer', letterSpacing: '0.01em',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
           transition: 'all 0.16s ease',
         }}
           onMouseOver={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
-            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
+            e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.10)';
             e.currentTarget.style.transform = 'translateY(-1px)';
           }}
           onMouseOut={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-            e.currentTarget.style.color = 'rgba(255,255,255,0.82)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.70)';
+            e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
             e.currentTarget.style.transform = 'translateY(0)';
           }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
@@ -230,34 +211,34 @@ const ReportStep1 = () => {
       {/* ── PAGE CONTENT ── */}
       <div style={{
         flex: 1, position: 'relative', zIndex: 10,
-        padding: '26px 44px 20px',
+        padding: '28px 44px 20px',
         display: 'flex', flexDirection: 'column',
         overflowY: 'auto',
       }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
               width: i === 1 ? '28px' : '18px',
-              background: i === 1 ? '#BB0000' : 'rgba(0,0,0,0.18)',
+              background: i === 1 ? '#BB0000' : 'rgba(0,0,0,0.14)',
             }} />
           ))}
           <span style={{
             fontSize: '10px', letterSpacing: '0.18em',
-            color: 'rgba(0,0,0,0.42)', textTransform: 'uppercase',
-            marginLeft: '6px',
+            color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase',
+            marginLeft: '6px', fontWeight: '600',
           }}>Step 1 of 4</span>
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ position: 'relative', marginBottom: '24px' }}>
+        <div style={{ position: 'relative', marginBottom: '26px' }}>
           <div style={{
             position: 'absolute', top: '-14px', left: '-4px',
             fontSize: '82px', fontWeight: '900',
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(187,0,0,0.07)',
+            WebkitTextStroke: '1px rgba(187,0,0,0.06)',
             letterSpacing: '-4px', lineHeight: 1,
             pointerEvents: 'none', userSelect: 'none', zIndex: 0,
           }}>
@@ -265,10 +246,11 @@ const ReportStep1 = () => {
           </div>
           <h2 style={{
             position: 'relative', zIndex: 1,
-            fontWeight: '800', fontSize: '22px',
-            margin: '0 0 6px', letterSpacing: '-0.4px',
+            fontWeight: '900', fontSize: '24px',
+            margin: '0 0 7px', letterSpacing: '-0.5px',
+            color: '#111111',
           }}>
-            <span style={{ color: '#1a1a1a' }}>What type of </span>
+            What type of{' '}
             <span style={{
               color: 'transparent',
               background: 'linear-gradient(90deg, #BB0000 0%, #8B0000 45%, #006600 100%)',
@@ -276,11 +258,11 @@ const ReportStep1 = () => {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
             }}>incident</span>
-            <span style={{ color: '#1a1a1a' }}> are you reporting?</span>
+            {' '}are you reporting?
           </h2>
           <p style={{
             position: 'relative', zIndex: 1,
-            color: 'rgba(0,0,0,0.45)', fontSize: '13px',
+            color: 'rgba(0,0,0,0.45)', fontSize: '14px',
             margin: 0, lineHeight: '1.6',
           }}>
             Select the incident type that best describes what you received. Only Phishing Email is active in v1.0.
@@ -293,7 +275,7 @@ const ReportStep1 = () => {
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '14px',
           width: '100%',
-          maxWidth: '780px',
+          maxWidth: '820px',
         }}>
           {incidentTypes.map((type) => {
             const hov = hovered === type.id;
@@ -310,28 +292,43 @@ const ReportStep1 = () => {
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
-                  // Light card on warm background
+                  // Dark charcoal glass cards on white bg
                   background: type.active
                     ? hov
-                      ? 'rgba(255,255,255,0.88)'
-                      : 'rgba(255,255,255,0.78)'
-                    : 'rgba(255,255,255,0.45)',
+                      ? 'rgba(18,26,18,0.94)'
+                      : 'rgba(22,30,22,0.90)'
+                    : 'rgba(30,35,30,0.55)',
                   border: type.active
                     ? hov
-                      ? '1px solid rgba(187,0,0,0.25)'
-                      : '1px solid rgba(0,0,0,0.09)'
-                    : '1px solid rgba(0,0,0,0.06)',
-                  transform: hov ? 'translateY(-3px)' : 'translateY(0)',
-                  transition: 'all 0.20s ease',
+                      ? '1px solid rgba(187,0,0,0.35)'
+                      : '1px solid rgba(255,255,255,0.10)'
+                    : '1px solid rgba(255,255,255,0.06)',
+                  transform: hov ? 'translateY(-3px) scale(1.005)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
                   boxShadow: type.active
                     ? hov
-                      ? '0 12px 40px rgba(0,0,0,0.14), 0 0 0 2px rgba(187,0,0,0.12)'
-                      : '0 4px 20px rgba(0,0,0,0.10)'
-                    : '0 2px 10px rgba(0,0,0,0.07)',
-                  opacity: type.active ? 1 : 0.60,
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
+                      ? '0 16px 48px rgba(0,0,0,0.22), 0 0 0 1px rgba(187,0,0,0.12)'
+                      : '0 6px 24px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.06)'
+                    : '0 2px 10px rgba(0,0,0,0.08)',
+                  opacity: type.active ? 1 : 0.55,
+                  backdropFilter: 'blur(28px)',
+                  WebkitBackdropFilter: 'blur(28px)',
                 }}>
+
+                {/* Glass sheen */}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
+                  pointerEvents: 'none', borderRadius: '16px',
+                }} />
+
+                {/* Top shimmer */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
+                  background: hov
+                    ? 'linear-gradient(90deg, transparent, rgba(187,0,0,0.40), transparent)'
+                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)',
+                }} />
 
                 {/* Left accent bar */}
                 <div style={{
@@ -340,50 +337,52 @@ const ReportStep1 = () => {
                     ? hov
                       ? 'linear-gradient(180deg, #BB0000, #006600)'
                       : '#BB0000'
-                    : 'rgba(0,0,0,0.12)',
-                  opacity: type.active ? (hov ? 1 : 0.80) : 0.35,
+                    : 'rgba(255,255,255,0.10)',
+                  opacity: type.active ? (hov ? 1 : 0.75) : 0.30,
                   borderRadius: '16px 0 0 16px',
-                  transition: 'all 0.20s',
+                  transition: 'all 0.22s',
+                  boxShadow: hov ? '2px 0 12px rgba(187,0,0,0.25)' : 'none',
                 }} />
 
                 {/* Card content */}
-                <div style={{ flex: 1, padding: '18px 18px 16px 16px' }}>
+                <div style={{ flex: 1, padding: '20px 18px 18px 16px' }}>
 
-                  {/* Icon + badge row */}
+                  {/* Icon + badge */}
                   <div style={{
                     display: 'flex', justifyContent: 'space-between',
-                    alignItems: 'flex-start', marginBottom: '12px',
+                    alignItems: 'flex-start', marginBottom: '14px',
                   }}>
                     <div style={{
-                      width: '40px', height: '40px', borderRadius: '11px',
+                      width: '42px', height: '42px', borderRadius: '12px',
                       background: type.active
                         ? hov
-                          ? 'rgba(187,0,0,0.10)'
-                          : 'rgba(0,0,0,0.06)'
-                        : 'rgba(0,0,0,0.04)',
+                          ? 'rgba(187,0,0,0.18)'
+                          : 'rgba(255,255,255,0.08)'
+                        : 'rgba(255,255,255,0.05)',
                       border: type.active
                         ? hov
-                          ? '1px solid rgba(187,0,0,0.20)'
-                          : '1px solid rgba(0,0,0,0.09)'
-                        : '1px solid rgba(0,0,0,0.06)',
+                          ? '1px solid rgba(187,0,0,0.30)'
+                          : '1px solid rgba(255,255,255,0.10)'
+                        : '1px solid rgba(255,255,255,0.06)',
                       display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '19px',
-                      transition: 'all 0.20s',
+                      justifyContent: 'center', fontSize: '20px',
+                      transition: 'all 0.22s',
+                      boxShadow: hov ? '0 0 16px rgba(187,0,0,0.20)' : 'none',
                     }}>
                       {type.icon}
                     </div>
 
                     <span style={{
                       fontSize: '9px', fontWeight: '800',
-                      padding: '3px 9px', borderRadius: '20px',
+                      padding: '4px 10px', borderRadius: '20px',
                       letterSpacing: '0.09em', textTransform: 'uppercase',
                       background: type.active
-                        ? 'rgba(0,102,0,0.10)'
-                        : 'rgba(0,0,0,0.05)',
-                      color: type.active ? '#006600' : 'rgba(0,0,0,0.30)',
+                        ? 'rgba(34,197,94,0.14)'
+                        : 'rgba(255,255,255,0.06)',
+                      color: type.active ? '#4ade80' : 'rgba(255,255,255,0.25)',
                       border: type.active
-                        ? '1px solid rgba(0,102,0,0.20)'
-                        : '1px solid rgba(0,0,0,0.08)',
+                        ? '1px solid rgba(34,197,94,0.25)'
+                        : '1px solid rgba(255,255,255,0.08)',
                     }}>
                       {type.active ? '✓ Active' : 'v2.0'}
                     </span>
@@ -391,16 +390,16 @@ const ReportStep1 = () => {
 
                   {/* Title */}
                   <div style={{
-                    color: type.active ? '#111111' : 'rgba(0,0,0,0.35)',
+                    color: type.active ? '#ffffff' : 'rgba(255,255,255,0.35)',
                     fontWeight: '800', fontSize: '14px',
-                    marginBottom: '6px', letterSpacing: '-0.2px',
+                    marginBottom: '7px', letterSpacing: '-0.2px',
                   }}>
                     {type.title}
                   </div>
 
                   {/* Description */}
                   <div style={{
-                    color: type.active ? 'rgba(0,0,0,0.52)' : 'rgba(0,0,0,0.28)',
+                    color: type.active ? 'rgba(255,255,255,0.52)' : 'rgba(255,255,255,0.20)',
                     fontSize: '12px', lineHeight: '1.65',
                     marginBottom: '14px',
                   }}>
@@ -409,19 +408,18 @@ const ReportStep1 = () => {
 
                   {/* Threat tag */}
                   <div style={{
-                    padding: '7px 10px', borderRadius: '8px',
+                    padding: '7px 11px', borderRadius: '8px',
                     background: type.active
-                      ? 'rgba(187,0,0,0.07)'
-                      : 'rgba(0,0,0,0.03)',
+                      ? 'rgba(187,0,0,0.12)'
+                      : 'rgba(255,255,255,0.04)',
                     border: type.active
-                      ? '1px solid rgba(187,0,0,0.16)'
-                      : '1px solid rgba(0,0,0,0.06)',
+                      ? '1px solid rgba(187,0,0,0.22)'
+                      : '1px solid rgba(255,255,255,0.06)',
                     fontSize: '11px',
                     color: type.active
-                      ? '#BB0000'
-                      : 'rgba(0,0,0,0.25)',
-                    lineHeight: '1.5',
-                    fontWeight: '600',
+                      ? 'rgba(255,120,120,0.90)'
+                      : 'rgba(255,255,255,0.18)',
+                    lineHeight: '1.5', fontWeight: '600',
                   }}>
                     ⚠ {type.threat}
                   </div>
@@ -430,9 +428,9 @@ const ReportStep1 = () => {
                   {type.active && (
                     <div style={{
                       textAlign: 'right', marginTop: '10px',
-                      color: hov ? '#BB0000' : 'rgba(0,0,0,0.22)',
-                      fontSize: '16px', transition: 'all 0.20s',
-                      transform: hov ? 'translateX(3px)' : 'translateX(0)',
+                      color: hov ? 'rgba(187,0,0,0.80)' : 'rgba(255,255,255,0.20)',
+                      fontSize: '16px', transition: 'all 0.22s',
+                      transform: hov ? 'translateX(4px)' : 'translateX(0)',
                     }}>→</div>
                   )}
                 </div>
