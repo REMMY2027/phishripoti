@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NextStrip from '../components/NextStrip';
 import { useReport } from '../context/ReportContext';
@@ -10,6 +10,8 @@ const departments = [
     icon: '🎧',
     desc: 'High target for M-Pesa impersonation and account takeover phishing.',
     accentRaw: 'green',
+    risk: 'HIGH',
+    riskLevel: 3,
   },
   {
     id: 'finance',
@@ -17,6 +19,8 @@ const departments = [
     icon: '📊',
     desc: 'Targeted by invoice fraud, payment diversion and CFO impersonation.',
     accentRaw: 'red',
+    risk: 'CRITICAL',
+    riskLevel: 4,
   },
   {
     id: 'compliance',
@@ -24,6 +28,8 @@ const departments = [
     icon: '⚖️',
     desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
     accentRaw: 'green',
+    risk: 'MEDIUM',
+    riskLevel: 2,
   },
   {
     id: 'loans',
@@ -31,6 +37,8 @@ const departments = [
     icon: '💳',
     desc: 'At risk from fake loan documents and credential harvesting attacks.',
     accentRaw: 'red',
+    risk: 'HIGH',
+    riskLevel: 3,
   },
   {
     id: 'operations',
@@ -38,6 +46,8 @@ const departments = [
     icon: '⚙️',
     desc: 'Targeted by system access phishing and fake IT support credential emails.',
     accentRaw: 'green',
+    risk: 'MEDIUM',
+    riskLevel: 2,
   },
   {
     id: 'hr',
@@ -45,8 +55,211 @@ const departments = [
     icon: '👥',
     desc: 'Targeted by payroll diversion and fake employee document phishing.',
     accentRaw: 'red',
+    risk: 'HIGH',
+    riskLevel: 3,
   },
 ];
+
+const riskConfig = {
+  CRITICAL: { color: '#ef4444', glow: 'rgba(239,68,68,0.35)', bg: 'rgba(239,68,68,0.08)', label: 'CRITICAL' },
+  HIGH:     { color: '#f59e0b', glow: 'rgba(245,158,11,0.30)', bg: 'rgba(245,158,11,0.07)', label: 'HIGH' },
+  MEDIUM:   { color: '#22c55e', glow: 'rgba(34,197,94,0.28)',  bg: 'rgba(34,197,94,0.06)',  label: 'MEDIUM' },
+  LOW:      { color: '#3b82f6', glow: 'rgba(59,130,246,0.25)', bg: 'rgba(59,130,246,0.05)', label: 'LOW' },
+};
+
+// ── Network canvas background ──
+const NetworkBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animId;
+    let tick = 0;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Nodes — financial transaction hubs
+    const nodes = Array.from({ length: 28 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: 1.5 + Math.random() * 2.5,
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: 0.02 + Math.random() * 0.02,
+      type: Math.random() > 0.6 ? 'green' : Math.random() > 0.5 ? 'red' : 'dim',
+    }));
+
+    // Packets travelling along connections
+    const packets = Array.from({ length: 8 }, () => ({
+      progress: Math.random(),
+      speed: 0.002 + Math.random() * 0.003,
+      fromIdx: Math.floor(Math.random() * nodes.length),
+      toIdx: Math.floor(Math.random() * nodes.length),
+      color: Math.random() > 0.5 ? '#22c55e' : '#BB0000',
+    }));
+
+    // African geometric — subtle diamond grid
+    const drawGeometric = (W, H) => {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(0,180,50,0.028)';
+      ctx.lineWidth = 0.6;
+      const step = 60;
+      for (let x = 0; x < W + step; x += step) {
+        for (let y = 0; y < H + step; y += step) {
+          ctx.beginPath();
+          ctx.moveTo(x, y - step / 2);
+          ctx.lineTo(x + step / 2, y);
+          ctx.lineTo(x, y + step / 2);
+          ctx.lineTo(x - step / 2, y);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    };
+
+    const draw = () => {
+      tick++;
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // 1. Base
+      ctx.fillStyle = '#040f05';
+      ctx.fillRect(0, 0, W, H);
+
+      // 2. Radial ambient glows
+      const g1 = ctx.createRadialGradient(-100, -100, 0, -100, -100, W * 0.55);
+      g1.addColorStop(0, 'rgba(0,120,30,0.16)');
+      g1.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+
+      const g2 = ctx.createRadialGradient(W + 100, H + 100, 0, W + 100, H + 100, W * 0.50);
+      g2.addColorStop(0, 'rgba(140,0,0,0.16)');
+      g2.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+
+      // 3. African geometric pattern
+      drawGeometric(W, H);
+
+      // 4. Network connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) {
+            const alpha = (1 - dist / 180) * 0.12;
+            const col = nodes[i].type === 'green' || nodes[j].type === 'green'
+              ? `rgba(0,200,60,${alpha})`
+              : `rgba(180,0,0,${alpha * 0.7})`;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 5. Packets along connections
+      packets.forEach(p => {
+        p.progress += p.speed;
+        if (p.progress >= 1) {
+          p.progress = 0;
+          p.fromIdx = p.toIdx;
+          p.toIdx = Math.floor(Math.random() * nodes.length);
+        }
+        const from = nodes[p.fromIdx];
+        const to = nodes[p.toIdx];
+        const px = from.x + (to.x - from.x) * p.progress;
+        const py = from.y + (to.y - from.y) * p.progress;
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // 6. Nodes
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
+        if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
+        n.pulse += n.pulseSpeed;
+
+        const glowR = n.r * (1.8 + 0.6 * Math.sin(n.pulse));
+        const col = n.type === 'green' ? '#22c55e' : n.type === 'red' ? '#BB0000' : '#334433';
+        const alpha = n.type === 'dim' ? 0.15 : 0.55 + 0.3 * Math.sin(n.pulse);
+
+        // Outer glow
+        const gn = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowR * 3);
+        gn.addColorStop(0, n.type === 'green' ? `rgba(34,197,94,${alpha * 0.15})` : n.type === 'red' ? `rgba(187,0,0,${alpha * 0.15})` : 'rgba(0,0,0,0)');
+        gn.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = gn;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, glowR * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, glowR, 0, Math.PI * 2);
+        ctx.fillStyle = col;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+
+      // 7. Subtle scanline sweep
+      const scanY = ((tick * 0.5) % (H + 100)) - 50;
+      const scanGrad = ctx.createLinearGradient(0, scanY, 0, scanY + 2);
+      scanGrad.addColorStop(0, 'rgba(0,255,60,0)');
+      scanGrad.addColorStop(0.5, 'rgba(0,255,60,0.018)');
+      scanGrad.addColorStop(1, 'rgba(0,255,60,0)');
+      ctx.fillStyle = scanGrad;
+      ctx.fillRect(0, scanY, W, 2);
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
+  }, []);
+
+  return (
+    <canvas ref={canvasRef} style={{
+      position: 'fixed', inset: 0,
+      width: '100%', height: '100%',
+      zIndex: 0, pointerEvents: 'none',
+      display: 'block',
+    }} />
+  );
+};
+
+// ── Risk indicator bar ──
+const RiskBar = ({ level, color }) => (
+  <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
+    {[1,2,3,4].map(i => (
+      <div key={i} style={{
+        width: '16px', height: '3px', borderRadius: '2px',
+        background: i <= level ? color : 'rgba(255,255,255,0.12)',
+        transition: 'background 0.2s',
+        boxShadow: i <= level ? `0 0 4px ${color}` : 'none',
+      }} />
+    ))}
+  </div>
+);
 
 const ReportStep2 = () => {
   const navigate = useNavigate();
@@ -55,6 +268,15 @@ const ReportStep2 = () => {
   const [hovered, setHovered] = useState(null);
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [otherDept, setOtherDept] = useState('');
+  const [pulse, setPulse] = useState(0);
+
+  // Pulse animation for selected card
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPulse(p => (p + 1) % 100);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSelect = (dept) => {
     if (dept.id === 'other') {
@@ -85,107 +307,19 @@ const ReportStep2 = () => {
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* ── BASE — very deep dark emerald ── */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#040f05' }} />
-
-      {/* ── DOT GRID — security terminal feel ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 1,
-        backgroundImage: 'radial-gradient(circle, rgba(0,220,60,0.18) 1px, transparent 1px)',
-        backgroundSize: '28px 28px',
-      }} />
-
-      {/* ── GREEN AMBIENT GLOW — top left ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 60% 55% at -5% 0%, rgba(0,160,40,0.18) 0%, transparent 65%)',
-      }} />
-
-      {/* ── RED AMBIENT GLOW — bottom right ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 3,
-        background: 'radial-gradient(ellipse 55% 50% at 110% 110%, rgba(160,0,0,0.18) 0%, transparent 60%)',
-      }} />
-
-      {/* ── CENTRE DEPTH GRADIENT ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 4,
-        background: 'radial-gradient(ellipse 80% 70% at 50% 45%, rgba(0,40,10,0.40) 0%, transparent 70%)',
-      }} />
-
-      {/* ── NAIROBI SKYLINE ── */}
-      <div style={{
-        position: 'fixed', bottom: '-30px', right: 0,
-        width: '580px', height: '220px',
-        zIndex: 5, pointerEvents: 'none',
-        WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.75) 50%, #000 100%)',
-        maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.75) 50%, #000 100%)',
-      }}>
-        <svg width="100%" height="100%" viewBox="0 0 580 260"
-          xmlns="http://www.w3.org/2000/svg" fill="#00ff44" opacity="0.07">
-          <rect x="20" y="180" width="18" height="80" />
-          <rect x="42" y="170" width="14" height="90" />
-          <rect x="60" y="185" width="20" height="75" />
-          <rect x="84" y="175" width="16" height="85" />
-          <rect x="104" y="188" width="22" height="72" />
-          <rect x="310" y="60" width="38" height="200" />
-          <rect x="318" y="50" width="22" height="15" />
-          <rect x="324" y="40" width="10" height="14" />
-          <rect x="327" y="30" width="4" height="12" />
-          <rect x="200" y="90" width="32" height="170" />
-          <ellipse cx="216" cy="90" rx="18" ry="8" />
-          <rect x="212" y="75" width="8" height="18" />
-          <rect x="214" y="65" width="4" height="12" />
-          <rect x="380" y="80" width="34" height="180" />
-          <rect x="386" y="72" width="22" height="12" />
-          <rect x="392" y="62" width="10" height="12" />
-          <rect x="395" y="52" width="4" height="12" />
-          <rect x="150" y="120" width="26" height="140" />
-          <rect x="180" y="130" width="18" height="130" />
-          <rect x="250" y="110" width="24" height="150" />
-          <rect x="278" y="125" width="28" height="135" />
-          <rect x="418" y="100" width="28" height="160" />
-          <rect x="450" y="115" width="22" height="145" />
-          <rect x="476" y="130" width="26" height="130" />
-          <rect x="130" y="155" width="18" height="105" />
-          <rect x="500" y="150" width="20" height="110" />
-          <rect x="524" y="160" width="24" height="100" />
-          <rect x="552" y="155" width="18" height="105" />
-          <rect x="0" y="258" width="580" height="2" />
-        </svg>
-      </div>
-
-      {/* ── DECORATIVE SVG ── */}
-      <svg style={{
-        position: 'fixed', inset: 0, width: '100%', height: '100%',
-        zIndex: 6, pointerEvents: 'none',
-      }} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,200,60,0.08)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,200,60,0.05)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,200,60,0.03)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(200,0,0,0.08)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(200,0,0,0.05)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(200,0,0,0.03)" strokeWidth="1"/>
-        <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
-          fill="none" stroke="rgba(0,200,60,0.08)" strokeWidth="1"/>
-        <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
-          fill="none" stroke="rgba(200,0,0,0.08)" strokeWidth="1"/>
-        <path d="M 0 500 Q 350 350 700 480 T 1400 420"
-          fill="none" stroke="rgba(0,200,60,0.05)" strokeWidth="1"/>
-        <path d="M 0 600 Q 400 450 750 560 T 1400 500"
-          fill="none" stroke="rgba(200,0,0,0.04)" strokeWidth="1"/>
-      </svg>
+      {/* Animated network background */}
+      <NetworkBackground />
 
       {/* ── NAVBAR ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 2.5rem', height: '66px',
-        background: 'rgba(2,7,3,0.92)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
+        background: 'rgba(2,8,3,0.88)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         borderBottom: '1px solid rgba(0,200,60,0.10)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.50)',
+        boxShadow: '0 4px 32px rgba(0,0,0,0.60)',
         flexShrink: 0,
       }}>
         <div style={{
@@ -194,14 +328,14 @@ const ReportStep2 = () => {
         }} />
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(0,255,60,0.12), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(0,255,60,0.14), transparent)',
         }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
           <div style={{
             width: '38px', height: '38px', borderRadius: '10px',
             background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 0 1px rgba(255,80,80,0.18), 0 4px 16px rgba(187,0,0,0.50)',
+            boxShadow: '0 0 0 1px rgba(255,80,80,0.18), 0 4px 16px rgba(187,0,0,0.55)',
             flexShrink: 0,
           }}>
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
@@ -214,9 +348,7 @@ const ReportStep2 = () => {
             <span style={{
               color: 'transparent',
               background: 'linear-gradient(90deg, #22c55e 0%, #4ade80 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>Ripoti</span>
           </span>
         </div>
@@ -230,16 +362,8 @@ const ReportStep2 = () => {
           cursor: 'pointer', letterSpacing: '0.015em',
           transition: 'all 0.16s ease',
         }}
-          onMouseOver={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
-            e.currentTarget.style.color = '#ffffff';
-            e.currentTarget.style.transform = 'translateY(-1px)';
-          }}
-          onMouseOut={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-            e.currentTarget.style.color = 'rgba(255,255,255,0.82)';
-            e.currentTarget.style.transform = 'translateY(0)';
-          }}>
+          onMouseOver={e => { e.currentTarget.style.background='rgba(255,255,255,0.13)'; e.currentTarget.style.color='#ffffff'; e.currentTarget.style.transform='translateY(-1px)'; }}
+          onMouseOut={e => { e.currentTarget.style.background='rgba(255,255,255,0.07)'; e.currentTarget.style.color='rgba(255,255,255,0.82)'; e.currentTarget.style.transform='translateY(0)'; }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.8"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
@@ -257,7 +381,7 @@ const ReportStep2 = () => {
       }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '18px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
@@ -273,15 +397,14 @@ const ReportStep2 = () => {
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ position: 'relative', marginBottom: '22px' }}>
+        <div style={{ position: 'relative', marginBottom: '24px' }}>
           <div style={{
             position: 'absolute', top: '-14px', left: '-4px',
             fontSize: '82px', fontWeight: '900',
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(0,220,60,0.08)',
+            WebkitTextStroke: '1px rgba(0,220,60,0.07)',
             letterSpacing: '-4px', lineHeight: 1,
-            pointerEvents: 'none', userSelect: 'none',
-            zIndex: 0,
+            pointerEvents: 'none', userSelect: 'none', zIndex: 0,
           }}>
             DEPARTMENT
           </div>
@@ -294,33 +417,32 @@ const ReportStep2 = () => {
             <span style={{
               color: 'transparent',
               background: 'linear-gradient(90deg, #22c55e 0%, #4ade80 50%, #BB0000 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>department</span>
             <span style={{ color: 'rgba(255,255,255,0.92)' }}> are you from?</span>
           </h2>
           <p style={{
             position: 'relative', zIndex: 1,
-            color: 'rgba(255,255,255,0.40)', fontSize: '13px',
+            color: 'rgba(255,255,255,0.38)', fontSize: '13px',
             margin: 0, lineHeight: '1.6',
           }}>
             Your department helps us contextualise the threat. It is stripped before storage — never linked to your identity.
           </p>
         </div>
 
-        {/* ── FULL WIDTH 2-COLUMN CARDS ── */}
+        {/* ── CARDS GRID ── */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '12px',
+          gap: '14px',
           width: '100%',
-          marginBottom: '12px',
+          marginBottom: '14px',
         }}>
           {departments.map((dept) => {
             const sel = selected === dept.label;
             const hov = hovered === dept.id;
-            const isGreen = dept.accentRaw === 'green';
+            const rc = riskConfig[dept.risk];
+            const pulseAlpha = sel ? 0.25 + 0.15 * Math.sin(pulse * 0.12) : 0;
 
             return (
               <div
@@ -329,98 +451,115 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '13px',
-                  padding: '18px 18px 16px',
+                  borderRadius: '14px',
+                  padding: '20px 20px 18px',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
-                  // KEY — cards noticeably lighter than background
                   background: sel
-                    ? isGreen
-                      ? 'rgba(0,255,80,0.12)'
-                      : 'rgba(255,50,50,0.10)'
+                    ? `rgba(${dept.accentRaw === 'green' ? '0,40,12' : '40,0,0'},0.75)`
                     : hov
                     ? 'rgba(255,255,255,0.10)'
-                    : 'rgba(255,255,255,0.07)',
+                    : 'rgba(255,255,255,0.06)',
                   border: sel
-                    ? isGreen
-                      ? '1px solid rgba(34,197,94,0.50)'
-                      : '1px solid rgba(187,0,0,0.50)'
+                    ? `1px solid ${rc.color}66`
                     : hov
-                    ? '1px solid rgba(255,255,255,0.18)'
+                    ? `1px solid ${rc.color}44`
                     : '1px solid rgba(255,255,255,0.10)',
-                  transform: hov && !sel ? 'translateY(-2px)' : 'translateY(0)',
-                  transition: 'all 0.18s ease',
+                  transform: hov && !sel ? 'translateY(-3px) scale(1.005)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
                   boxShadow: sel
-                    ? isGreen
-                      ? '0 0 0 1px rgba(34,197,94,0.15), 0 8px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(34,197,94,0.15)'
-                      : '0 0 0 1px rgba(187,0,0,0.15), 0 8px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(187,0,0,0.15)'
+                    ? `0 0 0 1px ${rc.color}22, 0 12px 40px rgba(0,0,0,0.55), 0 0 32px ${rc.glow}`
                     : hov
-                    ? '0 6px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.08)'
-                    : '0 2px 12px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
+                    ? `0 8px 32px rgba(0,0,0,0.45), 0 0 20px ${rc.glow}`
+                    : '0 2px 12px rgba(0,0,0,0.35)',
+                  backdropFilter: 'blur(24px)',
+                  WebkitBackdropFilter: 'blur(24px)',
                 }}>
+
+                {/* Animated pulse border on selected */}
+                {sel && (
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    borderRadius: '14px',
+                    border: `1px solid ${rc.color}`,
+                    opacity: pulseAlpha,
+                    pointerEvents: 'none',
+                  }} />
+                )}
 
                 {/* Glass sheen */}
                 <div style={{
                   position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
-                  pointerEvents: 'none', borderRadius: '13px',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 40%, transparent 100%)',
+                  pointerEvents: 'none', borderRadius: '14px',
                 }} />
 
-                {/* Left accent strip */}
+                {/* Left accent strip with glow */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0,
                   width: '4px', height: '100%',
-                  background: isGreen
-                    ? 'linear-gradient(180deg, #4ade80, #16a34a)'
-                    : 'linear-gradient(180deg, #ff6b6b, #BB0000)',
-                  opacity: sel ? 1 : hov ? 0.85 : 0.55,
-                  transition: 'opacity 0.18s',
+                  background: `linear-gradient(180deg, ${rc.color}, ${dept.accentRaw === 'green' ? '#15803d' : '#7f1d1d'})`,
+                  opacity: sel ? 1 : hov ? 0.80 : 0.50,
+                  transition: 'opacity 0.22s',
+                  boxShadow: sel || hov ? `2px 0 12px ${rc.glow}` : 'none',
                 }} />
 
                 {/* Top shimmer */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                  background: sel || hov
-                    ? isGreen
-                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.40), transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(187,0,0,0.40), transparent)'
-                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)',
+                  background: `linear-gradient(90deg, transparent, ${rc.color}55, transparent)`,
+                  opacity: sel ? 1 : hov ? 0.7 : 0.3,
                 }} />
 
-                {/* Icon + checkmark */}
+                {/* Header row — icon + risk badge */}
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: '12px', paddingLeft: '8px',
+                  marginBottom: '14px', paddingLeft: '8px',
                 }}>
+                  {/* Icon */}
                   <div style={{
-                    width: '40px', height: '40px', borderRadius: '11px',
-                    background: isGreen
-                      ? 'rgba(34,197,94,0.15)'
-                      : 'rgba(187,0,0,0.15)',
-                    border: isGreen
-                      ? '1px solid rgba(34,197,94,0.30)'
-                      : '1px solid rgba(187,0,0,0.30)',
+                    width: '42px', height: '42px', borderRadius: '12px',
+                    background: rc.bg,
+                    border: `1px solid ${rc.color}33`,
                     display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', fontSize: '18px',
-                    transition: 'all 0.18s',
+                    justifyContent: 'center', fontSize: '20px',
+                    boxShadow: sel || hov ? `0 0 16px ${rc.glow}` : 'none',
+                    transition: 'box-shadow 0.22s',
                   }}>
                     {dept.icon}
                   </div>
-                  {sel && (
+
+                  {/* Risk badge + checkmark */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
+                    {sel && (
+                      <div style={{
+                        width: '20px', height: '20px', borderRadius: '50%',
+                        background: rc.color,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '10px', color: '#fff', fontWeight: '800',
+                        boxShadow: `0 2px 12px ${rc.glow}`,
+                      }}>✓</div>
+                    )}
                     <div style={{
-                      width: '20px', height: '20px', borderRadius: '50%',
-                      background: isGreen ? '#22c55e' : '#BB0000',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '10px', color: '#fff', fontWeight: '800',
-                      boxShadow: isGreen
-                        ? '0 2px 12px rgba(34,197,94,0.60)'
-                        : '0 2px 12px rgba(187,0,0,0.60)',
-                    }}>✓</div>
-                  )}
+                      display: 'flex', alignItems: 'center', gap: '5px',
+                      padding: '3px 8px', borderRadius: '20px',
+                      background: rc.bg,
+                      border: `1px solid ${rc.color}33`,
+                    }}>
+                      <div style={{
+                        width: '5px', height: '5px', borderRadius: '50%',
+                        background: rc.color,
+                        boxShadow: `0 0 6px ${rc.color}`,
+                      }} />
+                      <span style={{
+                        fontSize: '9px', fontWeight: '700',
+                        color: rc.color, letterSpacing: '0.10em',
+                        textTransform: 'uppercase',
+                      }}>{dept.risk}</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Label */}
@@ -428,7 +567,7 @@ const ReportStep2 = () => {
                   paddingLeft: '8px',
                   color: '#ffffff',
                   fontWeight: '700', fontSize: '14px',
-                  marginBottom: '6px', letterSpacing: '-0.1px',
+                  marginBottom: '6px', letterSpacing: '-0.2px',
                 }}>
                   {dept.label}
                 </div>
@@ -436,10 +575,23 @@ const ReportStep2 = () => {
                 {/* Description */}
                 <div style={{
                   paddingLeft: '8px',
-                  color: 'rgba(255,255,255,0.50)',
-                  fontSize: '12px', lineHeight: '1.6',
+                  color: 'rgba(255,255,255,0.48)',
+                  fontSize: '12px', lineHeight: '1.65',
+                  marginBottom: '14px',
                 }}>
                   {dept.desc}
+                </div>
+
+                {/* Risk bar */}
+                <div style={{
+                  paddingLeft: '8px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                }}>
+                  <RiskBar level={dept.riskLevel} color={rc.color} />
+                  <span style={{
+                    fontSize: '10px', color: 'rgba(255,255,255,0.28)',
+                    letterSpacing: '0.06em',
+                  }}>THREAT EXPOSURE</span>
                 </div>
               </div>
             );
@@ -450,7 +602,7 @@ const ReportStep2 = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '12px',
+          gap: '14px',
           width: '100%',
         }}>
           <div
@@ -458,55 +610,56 @@ const ReportStep2 = () => {
             onMouseEnter={() => setHovered('other')}
             onMouseLeave={() => setHovered(null)}
             style={{
-              borderRadius: '13px', padding: '14px 18px',
+              borderRadius: '14px', padding: '16px 20px',
               cursor: 'pointer', position: 'relative', overflow: 'hidden',
               background: showOtherInput
                 ? 'rgba(255,255,255,0.10)'
                 : hovered === 'other'
                 ? 'rgba(255,255,255,0.10)'
-                : 'rgba(255,255,255,0.07)',
+                : 'rgba(255,255,255,0.06)',
               border: showOtherInput
-                ? '1px solid rgba(255,255,255,0.20)'
+                ? '1px solid rgba(255,255,255,0.22)'
                 : hovered === 'other'
                 ? '1px solid rgba(255,255,255,0.18)'
                 : '1px dashed rgba(255,255,255,0.18)',
-              transition: 'all 0.18s ease',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.30)',
+              transition: 'all 0.22s ease',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              boxShadow: hovered === 'other' ? '0 6px 24px rgba(0,0,0,0.40)' : '0 2px 12px rgba(0,0,0,0.30)',
             }}>
             <div style={{
               position: 'absolute', inset: 0,
               background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 100%)',
-              pointerEvents: 'none', borderRadius: '13px',
+              pointerEvents: 'none', borderRadius: '14px',
             }} />
             <div style={{
               position: 'absolute', top: 0, left: 0,
               width: '4px', height: '100%',
-              background: 'rgba(255,255,255,0.25)',
-              opacity: hovered === 'other' ? 0.75 : 0.40,
-              transition: 'opacity 0.18s',
+              background: 'rgba(255,255,255,0.28)',
+              opacity: hovered === 'other' ? 0.75 : 0.38,
+              transition: 'opacity 0.22s',
             }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '8px' }}>
               <div style={{
-                width: '40px', height: '40px', borderRadius: '11px',
-                background: 'rgba(255,255,255,0.10)',
-                border: '1px solid rgba(255,255,255,0.18)',
+                width: '42px', height: '42px', borderRadius: '12px',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.16)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '18px', flexShrink: 0,
+                justifyContent: 'center', fontSize: '20px', flexShrink: 0,
               }}>✏️</div>
               <div>
-                <div style={{ color: 'rgba(255,255,255,0.88)', fontWeight: '700', fontSize: '14px' }}>
+                <div style={{ color: 'rgba(255,255,255,0.90)', fontWeight: '700', fontSize: '14px', marginBottom: '2px' }}>
                   Other Department
                 </div>
-                <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px' }}>
+                <div style={{ color: 'rgba(255,255,255,0.40)', fontSize: '12px' }}>
                   Not listed — enter manually
                 </div>
               </div>
               <div style={{
                 marginLeft: 'auto',
-                color: hovered === 'other' ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.30)',
-                fontSize: '16px', transition: 'color 0.18s',
+                color: hovered === 'other' ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.28)',
+                fontSize: '18px', transition: 'all 0.22s',
+                transform: hovered === 'other' ? 'translateX(3px)' : 'translateX(0)',
               }}>→</div>
             </div>
           </div>
@@ -515,11 +668,11 @@ const ReportStep2 = () => {
         {/* Other input */}
         {showOtherInput && (
           <div style={{
-            borderRadius: '13px', padding: '18px',
+            borderRadius: '14px', padding: '18px',
             border: '1px solid rgba(255,255,255,0.12)',
             background: 'rgba(255,255,255,0.07)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
             marginTop: '12px',
             boxShadow: '0 8px 32px rgba(0,0,0,0.50)',
           }}>
@@ -534,42 +687,29 @@ const ReportStep2 = () => {
               onChange={e => setOtherDept(e.target.value)}
               placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
               style={{
-                width: '100%',
-                background: 'rgba(255,255,255,0.08)',
+                width: '100%', background: 'rgba(255,255,255,0.08)',
                 border: '1px solid rgba(255,255,255,0.14)',
                 borderRadius: '8px', color: '#ffffff',
                 padding: '10px 14px', fontSize: '13px',
-                outline: 'none', marginBottom: '12px',
-                boxSizing: 'border-box',
+                outline: 'none', marginBottom: '12px', boxSizing: 'border-box',
               }}
               onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
               autoFocus
             />
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button
-                onClick={handleOtherConfirm}
-                disabled={!otherDept.trim()}
-                style={{
-                  background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
-                  color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
-                  border: 'none', borderRadius: '8px',
-                  padding: '9px 18px', fontSize: '13px', fontWeight: '600',
-                  cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
-                  transition: 'all 0.16s',
-                }}>
-                Confirm →
-              </button>
-              <button
-                onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
-                style={{
-                  background: 'transparent',
-                  color: 'rgba(255,255,255,0.45)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '8px', padding: '9px 18px',
-                  fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-                }}>
-                Cancel
-              </button>
+              <button onClick={handleOtherConfirm} disabled={!otherDept.trim()} style={{
+                background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
+                color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
+                border: 'none', borderRadius: '8px',
+                padding: '9px 18px', fontSize: '13px', fontWeight: '600',
+                cursor: otherDept.trim() ? 'pointer' : 'not-allowed', transition: 'all 0.16s',
+              }}>Confirm →</button>
+              <button onClick={() => { setShowOtherInput(false); setOtherDept(''); }} style={{
+                background: 'transparent', color: 'rgba(255,255,255,0.45)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                borderRadius: '8px', padding: '9px 18px',
+                fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+              }}>Cancel</button>
             </div>
           </div>
         )}
@@ -586,7 +726,7 @@ const ReportStep2 = () => {
           }}>
             <span style={{ color: '#4ade80', fontSize: '13px' }}>✓</span>
             <span style={{ color: '#4ade80', fontSize: '13px', fontWeight: '600' }}>{selected}</span>
-            <span style={{ color: 'rgba(255,255,255,0.42)', fontSize: '11px', fontWeight: '500' }}>
+            <span style={{ color: 'rgba(255,255,255,0.40)', fontSize: '11px', fontWeight: '500' }}>
               — stripped before storage
             </span>
           </div>
@@ -603,6 +743,14 @@ const ReportStep2 = () => {
           nextDisabled={!selected}
         />
       </div>
+
+      <style>{`
+        @keyframes pulse-ring {
+          0% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 0.1; transform: scale(1.02); }
+          100% { opacity: 0.4; transform: scale(1); }
+        }
+      `}</style>
     </div>
   );
 };
