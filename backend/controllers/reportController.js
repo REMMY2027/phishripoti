@@ -8,7 +8,6 @@ const bcrypt = require('bcryptjs');
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Google Safe Browsing check
 const checkUrlSafety = async (urls) => {
   try {
     const response = await axios.post(
@@ -23,7 +22,6 @@ const checkUrlSafety = async (urls) => {
         }
       }
     );
-
     const matches = response.data.matches || [];
     return urls.map(url => ({
       url,
@@ -36,7 +34,6 @@ const checkUrlSafety = async (urls) => {
   }
 };
 
-// GPT-4o analysis
 const analyseWithGPT = async (emailData, department, safeBrowsingResults) => {
   const maliciousLinks = safeBrowsingResults.filter(r => r.isMalicious);
 
@@ -76,7 +73,7 @@ INSTRUCTIONS:
 
 Risk scoring rules:
 - LOW: 0-39 (weak signals, likely safe)
-- MEDIUM: 40-74 (suspicious, caution needed)  
+- MEDIUM: 40-74 (suspicious, caution needed)
 - HIGH: 75-100 (strong phishing indicators detected)`;
 
   const response = await openai.chat.completions.create({
@@ -89,7 +86,6 @@ Risk scoring rules:
   return JSON.parse(response.choices[0].message.content);
 };
 
-// Send HIGH risk alert via SendGrid
 const sendHighRiskAlert = async (report, analysis) => {
   const msg = {
     to: process.env.IT_MANAGER_EMAIL,
@@ -103,6 +99,7 @@ const sendHighRiskAlert = async (report, analysis) => {
         </div>
         <div style="padding: 24px; background: #f9f9f9;">
           <p><strong>Token ID:</strong> ${report.tokenId}</p>
+          <p><strong>Department:</strong> ${report.department}</p>
           <p><strong>Risk Score:</strong> ${report.riskScore}%</p>
           <p><strong>Sender Domain:</strong> ${report.senderEmail}</p>
           <p><strong>Subject:</strong> ${report.subjectLine}</p>
@@ -121,11 +118,9 @@ const sendHighRiskAlert = async (report, analysis) => {
       </div>
     `
   };
-
   await sgMail.send(msg);
 };
 
-// Submit report
 const submitReport = async (req, res) => {
   console.log('Submit report called with body:', req.body);
   try {
@@ -134,16 +129,15 @@ const submitReport = async (req, res) => {
       subjectLine,
       suspiciousLinks,
       emailDescription,
+      emailHeader,
       clickedAnything,
       department
     } = req.body;
 
-    // Extract URLs
     const urls = suspiciousLinks
       ? suspiciousLinks.split('\n').map(u => u.trim()).filter(u => u.length > 0)
       : [];
 
-    // Run Safe Browsing and GPT-4o in parallel
     const [safeBrowsingResults, gptAnalysis] = await Promise.all([
       urls.length > 0 ? checkUrlSafety(urls) : Promise.resolve([]),
       analyseWithGPT(
@@ -153,17 +147,16 @@ const submitReport = async (req, res) => {
       )
     ]);
 
-    // Generate anonymous token
     const rawToken = uuidv4();
-    const tokenHash = await bcrypt.hash(rawToken, 10);
     const tokenId = 'RPT-' + rawToken.substring(0, 4).toUpperCase() + '-' +
                     rawToken.substring(4, 8).toUpperCase() + '-' +
                     rawToken.substring(9, 13).toUpperCase();
 
-    // Build report — department stripped
+    // ── department is now saved ──
     const report = new Report({
       tokenId,
       incidentType: 'Phishing Email',
+      department: department || 'Unknown',
       senderEmail: gptAnalysis.sanitisedSender || senderEmail,
       subjectLine,
       suspiciousLinks: safeBrowsingResults.map(r => ({
@@ -174,6 +167,7 @@ const submitReport = async (req, res) => {
         }
       })),
       emailDescription: gptAnalysis.sanitisedDescription || emailDescription,
+      emailHeader: emailHeader || '',
       clickedAnything,
       riskLevel: gptAnalysis.riskLevel,
       riskScore: gptAnalysis.riskScore,
@@ -192,7 +186,6 @@ const submitReport = async (req, res) => {
 
     await report.save();
 
-    // Send HIGH risk alert
     if (gptAnalysis.riskLevel === 'HIGH') {
       try {
         await sendHighRiskAlert(report, gptAnalysis);
@@ -221,13 +214,11 @@ const submitReport = async (req, res) => {
   }
 };
 
-// Get all reports (IT Manager only)
 const getReports = async (req, res) => {
   try {
     const reports = await Report.find()
       .select('-__v')
       .sort({ createdAt: -1 });
-
     res.json(reports);
   } catch (error) {
     console.error('Get reports error:', error);
@@ -235,7 +226,6 @@ const getReports = async (req, res) => {
   }
 };
 
-// Get single report
 const getReport = async (req, res) => {
   try {
     const report = await Report.findOne({ tokenId: req.params.tokenId });
@@ -249,7 +239,6 @@ const getReport = async (req, res) => {
   }
 };
 
-// Update report status
 const updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -268,7 +257,6 @@ const updateStatus = async (req, res) => {
   }
 };
 
-// Dashboard stats
 const getDashboardStats = async (req, res) => {
   try {
     const total = await Report.countDocuments();
@@ -278,7 +266,7 @@ const getDashboardStats = async (req, res) => {
     const alertsSent = await Report.countDocuments({ alertSent: true });
 
     const recentReports = await Report.find()
-      .select('tokenId riskLevel riskScore status alertSent createdAt')
+      .select('tokenId riskLevel riskScore status alertSent createdAt department')
       .sort({ createdAt: -1 })
       .limit(10);
 
@@ -291,8 +279,7 @@ const getDashboardStats = async (req, res) => {
       recentReports
     });
   } catch (error) {
-    console.error('Submit report error FULL:', error.message);
-    console.error('Stack:', error.stack);
+    console.error('Stats error:', error.message);
     res.status(500).json({ message: error.message });
   }
 };

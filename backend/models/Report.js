@@ -11,6 +11,10 @@ const reportSchema = new mongoose.Schema({
     required: true,
     default: 'Phishing Email'
   },
+  department: {
+    type: String,
+    default: 'Unknown'
+  },
   senderEmail: {
     type: String,
     required: true
@@ -29,6 +33,10 @@ const reportSchema = new mongoose.Schema({
   emailDescription: {
     type: String,
     required: true
+  },
+  emailHeader: {
+    type: String,
+    default: ''
   },
   clickedAnything: {
     type: String,
