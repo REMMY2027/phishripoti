@@ -224,7 +224,7 @@ const ReportStep2 = () => {
           </span>
         </div>
 
-        <button onClick={() => navigate('/it-login')} style={{
+        <button onClick={() => navigate('/it/login')} style={{
           display: 'flex', alignItems: 'center', gap: '7px',
           padding: '9px 18px', borderRadius: '8px',
           background: 'rgba(255,255,255,0.70)',

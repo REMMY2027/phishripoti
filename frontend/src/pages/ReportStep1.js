@@ -193,7 +193,7 @@ const ReportStep1 = () => {
             }}>Ripoti</span>
           </span>
         </div>
-        <button onClick={() => navigate('/it-login')} style={{
+        <button onClick={() => navigate('/it/login')} style={{
           display: 'flex', alignItems: 'center', gap: '8px',
           padding: '10px 20px', borderRadius: '8px',
           background: 'rgba(255,255,255,0.07)',
