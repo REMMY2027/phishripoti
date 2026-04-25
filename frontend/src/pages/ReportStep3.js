@@ -105,12 +105,12 @@ const ReportStep3 = () => {
   const inputStyle = (filled) => ({
     width: '100%',
     background: 'rgba(255,255,255,0.05)',
-    border: filled ? '1px solid rgba(0,102,0,0.4)' : '1px solid rgba(255,255,255,0.10)',
+    border: filled
+      ? '1px solid rgba(34,197,94,0.35)'
+      : '1px solid rgba(255,255,255,0.10)',
     borderRadius: '10px', color: '#ffffff',
     padding: '12px 14px', fontSize: '13px',
     outline: 'none', boxSizing: 'border-box',
-    backdropFilter: 'blur(8px)',
-    WebkitBackdropFilter: 'blur(8px)',
     transition: 'border 0.18s',
   });
 
@@ -120,43 +120,49 @@ const ReportStep3 = () => {
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* ── BASE ── */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#e8e2d4' }} />
+      {/* ── BASE — deep forest green ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#061508' }} />
 
-      {/* ── CENTRE RADIAL LIFT ── */}
+      {/* ── RADIAL — subtle centre lift, stays dark ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse 70% 65% at 50% 38%, rgba(255,253,248,0.97) 0%, rgba(248,244,234,0.94) 25%, rgba(240,234,220,0.82) 50%, rgba(220,213,196,0.45) 72%, transparent 100%)',
+        background: 'radial-gradient(ellipse 70% 65% at 50% 38%, rgba(10,30,12,0.0) 0%, rgba(6,21,8,0.0) 40%, rgba(4,14,5,0.55) 80%, rgba(2,8,3,0.85) 100%)',
       }} />
 
-      {/* ── EDGE DARKENING ── */}
+      {/* ── GREEN AMBIENT GLOW — left ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(180,165,140,0.28) 100%)',
+        background: 'radial-gradient(ellipse 50% 60% at -5% 50%, rgba(0,80,20,0.18) 0%, transparent 70%)',
       }} />
 
-      {/* ── TOP GREEN BAND ── */}
+      {/* ── RED AMBIENT GLOW — bottom right ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 3,
-        background: 'linear-gradient(180deg, rgba(4,26,8,0.24) 0%, rgba(4,26,8,0.08) 14%, transparent 30%)',
+        background: 'radial-gradient(ellipse 45% 45% at 105% 100%, rgba(120,0,0,0.20) 0%, transparent 65%)',
       }} />
 
-      {/* ── BOTTOM RED BAND ── */}
+      {/* ── TOP EDGE — slight lightening ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 4,
-        background: 'linear-gradient(0deg, rgba(90,0,0,0.18) 0%, rgba(90,0,0,0.07) 14%, transparent 30%)',
+        background: 'linear-gradient(180deg, rgba(0,40,8,0.60) 0%, rgba(0,20,4,0.20) 12%, transparent 28%)',
       }} />
 
-      {/* ── NAIROBI SKYLINE ── */}
+      {/* ── BOTTOM EDGE — deepen ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 5,
+        background: 'linear-gradient(0deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 15%, transparent 30%)',
+      }} />
+
+      {/* ── NAIROBI SKYLINE — brighter on dark bg ── */}
       <div style={{
         position: 'fixed', bottom: '-30px', right: 0,
         width: '580px', height: '220px',
-        zIndex: 5, pointerEvents: 'none',
+        zIndex: 6, pointerEvents: 'none',
         WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
         maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
       }}>
         <svg width="100%" height="100%" viewBox="0 0 580 260"
-          xmlns="http://www.w3.org/2000/svg" fill="#5a4a35" opacity="0.13">
+          xmlns="http://www.w3.org/2000/svg" fill="#22c55e" opacity="0.08">
           <rect x="20" y="180" width="18" height="80" />
           <rect x="42" y="170" width="14" height="90" />
           <rect x="60" y="185" width="20" height="75" />
@@ -189,51 +195,50 @@ const ReportStep3 = () => {
         </svg>
       </div>
 
-      {/* ── DECORATIVE SVG ── */}
+      {/* ── DECORATIVE SVG — brighter on dark bg ── */}
       <svg style={{
         position: 'fixed', inset: 0, width: '100%', height: '100%',
-        zIndex: 6, pointerEvents: 'none',
+        zIndex: 7, pointerEvents: 'none',
       }} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,80,20,0.04)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.06)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,180,60,0.08)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,180,60,0.05)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,180,60,0.03)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(187,0,0,0.08)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(187,0,0,0.05)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(187,0,0,0.03)" strokeWidth="1"/>
         <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
-          fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,180,60,0.07)" strokeWidth="1.5"/>
         <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
-          fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(187,0,0,0.07)" strokeWidth="1.5"/>
         <path d="M 0 500 Q 350 350 700 480 T 1400 420"
-          fill="none" stroke="rgba(0,80,20,0.055)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,180,60,0.05)" strokeWidth="1.5"/>
         <path d="M 0 600 Q 400 450 750 560 T 1400 500"
-          fill="none" stroke="rgba(140,0,0,0.045)" strokeWidth="1"/>
-        <circle cx="10%" cy="25%" r="3" fill="rgba(0,80,20,0.11)"/>
-        <circle cx="14%" cy="40%" r="2" fill="rgba(0,80,20,0.08)"/>
-        <circle cx="88%" cy="20%" r="3.5" fill="rgba(140,0,0,0.11)"/>
-        <circle cx="92%" cy="38%" r="2" fill="rgba(140,0,0,0.08)"/>
+          fill="none" stroke="rgba(187,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="10%" cy="25%" r="3" fill="rgba(0,180,60,0.12)"/>
+        <circle cx="14%" cy="40%" r="2" fill="rgba(0,180,60,0.08)"/>
+        <circle cx="88%" cy="20%" r="3.5" fill="rgba(187,0,0,0.12)"/>
+        <circle cx="92%" cy="38%" r="2" fill="rgba(187,0,0,0.08)"/>
         <line x1="10%" y1="25%" x2="14%" y2="40%"
-          stroke="rgba(0,80,20,0.07)" strokeWidth="0.8"/>
+          stroke="rgba(0,180,60,0.07)" strokeWidth="0.8"/>
         <line x1="88%" y1="20%" x2="92%" y2="38%"
-          stroke="rgba(140,0,0,0.07)" strokeWidth="0.8"/>
+          stroke="rgba(187,0,0,0.07)" strokeWidth="0.8"/>
       </svg>
 
-      {/* ── NAVBAR ── */}
+      {/* ── NAVBAR — seamless with background ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 2.5rem', height: '66px',
-        background: '#061508',
-        boxShadow: '0 2px 28px rgba(0,0,0,0.25)',
+        background: 'rgba(4,12,5,0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(0,180,60,0.08)',
+        boxShadow: '0 1px 0 rgba(255,255,255,0.03)',
         flexShrink: 0,
       }}>
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, height: '6px',
           background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #111111 33.33%, #111111 66.66%, #006600 66.66%, #006600 100%)',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)',
         }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
           <div style={{
@@ -262,21 +267,21 @@ const ReportStep3 = () => {
         <button onClick={() => navigate('/it-login')} style={{
           display: 'flex', alignItems: 'center', gap: '8px',
           padding: '10px 20px', borderRadius: '8px',
-          background: 'rgba(255,255,255,0.07)',
-          border: '1px solid rgba(255,255,255,0.13)',
-          color: 'rgba(255,255,255,0.82)',
+          background: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.10)',
+          color: 'rgba(255,255,255,0.80)',
           fontSize: '13px', fontWeight: '600',
           cursor: 'pointer', letterSpacing: '0.015em',
           transition: 'all 0.16s ease',
         }}
           onMouseOver={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
             e.currentTarget.style.color = '#ffffff';
             e.currentTarget.style.transform = 'translateY(-1px)';
           }}
           onMouseOut={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-            e.currentTarget.style.color = 'rgba(255,255,255,0.82)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+            e.currentTarget.style.color = 'rgba(255,255,255,0.80)';
             e.currentTarget.style.transform = 'translateY(0)';
           }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
@@ -302,23 +307,23 @@ const ReportStep3 = () => {
               <div key={i} style={{
                 height: '3px', borderRadius: '2px',
                 width: i <= 3 ? '28px' : '18px',
-                background: i < 3 ? '#006600' : i === 3 ? '#BB0000' : 'rgba(0,0,0,0.15)',
+                background: i < 3 ? '#22c55e' : i === 3 ? '#BB0000' : 'rgba(255,255,255,0.12)',
               }} />
             ))}
             <span style={{
               fontSize: '10px', letterSpacing: '0.18em',
-              color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase',
               marginLeft: '6px',
             }}>Step 3 of 4</span>
           </div>
 
-          {/* ── HEADLINE with watermark ── */}
+          {/* ── HEADLINE ── */}
           <div style={{ position: 'relative', marginBottom: '24px' }}>
             <div style={{
               position: 'absolute', top: '-14px', left: '-4px',
               fontSize: '72px', fontWeight: '900',
               color: 'transparent',
-              WebkitTextStroke: '1px rgba(187,0,0,0.06)',
+              WebkitTextStroke: '1px rgba(34,197,94,0.06)',
               letterSpacing: '-4px', lineHeight: 1,
               pointerEvents: 'none', userSelect: 'none',
               zIndex: 0,
@@ -330,10 +335,10 @@ const ReportStep3 = () => {
               fontWeight: '800', fontSize: '22px',
               margin: '0 0 6px', letterSpacing: '-0.4px',
             }}>
-              <span style={{ color: '#1a1a1a' }}>Tell us about the </span>
+              <span style={{ color: 'rgba(255,255,255,0.92)' }}>Tell us about the </span>
               <span style={{
                 color: 'transparent',
-                background: 'linear-gradient(90deg, #BB0000 0%, #8B0000 45%, #006600 100%)',
+                background: 'linear-gradient(90deg, #BB0000 0%, #8B0000 45%, #22c55e 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -341,7 +346,7 @@ const ReportStep3 = () => {
             </h2>
             <p style={{
               position: 'relative', zIndex: 1,
-              color: 'rgba(0,0,0,0.42)', fontSize: '13px',
+              color: 'rgba(255,255,255,0.35)', fontSize: '13px',
               margin: 0, lineHeight: '1.6',
             }}>
               Choose how you would like to fill in the details below.
@@ -353,7 +358,7 @@ const ReportStep3 = () => {
             <div style={{ marginBottom: '24px' }}>
               <div style={{
                 fontSize: '11px', fontWeight: '600',
-                color: 'rgba(0,0,0,0.38)',
+                color: 'rgba(255,255,255,0.25)',
                 textTransform: 'uppercase', letterSpacing: '0.12em',
                 marginBottom: '12px',
               }}>
@@ -367,60 +372,55 @@ const ReportStep3 = () => {
                   style={{
                     borderRadius: '13px', padding: '22px',
                     cursor: 'pointer', position: 'relative', overflow: 'hidden',
-                    background: 'rgba(14,19,14,0.95)',
-                    border: '1px solid rgba(234,150,0,0.35)',
-                    boxShadow: '0 4px 24px rgba(234,150,0,0.10), inset 0 1px 0 rgba(255,255,255,0.04)',
-                    backdropFilter: 'blur(28px)',
-                    WebkitBackdropFilter: 'blur(28px)',
+                    background: 'rgba(20,28,16,0.80)',
+                    border: '1px solid rgba(234,150,0,0.30)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
                     transition: 'all 0.18s ease',
                   }}
                   onMouseOver={e => {
                     e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(234,150,0,0.18), inset 0 1px 0 rgba(255,255,255,0.06)';
+                    e.currentTarget.style.boxShadow = '0 12px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(234,150,0,0.20)';
+                    e.currentTarget.style.borderColor = 'rgba(234,150,0,0.45)';
                   }}
                   onMouseOut={e => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 24px rgba(234,150,0,0.10), inset 0 1px 0 rgba(255,255,255,0.04)';
+                    e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)';
+                    e.currentTarget.style.borderColor = 'rgba(234,150,0,0.30)';
                   }}>
-
-                  {/* Glass sheen */}
                   <div style={{
                     position: 'absolute', inset: 0,
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0) 100%)',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 50%, transparent 100%)',
                     pointerEvents: 'none', borderRadius: '13px',
                   }} />
-                  {/* Top shimmer */}
                   <div style={{
                     position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                    background: 'linear-gradient(90deg, transparent, rgba(234,150,0,0.35), transparent)',
+                    background: 'linear-gradient(90deg, transparent, rgba(234,150,0,0.30), transparent)',
                   }} />
-                  {/* Left amber strip */}
                   <div style={{
                     position: 'absolute', top: 0, left: 0, width: '3px', height: '100%',
-                    background: 'linear-gradient(180deg, #ffd166, #ea9600)',
-                    opacity: 0.7,
+                    background: 'linear-gradient(180deg, #ffd166, #ea9600)', opacity: 0.7,
                   }} />
-
                   <div style={{
                     position: 'absolute', top: '12px', right: '12px',
-                    background: 'rgba(234,150,0,0.18)',
-                    border: '1px solid rgba(234,150,0,0.35)',
+                    background: 'rgba(234,150,0,0.15)',
+                    border: '1px solid rgba(234,150,0,0.30)',
                     borderRadius: '20px', padding: '2px 10px',
                     fontSize: '9px', fontWeight: '700', color: '#ffd166',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                   }}>Recommended</div>
-
                   <div style={{
                     width: '44px', height: '44px', borderRadius: '12px',
-                    background: 'rgba(234,150,0,0.15)',
-                    border: '1px solid rgba(234,150,0,0.25)',
+                    background: 'rgba(234,150,0,0.12)',
+                    border: '1px solid rgba(234,150,0,0.22)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '20px', marginBottom: '12px',
                   }}>⚡</div>
                   <div style={{ color: '#ffd166', fontWeight: '800', fontSize: '15px', marginBottom: '6px', paddingLeft: '4px' }}>
                     AI Quick Fill
                   </div>
-                  <div style={{ color: 'rgba(255,255,255,0.48)', fontSize: '12px', lineHeight: '1.6', paddingLeft: '4px' }}>
+                  <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px', lineHeight: '1.6', paddingLeft: '4px' }}>
                     Paste the full email — GPT-4o automatically extracts all details in seconds.
                   </div>
                 </div>
@@ -431,52 +431,47 @@ const ReportStep3 = () => {
                   style={{
                     borderRadius: '13px', padding: '22px',
                     cursor: 'pointer', position: 'relative', overflow: 'hidden',
-                    background: 'rgba(14,19,14,0.95)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)',
-                    backdropFilter: 'blur(28px)',
-                    WebkitBackdropFilter: 'blur(28px)',
+                    background: 'rgba(20,28,16,0.80)',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
                     transition: 'all 0.18s ease',
                   }}
                   onMouseOver={e => {
                     e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 10px 32px rgba(0,0,0,0.28)';
+                    e.currentTarget.style.boxShadow = '0 12px 36px rgba(0,0,0,0.45)';
                     e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
                   }}
                   onMouseOut={e => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)';
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                    e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
                   }}>
-
-                  {/* Glass sheen */}
                   <div style={{
                     position: 'absolute', inset: 0,
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0) 100%)',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 50%, transparent 100%)',
                     pointerEvents: 'none', borderRadius: '13px',
                   }} />
-                  {/* Top shimmer */}
                   <div style={{
                     position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)',
                   }} />
-                  {/* Left strip */}
                   <div style={{
                     position: 'absolute', top: 0, left: 0, width: '3px', height: '100%',
-                    background: 'rgba(255,255,255,0.15)', opacity: 0.5,
+                    background: 'rgba(34,197,94,0.40)', opacity: 0.6,
                   }} />
-
                   <div style={{
                     width: '44px', height: '44px', borderRadius: '12px',
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.10)',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.09)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '20px', marginBottom: '12px',
                   }}>✍️</div>
-                  <div style={{ color: 'rgba(255,255,255,0.90)', fontWeight: '800', fontSize: '15px', marginBottom: '6px', paddingLeft: '4px' }}>
+                  <div style={{ color: 'rgba(255,255,255,0.88)', fontWeight: '800', fontSize: '15px', marginBottom: '6px', paddingLeft: '4px' }}>
                     Fill Manually
                   </div>
-                  <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px', lineHeight: '1.6', paddingLeft: '4px' }}>
+                  <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '12px', lineHeight: '1.6', paddingLeft: '4px' }}>
                     Enter the email details yourself field by field at your own pace.
                   </div>
                 </div>
@@ -488,21 +483,20 @@ const ReportStep3 = () => {
           {fillMode === 'ai' && !extracted && (
             <div style={{
               borderRadius: '13px', marginBottom: '20px', overflow: 'hidden',
-              border: '1px solid rgba(234,150,0,0.35)',
-              background: 'rgba(14,19,14,0.95)',
-              backdropFilter: 'blur(28px)',
-              WebkitBackdropFilter: 'blur(28px)',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+              border: '1px solid rgba(234,150,0,0.30)',
+              background: 'rgba(20,28,16,0.85)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 28px rgba(0,0,0,0.40)',
               position: 'relative',
             }}>
-              {/* Glass sheen */}
               <div style={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 45%, rgba(255,255,255,0) 100%)',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%)',
                 pointerEvents: 'none', borderRadius: '13px',
               }} />
               <div style={{
-                padding: '14px 18px', borderBottom: '1px solid rgba(234,150,0,0.18)',
+                padding: '14px 18px', borderBottom: '1px solid rgba(234,150,0,0.15)',
                 display: 'flex', alignItems: 'center', gap: '10px',
                 position: 'relative', zIndex: 1,
               }}>
@@ -510,14 +504,14 @@ const ReportStep3 = () => {
                 <span style={{ color: '#ffd166', fontWeight: '700', fontSize: '14px' }}>AI Quick Fill</span>
                 <button onClick={() => setFillMode(null)} style={{
                   marginLeft: 'auto', background: 'none', border: 'none',
-                  color: 'rgba(255,255,255,0.35)', fontSize: '12px',
+                  color: 'rgba(255,255,255,0.28)', fontSize: '12px',
                   cursor: 'pointer', textDecoration: 'underline',
                 }}>← Change method</button>
               </div>
               <div style={{ padding: '18px', position: 'relative', zIndex: 1 }}>
                 <label style={{
                   display: 'block', fontSize: '11px', fontWeight: '600',
-                  color: 'rgba(255,255,255,0.40)', marginBottom: '10px',
+                  color: 'rgba(255,255,255,0.32)', marginBottom: '10px',
                   textTransform: 'uppercase', letterSpacing: '0.10em',
                 }}>
                   Paste the full email content here
@@ -527,8 +521,8 @@ const ReportStep3 = () => {
                   onChange={e => setRawEmail(e.target.value)}
                   placeholder="Paste everything — from, subject, body, links...&#10;&#10;GPT-4o will extract all the details automatically."
                   style={{
-                    width: '100%', background: 'rgba(0,0,0,0.25)',
-                    border: '1px solid rgba(234,150,0,0.18)',
+                    width: '100%', background: 'rgba(0,0,0,0.30)',
+                    border: '1px solid rgba(234,150,0,0.15)',
                     borderRadius: '10px', color: '#ffffff',
                     padding: '14px', fontSize: '13px', outline: 'none',
                     resize: 'none', lineHeight: '1.7', minHeight: '150px',
@@ -539,7 +533,7 @@ const ReportStep3 = () => {
                 {extractError && (
                   <div style={{
                     marginTop: '8px', padding: '8px 12px',
-                    background: 'rgba(187,0,0,0.10)', border: '1px solid rgba(187,0,0,0.20)',
+                    background: 'rgba(187,0,0,0.12)', border: '1px solid rgba(187,0,0,0.22)',
                     borderRadius: '8px', color: '#ff8080', fontSize: '12px',
                   }}>{extractError}</div>
                 )}
@@ -548,13 +542,15 @@ const ReportStep3 = () => {
                   disabled={extracting || !rawEmail.trim()}
                   style={{
                     marginTop: '12px',
-                    background: extracting || !rawEmail.trim() ? 'rgba(255,255,255,0.08)' : 'linear-gradient(135deg, #ea9600, #cc7a00)',
-                    color: extracting || !rawEmail.trim() ? 'rgba(255,255,255,0.3)' : '#fff',
+                    background: extracting || !rawEmail.trim()
+                      ? 'rgba(255,255,255,0.07)'
+                      : 'linear-gradient(135deg, #ea9600, #cc7a00)',
+                    color: extracting || !rawEmail.trim() ? 'rgba(255,255,255,0.28)' : '#fff',
                     border: 'none', borderRadius: '10px',
                     padding: '11px 22px', fontSize: '13px', fontWeight: '700',
                     cursor: extracting || !rawEmail.trim() ? 'not-allowed' : 'pointer',
                     display: 'flex', alignItems: 'center', gap: '8px',
-                    boxShadow: extracting || !rawEmail.trim() ? 'none' : '0 4px 16px rgba(234,150,0,0.3)',
+                    boxShadow: extracting || !rawEmail.trim() ? 'none' : '0 4px 16px rgba(234,150,0,0.28)',
                     transition: 'all 0.16s',
                   }}>
                   {extracting ? (
@@ -576,7 +572,7 @@ const ReportStep3 = () => {
           {extracted && (
             <div style={{
               marginBottom: '16px', padding: '11px 14px',
-              background: 'rgba(0,102,0,0.10)', border: '1px solid rgba(0,102,0,0.25)',
+              background: 'rgba(0,102,0,0.12)', border: '1px solid rgba(34,197,94,0.22)',
               borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '8px',
             }}>
               <span>✅</span>
@@ -585,7 +581,7 @@ const ReportStep3 = () => {
               </span>
               <button onClick={() => { setExtracted(false); setFillMode('ai'); }} style={{
                 marginLeft: 'auto', background: 'none', border: 'none',
-                color: 'rgba(0,0,0,0.4)', fontSize: '12px',
+                color: 'rgba(255,255,255,0.28)', fontSize: '12px',
                 cursor: 'pointer', textDecoration: 'underline',
               }}>Redo</button>
             </div>
@@ -595,24 +591,25 @@ const ReportStep3 = () => {
           {fillMode === 'manual' && (
             <div style={{
               borderRadius: '13px', padding: '22px',
-              background: 'rgba(14,19,14,0.95)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              backdropFilter: 'blur(28px)',
-              WebkitBackdropFilter: 'blur(28px)',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+              background: 'rgba(20,28,16,0.82)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 28px rgba(0,0,0,0.40)',
               position: 'relative', overflow: 'hidden',
             }}>
-
-              {/* Glass sheen */}
               <div style={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 45%, rgba(255,255,255,0) 100%)',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%)',
                 pointerEvents: 'none', borderRadius: '13px',
               }} />
-              {/* Top shimmer */}
               <div style={{
                 position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+                background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.18), transparent)',
+              }} />
+              <div style={{
+                position: 'absolute', top: 0, left: 0, width: '3px', height: '100%',
+                background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.6,
               }} />
 
               <div style={{
@@ -622,23 +619,22 @@ const ReportStep3 = () => {
               }}>
                 <div style={{
                   fontSize: '11px', fontWeight: '600',
-                  color: 'rgba(255,255,255,0.35)',
+                  color: 'rgba(255,255,255,0.28)',
                   textTransform: 'uppercase', letterSpacing: '0.10em',
                 }}>Email Details</div>
                 {!extracted && (
                   <button onClick={() => setFillMode(null)} style={{
                     background: 'none', border: 'none',
-                    color: 'rgba(255,255,255,0.30)', fontSize: '12px',
+                    color: 'rgba(255,255,255,0.25)', fontSize: '12px',
                     cursor: 'pointer', textDecoration: 'underline',
                   }}>← Change method</button>
                 )}
               </div>
 
               <div style={{ position: 'relative', zIndex: 1 }}>
-                {/* Sender + Subject */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.40)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.32)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                       Sender email <span style={{ color: '#BB0000' }}>*</span>
                     </label>
                     <input
@@ -649,7 +645,7 @@ const ReportStep3 = () => {
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.40)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.32)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                       Subject line <span style={{ color: '#BB0000' }}>*</span>
                     </label>
                     <input
@@ -661,9 +657,8 @@ const ReportStep3 = () => {
                   </div>
                 </div>
 
-                {/* Links */}
                 <div style={{ marginBottom: '14px' }}>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.40)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.32)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     Suspicious links or URLs
                   </label>
                   <input
@@ -674,28 +669,19 @@ const ReportStep3 = () => {
                   />
                 </div>
 
-                {/* Description */}
                 <div style={{ marginBottom: '14px' }}>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.40)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.32)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     What did the email ask you to do? <span style={{ color: '#BB0000' }}>*</span>
                   </label>
                   <textarea
                     value={form.emailDescription}
                     onChange={e => handleChange('emailDescription', e.target.value)}
                     placeholder="e.g. Click a link to verify my password, transfer funds urgently, provide my M-Pesa PIN..."
-                    style={{
-                      ...inputStyle(form.emailDescription),
-                      resize: 'none', minHeight: '88px', lineHeight: '1.65',
-                    }}
+                    style={{ ...inputStyle(form.emailDescription), resize: 'none', minHeight: '88px', lineHeight: '1.65' }}
                   />
                 </div>
 
-                {/* Email header collapsible */}
-                <div style={{
-                  borderRadius: '10px', overflow: 'hidden',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  marginBottom: '14px',
-                }}>
+                <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', marginBottom: '14px' }}>
                   <div
                     onClick={() => setShowHeaderInfo(!showHeaderInfo)}
                     style={{
@@ -705,29 +691,14 @@ const ReportStep3 = () => {
                     }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '13px' }}>📋</span>
-                      <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '12px', fontWeight: '600' }}>
-                        Email Header
-                      </span>
-                      <span style={{
-                        fontSize: '9px', background: 'rgba(255,255,255,0.07)',
-                        color: 'rgba(255,255,255,0.30)', padding: '2px 7px', borderRadius: '4px',
-                      }}>Optional</span>
+                      <span style={{ color: 'rgba(255,255,255,0.60)', fontSize: '12px', fontWeight: '600' }}>Email Header</span>
+                      <span style={{ fontSize: '9px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.28)', padding: '2px 7px', borderRadius: '4px' }}>Optional</span>
                     </div>
-                    <span style={{
-                      color: 'rgba(255,255,255,0.22)', fontSize: '12px',
-                      transform: showHeaderInfo ? 'rotate(180deg)' : 'rotate(0)',
-                      transition: 'transform 0.2s', display: 'block',
-                    }}>▾</span>
+                    <span style={{ color: 'rgba(255,255,255,0.20)', fontSize: '12px', transform: showHeaderInfo ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s', display: 'block' }}>▾</span>
                   </div>
-
                   {showHeaderInfo && (
                     <div style={{ padding: '14px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                      <div style={{
-                        padding: '12px', borderRadius: '9px',
-                        background: 'rgba(234,150,0,0.07)',
-                        border: '1px solid rgba(234,150,0,0.14)',
-                        marginBottom: '12px',
-                      }}>
+                      <div style={{ padding: '12px', borderRadius: '9px', background: 'rgba(234,150,0,0.07)', border: '1px solid rgba(234,150,0,0.13)', marginBottom: '12px' }}>
                         <div style={{ color: '#ffd166', fontWeight: '700', fontSize: '11px', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                           💡 How to find your email header
                         </div>
@@ -737,40 +708,26 @@ const ReportStep3 = () => {
                           { app: 'Apple Mail', steps: 'Open the email → Click View menu → Message → All Headers → Copy the header text' }
                         ].map((item, i) => (
                           <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: i < 2 ? '7px' : '0' }}>
-                            <span style={{
-                              fontSize: '10px', fontWeight: '700', color: '#ffd166',
-                              background: 'rgba(234,150,0,0.15)', padding: '1px 6px',
-                              borderRadius: '4px', flexShrink: 0, height: 'fit-content', marginTop: '1px',
-                            }}>{item.app}</span>
-                            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.50)', lineHeight: '1.6' }}>
-                              {item.steps}
-                            </span>
+                            <span style={{ fontSize: '10px', fontWeight: '700', color: '#ffd166', background: 'rgba(234,150,0,0.15)', padding: '1px 6px', borderRadius: '4px', flexShrink: 0, height: 'fit-content', marginTop: '1px' }}>{item.app}</span>
+                            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', lineHeight: '1.6' }}>{item.steps}</span>
                           </div>
                         ))}
                       </div>
-                      <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.35)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.28)', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                         Paste email header here
                       </label>
                       <textarea
                         value={form.emailHeader}
                         onChange={e => handleChange('emailHeader', e.target.value)}
                         placeholder="Received: from mail.suspicious.com&#10;X-Originating-IP: 192.168.1.1&#10;..."
-                        style={{
-                          width: '100%', background: 'rgba(0,0,0,0.20)',
-                          border: '1px solid rgba(255,255,255,0.07)',
-                          borderRadius: '9px', color: 'rgba(255,255,255,0.65)',
-                          padding: '11px 12px', fontSize: '11px', outline: 'none',
-                          resize: 'none', minHeight: '90px',
-                          boxSizing: 'border-box', lineHeight: '1.6', fontFamily: 'monospace',
-                        }}
+                        style={{ width: '100%', background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '9px', color: 'rgba(255,255,255,0.60)', padding: '11px 12px', fontSize: '11px', outline: 'none', resize: 'none', minHeight: '90px', boxSizing: 'border-box', lineHeight: '1.6', fontFamily: 'monospace' }}
                       />
                     </div>
                   )}
                 </div>
 
-                {/* Did you click */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.40)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.32)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     Did you click any links or open any attachments?
                   </label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
@@ -785,47 +742,36 @@ const ReportStep3 = () => {
                             textAlign: 'left', display: 'flex',
                             alignItems: 'center', gap: '10px',
                             background: form.clickedAnything === opt.value
-                              ? opt.safe ? 'rgba(0,102,0,0.15)' : 'rgba(187,0,0,0.12)'
+                              ? opt.safe ? 'rgba(0,102,0,0.18)' : 'rgba(187,0,0,0.14)'
                               : 'rgba(255,255,255,0.03)',
                             color: form.clickedAnything === opt.value
                               ? opt.safe ? '#4ade80' : '#ff8080'
-                              : 'rgba(255,255,255,0.55)',
+                              : 'rgba(255,255,255,0.50)',
                             border: form.clickedAnything === opt.value
-                              ? `1px solid ${opt.safe ? 'rgba(0,102,0,0.35)' : 'rgba(187,0,0,0.35)'}`
+                              ? `1px solid ${opt.safe ? 'rgba(34,197,94,0.30)' : 'rgba(187,0,0,0.30)'}`
                               : '1px solid rgba(255,255,255,0.07)',
                             transition: 'all 0.18s',
                           }}>
                           <div style={{
                             width: '18px', height: '18px', borderRadius: '50%',
                             background: form.clickedAnything === opt.value
-                              ? opt.safe ? '#006600' : '#BB0000'
-                              : 'rgba(255,255,255,0.08)',
-                            border: form.clickedAnything === opt.value
-                              ? 'none' : '1px solid rgba(255,255,255,0.15)',
-                            flexShrink: 0, display: 'flex',
-                            alignItems: 'center', justifyContent: 'center',
+                              ? opt.safe ? '#22c55e' : '#BB0000'
+                              : 'rgba(255,255,255,0.07)',
+                            border: form.clickedAnything === opt.value ? 'none' : '1px solid rgba(255,255,255,0.14)',
+                            flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                             fontSize: '9px', color: '#fff',
                           }}>
                             {form.clickedAnything === opt.value ? '●' : ''}
                           </div>
                           {opt.label}
                         </button>
-
                         {form.clickedAnything === opt.value && !opt.safe && (
-                          <div style={{
-                            marginTop: '7px', padding: '12px 14px',
-                            background: 'rgba(187,0,0,0.08)',
-                            border: '1px solid rgba(187,0,0,0.22)',
-                            borderLeft: '3px solid #BB0000',
-                            borderRadius: '9px',
-                          }}>
-                            <div style={{ color: '#ff8080', fontWeight: '700', fontSize: '11px', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                              ⚠ Do this immediately:
-                            </div>
+                          <div style={{ marginTop: '7px', padding: '12px 14px', background: 'rgba(187,0,0,0.08)', border: '1px solid rgba(187,0,0,0.20)', borderLeft: '3px solid #BB0000', borderRadius: '9px' }}>
+                            <div style={{ color: '#ff8080', fontWeight: '700', fontSize: '11px', marginBottom: '7px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>⚠ Do this immediately:</div>
                             {getClickedAdvice(opt.value).map((tip, i) => (
                               <div key={i} style={{ display: 'flex', gap: '7px', marginBottom: i < getClickedAdvice(opt.value).length - 1 ? '4px' : '0' }}>
                                 <span style={{ color: '#BB0000', fontSize: '10px', marginTop: '2px', flexShrink: 0 }}>▸</span>
-                                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.60)', lineHeight: '1.55' }}>{tip}</span>
+                                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.55' }}>{tip}</span>
                               </div>
                             ))}
                           </div>
