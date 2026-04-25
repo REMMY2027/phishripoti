@@ -10,7 +10,7 @@ const incidentTypes = [
     title: 'Phishing Email',
     description: 'Suspicious email requesting credentials, payment, or personal data via deceptive links or attachments.',
     threat: 'Most common attack vector in Kenyan financial institutions',
-    active: true
+    active: true,
   },
   {
     id: 'smishing',
@@ -18,7 +18,7 @@ const incidentTypes = [
     title: 'Smishing (SMS Phishing)',
     description: 'Fraudulent text messages impersonating M-Pesa, Safaricom or banks to steal credentials.',
     threat: 'Rapidly growing threat targeting mobile banking users',
-    active: false
+    active: false,
   },
   {
     id: 'vishing',
@@ -26,7 +26,7 @@ const incidentTypes = [
     title: 'Vishing (Voice Call)',
     description: 'Fraudulent phone calls impersonating bank executives, IT support or regulatory bodies.',
     threat: 'Used to bypass digital security controls',
-    active: false
+    active: false,
   },
   {
     id: 'social',
@@ -34,8 +34,8 @@ const incidentTypes = [
     title: 'Social Engineering',
     description: 'In-person or online psychological manipulation to gain unauthorised access to systems or data.',
     threat: 'Targets human trust rather than technical vulnerabilities',
-    active: false
-  }
+    active: false,
+  },
 ];
 
 const ReportStep1 = () => {
@@ -54,43 +54,49 @@ const ReportStep1 = () => {
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* ── BASE ── */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#e8e2d4' }} />
+      {/* ── BASE — warm parchment ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#c8bfa8' }} />
 
-      {/* ── CENTRE RADIAL LIFT ── */}
+      {/* ── STRONG CENTRE SPOTLIGHT ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse 70% 65% at 50% 38%, rgba(255,253,248,0.97) 0%, rgba(248,244,234,0.94) 25%, rgba(240,234,220,0.82) 50%, rgba(220,213,196,0.45) 72%, transparent 100%)',
+        background: 'radial-gradient(ellipse 65% 60% at 50% 40%, rgba(255,252,245,0.98) 0%, rgba(250,244,232,0.95) 20%, rgba(238,230,212,0.88) 42%, rgba(210,198,175,0.60) 65%, transparent 100%)',
       }} />
 
-      {/* ── EDGE DARKENING ── */}
+      {/* ── DEEP WARM VIGNETTE ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(180,165,140,0.28) 100%)',
+        background: 'radial-gradient(ellipse 110% 110% at 50% 50%, transparent 42%, rgba(100,80,45,0.32) 75%, rgba(70,52,22,0.55) 100%)',
       }} />
 
       {/* ── TOP GREEN BAND ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 3,
-        background: 'linear-gradient(180deg, rgba(4,26,8,0.24) 0%, rgba(4,26,8,0.08) 14%, transparent 30%)',
+        background: 'linear-gradient(180deg, rgba(3,22,6,0.30) 0%, rgba(3,22,6,0.10) 16%, transparent 32%)',
       }} />
 
       {/* ── BOTTOM RED BAND ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 4,
-        background: 'linear-gradient(0deg, rgba(90,0,0,0.18) 0%, rgba(90,0,0,0.07) 14%, transparent 30%)',
+        background: 'linear-gradient(0deg, rgba(80,0,0,0.24) 0%, rgba(80,0,0,0.08) 16%, transparent 32%)',
+      }} />
+
+      {/* ── DIAGONAL LIGHT RAY ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 5,
+        background: 'linear-gradient(135deg, rgba(255,252,240,0.16) 0%, rgba(255,252,240,0.05) 30%, transparent 55%)',
       }} />
 
       {/* ── NAIROBI SKYLINE ── */}
       <div style={{
         position: 'fixed', bottom: '-30px', right: 0,
         width: '580px', height: '220px',
-        zIndex: 5, pointerEvents: 'none',
+        zIndex: 6, pointerEvents: 'none',
         WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
         maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.85) 55%, #000 100%)',
       }}>
         <svg width="100%" height="100%" viewBox="0 0 580 260"
-          xmlns="http://www.w3.org/2000/svg" fill="#5a4a35" opacity="0.13">
+          xmlns="http://www.w3.org/2000/svg" fill="#4a3a20" opacity="0.20">
           <rect x="20" y="180" width="18" height="80" />
           <rect x="42" y="170" width="14" height="90" />
           <rect x="60" y="185" width="20" height="75" />
@@ -126,26 +132,26 @@ const ReportStep1 = () => {
       {/* ── DECORATIVE SVG ── */}
       <svg style={{
         position: 'fixed', inset: 0, width: '100%', height: '100%',
-        zIndex: 6, pointerEvents: 'none',
+        zIndex: 7, pointerEvents: 'none',
       }} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1"/>
-        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="350" fill="none" stroke="rgba(0,80,20,0.10)" strokeWidth="1"/>
+        <circle cx="-50" cy="150" r="280" fill="none" stroke="rgba(0,80,20,0.07)" strokeWidth="1"/>
         <circle cx="-50" cy="150" r="210" fill="none" stroke="rgba(0,80,20,0.04)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1"/>
-        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.06)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="320" fill="none" stroke="rgba(140,0,0,0.10)" strokeWidth="1"/>
+        <circle cx="110%" cy="80%" r="250" fill="none" stroke="rgba(140,0,0,0.07)" strokeWidth="1"/>
         <circle cx="110%" cy="80%" r="180" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
         <polygon points="200,480 225,466 250,480 250,508 225,522 200,508"
           fill="none" stroke="rgba(0,80,20,0.09)" strokeWidth="1.5"/>
         <polygon points="1050,180 1075,166 1100,180 1100,208 1075,222 1050,208"
           fill="none" stroke="rgba(140,0,0,0.09)" strokeWidth="1.5"/>
         <path d="M 0 500 Q 350 350 700 480 T 1400 420"
-          fill="none" stroke="rgba(0,80,20,0.055)" strokeWidth="1.5"/>
+          fill="none" stroke="rgba(0,80,20,0.06)" strokeWidth="1.5"/>
         <path d="M 0 600 Q 400 450 750 560 T 1400 500"
-          fill="none" stroke="rgba(140,0,0,0.045)" strokeWidth="1"/>
-        <circle cx="10%" cy="25%" r="3" fill="rgba(0,80,20,0.11)"/>
-        <circle cx="14%" cy="40%" r="2" fill="rgba(0,80,20,0.08)"/>
-        <circle cx="88%" cy="20%" r="3.5" fill="rgba(140,0,0,0.11)"/>
-        <circle cx="92%" cy="38%" r="2" fill="rgba(140,0,0,0.08)"/>
+          fill="none" stroke="rgba(140,0,0,0.05)" strokeWidth="1"/>
+        <circle cx="10%" cy="25%" r="3" fill="rgba(0,80,20,0.12)"/>
+        <circle cx="14%" cy="40%" r="2" fill="rgba(0,80,20,0.09)"/>
+        <circle cx="88%" cy="20%" r="3.5" fill="rgba(140,0,0,0.12)"/>
+        <circle cx="92%" cy="38%" r="2" fill="rgba(140,0,0,0.09)"/>
         <line x1="10%" y1="25%" x2="14%" y2="40%"
           stroke="rgba(0,80,20,0.07)" strokeWidth="0.8"/>
         <line x1="88%" y1="20%" x2="92%" y2="38%"
@@ -235,26 +241,25 @@ const ReportStep1 = () => {
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
               width: i === 1 ? '28px' : '18px',
-              background: i === 1 ? '#BB0000' : 'rgba(0,0,0,0.15)',
+              background: i === 1 ? '#BB0000' : 'rgba(0,0,0,0.18)',
             }} />
           ))}
           <span style={{
             fontSize: '10px', letterSpacing: '0.18em',
-            color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase',
+            color: 'rgba(0,0,0,0.42)', textTransform: 'uppercase',
             marginLeft: '6px',
           }}>Step 1 of 4</span>
         </div>
 
-        {/* ── HEADLINE with watermark ── */}
-        <div style={{ position: 'relative', marginBottom: '22px' }}>
+        {/* ── HEADLINE ── */}
+        <div style={{ position: 'relative', marginBottom: '24px' }}>
           <div style={{
             position: 'absolute', top: '-14px', left: '-4px',
             fontSize: '82px', fontWeight: '900',
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(187,0,0,0.06)',
+            WebkitTextStroke: '1px rgba(187,0,0,0.07)',
             letterSpacing: '-4px', lineHeight: 1,
-            pointerEvents: 'none', userSelect: 'none',
-            zIndex: 0,
+            pointerEvents: 'none', userSelect: 'none', zIndex: 0,
           }}>
             INCIDENT
           </div>
@@ -275,7 +280,7 @@ const ReportStep1 = () => {
           </h2>
           <p style={{
             position: 'relative', zIndex: 1,
-            color: 'rgba(0,0,0,0.42)', fontSize: '13px',
+            color: 'rgba(0,0,0,0.45)', fontSize: '13px',
             margin: 0, lineHeight: '1.6',
           }}>
             Select the incident type that best describes what you received. Only Phishing Email is active in v1.0.
@@ -286,7 +291,7 @@ const ReportStep1 = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '12px',
+          gap: '14px',
           width: '100%',
           maxWidth: '780px',
         }}>
@@ -299,145 +304,138 @@ const ReportStep1 = () => {
                 onMouseEnter={() => type.active && setHovered(type.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '13px',
-                  padding: '16px 16px 14px',
+                  borderRadius: '16px',
+                  padding: '0',
                   cursor: type.active ? 'pointer' : 'not-allowed',
                   position: 'relative',
                   overflow: 'hidden',
+                  display: 'flex',
+                  // Light card on warm background
                   background: type.active
                     ? hov
-                      ? 'rgba(12,16,12,0.97)'
-                      : 'rgba(14,19,14,0.95)'
-                    : 'rgba(16,20,15,0.90)',
+                      ? 'rgba(255,255,255,0.88)'
+                      : 'rgba(255,255,255,0.78)'
+                    : 'rgba(255,255,255,0.45)',
                   border: type.active
                     ? hov
-                      ? '1px solid rgba(34,197,94,0.25)'
-                      : '1px solid rgba(255,255,255,0.08)'
-                    : '1px solid rgba(255,255,255,0.05)',
-                  transform: hov ? 'translateY(-2px)' : 'translateY(0)',
-                  transition: 'all 0.18s ease',
+                      ? '1px solid rgba(187,0,0,0.25)'
+                      : '1px solid rgba(0,0,0,0.09)'
+                    : '1px solid rgba(0,0,0,0.06)',
+                  transform: hov ? 'translateY(-3px)' : 'translateY(0)',
+                  transition: 'all 0.20s ease',
                   boxShadow: type.active
                     ? hov
-                      ? '0 0 0 1px rgba(34,197,94,0.10), 0 10px 32px rgba(0,0,0,0.30)'
-                      : '0 4px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04)'
-                    : '0 2px 12px rgba(0,0,0,0.18)',
-                  opacity: type.active ? 1 : 0.55,
-                  backdropFilter: 'blur(28px)',
-                  WebkitBackdropFilter: 'blur(28px)',
+                      ? '0 12px 40px rgba(0,0,0,0.14), 0 0 0 2px rgba(187,0,0,0.12)'
+                      : '0 4px 20px rgba(0,0,0,0.10)'
+                    : '0 2px 10px rgba(0,0,0,0.07)',
+                  opacity: type.active ? 1 : 0.60,
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
                 }}>
 
-                {/* Glass sheen */}
+                {/* Left accent bar */}
                 <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0) 100%)',
-                  pointerEvents: 'none', borderRadius: '13px',
-                }} />
-
-                {/* Left accent strip */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: '3px', height: '100%',
+                  width: '5px', flexShrink: 0,
                   background: type.active
                     ? hov
-                      ? 'linear-gradient(180deg, #4ade80, #BB0000)'
+                      ? 'linear-gradient(180deg, #BB0000, #006600)'
                       : '#BB0000'
-                    : 'rgba(255,255,255,0.08)',
-                  opacity: type.active ? (hov ? 1 : 0.7) : 0.3,
-                  transition: 'all 0.18s',
+                    : 'rgba(0,0,0,0.12)',
+                  opacity: type.active ? (hov ? 1 : 0.80) : 0.35,
+                  borderRadius: '16px 0 0 16px',
+                  transition: 'all 0.20s',
                 }} />
 
-                {/* Top shimmer */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                  background: type.active
-                    ? hov
-                      ? 'linear-gradient(90deg, transparent, rgba(34,197,94,0.30), transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)'
-                    : 'none',
-                }} />
+                {/* Card content */}
+                <div style={{ flex: 1, padding: '18px 18px 16px 16px' }}>
 
-                {/* Icon + badge */}
-                <div style={{
-                  display: 'flex', justifyContent: 'space-between',
-                  alignItems: 'flex-start', marginBottom: '10px',
-                  paddingLeft: '8px',
-                }}>
+                  {/* Icon + badge row */}
                   <div style={{
-                    width: '36px', height: '36px', borderRadius: '10px',
-                    background: type.active
-                      ? 'rgba(255,255,255,0.06)'
-                      : 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', fontSize: '17px',
+                    display: 'flex', justifyContent: 'space-between',
+                    alignItems: 'flex-start', marginBottom: '12px',
                   }}>
-                    {type.icon}
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '11px',
+                      background: type.active
+                        ? hov
+                          ? 'rgba(187,0,0,0.10)'
+                          : 'rgba(0,0,0,0.06)'
+                        : 'rgba(0,0,0,0.04)',
+                      border: type.active
+                        ? hov
+                          ? '1px solid rgba(187,0,0,0.20)'
+                          : '1px solid rgba(0,0,0,0.09)'
+                        : '1px solid rgba(0,0,0,0.06)',
+                      display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '19px',
+                      transition: 'all 0.20s',
+                    }}>
+                      {type.icon}
+                    </div>
+
+                    <span style={{
+                      fontSize: '9px', fontWeight: '800',
+                      padding: '3px 9px', borderRadius: '20px',
+                      letterSpacing: '0.09em', textTransform: 'uppercase',
+                      background: type.active
+                        ? 'rgba(0,102,0,0.10)'
+                        : 'rgba(0,0,0,0.05)',
+                      color: type.active ? '#006600' : 'rgba(0,0,0,0.30)',
+                      border: type.active
+                        ? '1px solid rgba(0,102,0,0.20)'
+                        : '1px solid rgba(0,0,0,0.08)',
+                    }}>
+                      {type.active ? '✓ Active' : 'v2.0'}
+                    </span>
                   </div>
-                  <span style={{
-                    fontSize: '9px', fontWeight: '700',
-                    padding: '3px 8px', borderRadius: '20px',
-                    letterSpacing: '0.08em', textTransform: 'uppercase',
-                    background: type.active
-                      ? 'rgba(34,197,94,0.12)'
-                      : 'rgba(255,255,255,0.05)',
-                    color: type.active ? '#4ade80' : 'rgba(255,255,255,0.25)',
-                    border: type.active
-                      ? '1px solid rgba(34,197,94,0.20)'
-                      : '1px solid rgba(255,255,255,0.07)',
-                  }}>
-                    {type.active ? '✓ Active' : 'v2.0'}
-                  </span>
-                </div>
 
-                {/* Title */}
-                <div style={{
-                  paddingLeft: '8px',
-                  color: type.active ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.32)',
-                  fontWeight: '700', fontSize: '13px',
-                  marginBottom: '5px', letterSpacing: '-0.1px',
-                }}>
-                  {type.title}
-                </div>
-
-                {/* Description */}
-                <div style={{
-                  paddingLeft: '8px',
-                  color: type.active ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.18)',
-                  fontSize: '11px', lineHeight: '1.6', marginBottom: '12px',
-                }}>
-                  {type.description}
-                </div>
-
-                {/* Threat tag */}
-                <div style={{
-                  marginLeft: '8px',
-                  padding: '6px 10px', borderRadius: '7px',
-                  background: type.active
-                    ? 'rgba(187,0,0,0.10)'
-                    : 'rgba(255,255,255,0.03)',
-                  border: type.active
-                    ? '1px solid rgba(187,0,0,0.18)'
-                    : '1px solid rgba(255,255,255,0.05)',
-                  fontSize: '10px',
-                  color: type.active
-                    ? 'rgba(255,110,110,0.80)'
-                    : 'rgba(255,255,255,0.16)',
-                  lineHeight: '1.5',
-                }}>
-                  ⚠ {type.threat}
-                </div>
-
-                {/* Arrow */}
-                {type.active && (
+                  {/* Title */}
                   <div style={{
-                    position: 'absolute', bottom: '14px', right: '14px',
-                    color: hov
-                      ? 'rgba(34,197,94,0.70)'
-                      : 'rgba(255,255,255,0.16)',
-                    fontSize: '14px', transition: 'all 0.18s',
-                    transform: hov ? 'translateX(3px)' : 'translateX(0)',
-                  }}>→</div>
-                )}
+                    color: type.active ? '#111111' : 'rgba(0,0,0,0.35)',
+                    fontWeight: '800', fontSize: '14px',
+                    marginBottom: '6px', letterSpacing: '-0.2px',
+                  }}>
+                    {type.title}
+                  </div>
+
+                  {/* Description */}
+                  <div style={{
+                    color: type.active ? 'rgba(0,0,0,0.52)' : 'rgba(0,0,0,0.28)',
+                    fontSize: '12px', lineHeight: '1.65',
+                    marginBottom: '14px',
+                  }}>
+                    {type.description}
+                  </div>
+
+                  {/* Threat tag */}
+                  <div style={{
+                    padding: '7px 10px', borderRadius: '8px',
+                    background: type.active
+                      ? 'rgba(187,0,0,0.07)'
+                      : 'rgba(0,0,0,0.03)',
+                    border: type.active
+                      ? '1px solid rgba(187,0,0,0.16)'
+                      : '1px solid rgba(0,0,0,0.06)',
+                    fontSize: '11px',
+                    color: type.active
+                      ? '#BB0000'
+                      : 'rgba(0,0,0,0.25)',
+                    lineHeight: '1.5',
+                    fontWeight: '600',
+                  }}>
+                    ⚠ {type.threat}
+                  </div>
+
+                  {/* Arrow */}
+                  {type.active && (
+                    <div style={{
+                      textAlign: 'right', marginTop: '10px',
+                      color: hov ? '#BB0000' : 'rgba(0,0,0,0.22)',
+                      fontSize: '16px', transition: 'all 0.20s',
+                      transform: hov ? 'translateX(3px)' : 'translateX(0)',
+                    }}>→</div>
+                  )}
+                </div>
               </div>
             );
           })}
