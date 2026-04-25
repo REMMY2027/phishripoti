@@ -116,47 +116,50 @@ const ITLogin = () => {
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       padding: '24px', position: 'relative', overflow: 'hidden',
-      background: '#0d2410',
+      background: '#0f1410',
     }}>
 
-      {/* ── GREEN RADIAL GLOW — centre ── */}
+      {/* ── VERY SUBTLE CENTRE GLOW — barely visible ── */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
-        background: 'radial-gradient(ellipse 65% 55% at 50% 48%, rgba(0,80,20,0.35) 0%, rgba(0,40,10,0.18) 45%, transparent 75%)',
+        background: 'radial-gradient(ellipse 60% 50% at 50% 48%, rgba(0,40,10,0.45) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
-      {/* ── RED AMBIENT — bottom right ── */}
+      {/* ── VERY FAINT RED — bottom right ── */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
-        background: 'radial-gradient(ellipse 50% 40% at 105% 108%, rgba(140,0,0,0.20) 0%, transparent 60%)',
+        background: 'radial-gradient(ellipse 45% 35% at 105% 108%, rgba(100,0,0,0.14) 0%, transparent 60%)',
         pointerEvents: 'none',
       }} />
 
-      {/* ── GREEN AMBIENT — top left ── */}
+      {/* ── VERY FAINT GREEN — top left ── */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
-        background: 'radial-gradient(ellipse 45% 38% at -5% -5%, rgba(0,100,30,0.18) 0%, transparent 60%)',
+        background: 'radial-gradient(ellipse 40% 35% at -5% -5%, rgba(0,60,15,0.14) 0%, transparent 60%)',
         pointerEvents: 'none',
       }} />
 
-      {/* ── DOT GRID ── */}
+      {/* ── SUBTLE LINE TEXTURE — no dots ── */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 1,
-        backgroundImage: 'radial-gradient(circle, rgba(0,220,60,0.14) 1px, transparent 1px)',
-        backgroundSize: '28px 28px',
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)
+        `,
+        backgroundSize: '52px 52px',
         pointerEvents: 'none',
       }} />
 
-      {/* ── DECORATIVE CIRCLES ── */}
+      {/* ── DECORATIVE CIRCLES — very faint ── */}
       <svg style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
         zIndex: 1, pointerEvents: 'none',
       }} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="-60" cy="50%" r="300" fill="none" stroke="rgba(0,180,50,0.07)" strokeWidth="1"/>
-        <circle cx="-60" cy="50%" r="220" fill="none" stroke="rgba(0,180,50,0.05)" strokeWidth="1"/>
-        <circle cx="110%" cy="55%" r="280" fill="none" stroke="rgba(180,0,0,0.07)" strokeWidth="1"/>
-        <circle cx="110%" cy="55%" r="200" fill="none" stroke="rgba(180,0,0,0.05)" strokeWidth="1"/>
+        <circle cx="-80" cy="50%" r="320" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
+        <circle cx="-80" cy="50%" r="240" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1"/>
+        <circle cx="110%" cy="55%" r="300" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
+        <circle cx="110%" cy="55%" r="220" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1"/>
       </svg>
 
       {/* ── KENYAN FLAG STRIPE ── */}
@@ -166,11 +169,8 @@ const ITLogin = () => {
         zIndex: 10,
       }} />
 
-      {/* ── MAIN CARD ── */}
-      <div style={{
-        width: '100%', maxWidth: '400px',
-        position: 'relative', zIndex: 5,
-      }}>
+      {/* ── MAIN CONTENT ── */}
+      <div style={{ width: '100%', maxWidth: '400px', position: 'relative', zIndex: 5 }}>
 
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
@@ -179,7 +179,7 @@ const ITLogin = () => {
               width: '42px', height: '42px', borderRadius: '12px',
               background: 'linear-gradient(145deg, #cc0000, #7a0000)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 4px 20px rgba(187,0,0,0.45)',
+              boxShadow: '0 4px 20px rgba(187,0,0,0.40)',
             }}>
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
@@ -202,25 +202,23 @@ const ITLogin = () => {
         {/* ── CREDENTIALS STEP ── */}
         {step === 'credentials' && (
           <div style={{
-            background: 'rgba(255,255,255,0.07)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.10)',
             borderRadius: '20px', padding: '32px',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
-            boxShadow: '0 8px 48px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)',
+            boxShadow: '0 8px 48px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.08)',
             position: 'relative', overflow: 'hidden',
           }}>
-
             {/* Glass sheen */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 50%, transparent 100%)',
               pointerEvents: 'none', borderRadius: '20px',
             }} />
-            {/* Top shimmer */}
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)',
             }} />
 
             <div style={{ marginBottom: '26px', position: 'relative', zIndex: 1 }}>
@@ -228,7 +226,7 @@ const ITLogin = () => {
                 color: '#ffffff', fontWeight: '900', fontSize: '22px',
                 margin: '0 0 6px', letterSpacing: '-0.4px',
               }}>IT Manager Portal</h2>
-              <p style={{ color: 'rgba(255,255,255,0.40)', fontSize: '13px', margin: 0, fontWeight: '500' }}>
+              <p style={{ color: 'rgba(255,255,255,0.38)', fontSize: '13px', margin: 0, fontWeight: '500' }}>
                 Sign in to access the security dashboard
               </p>
             </div>
@@ -237,7 +235,7 @@ const ITLogin = () => {
               <div>
                 <label style={{
                   display: 'block', fontSize: '11px', fontWeight: '700',
-                  color: 'rgba(255,255,255,0.45)', marginBottom: '7px',
+                  color: 'rgba(255,255,255,0.38)', marginBottom: '7px',
                   textTransform: 'uppercase', letterSpacing: '0.09em',
                 }}>Email address</label>
                 <input
@@ -247,23 +245,22 @@ const ITLogin = () => {
                   placeholder="your@institution.co.ke"
                   style={{
                     width: '100%',
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.12)',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.10)',
                     borderRadius: '11px', color: '#ffffff',
                     padding: '13px 15px', fontSize: '14px',
                     outline: 'none', boxSizing: 'border-box',
-                    fontWeight: '500',
-                    transition: 'border 0.15s',
+                    fontWeight: '500', transition: 'border 0.15s',
                   }}
-                  onFocus={e => e.target.style.borderColor = 'rgba(34,197,94,0.45)'}
-                  onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'}
+                  onFocus={e => e.target.style.borderColor = 'rgba(255,255,255,0.28)'}
+                  onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.10)'}
                 />
               </div>
 
               <div>
                 <label style={{
                   display: 'block', fontSize: '11px', fontWeight: '700',
-                  color: 'rgba(255,255,255,0.45)', marginBottom: '7px',
+                  color: 'rgba(255,255,255,0.38)', marginBottom: '7px',
                   textTransform: 'uppercase', letterSpacing: '0.09em',
                 }}>Password</label>
                 <input
@@ -273,16 +270,15 @@ const ITLogin = () => {
                   placeholder="••••••••"
                   style={{
                     width: '100%',
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.12)',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.10)',
                     borderRadius: '11px', color: '#ffffff',
                     padding: '13px 15px', fontSize: '14px',
                     outline: 'none', boxSizing: 'border-box',
-                    fontWeight: '500',
-                    transition: 'border 0.15s',
+                    fontWeight: '500', transition: 'border 0.15s',
                   }}
-                  onFocus={e => e.target.style.borderColor = 'rgba(34,197,94,0.45)'}
-                  onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'}
+                  onFocus={e => e.target.style.borderColor = 'rgba(255,255,255,0.28)'}
+                  onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.10)'}
                   onKeyDown={e => e.key === 'Enter' && handleLogin()}
                 />
               </div>
@@ -307,16 +303,15 @@ const ITLogin = () => {
                   fontSize: '15px', fontWeight: '800',
                   cursor: loading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.16s',
-                  boxShadow: loading ? 'none' : '0 4px 20px rgba(187,0,0,0.40)',
-                  letterSpacing: '-0.1px',
-                  marginTop: '4px',
+                  boxShadow: loading ? 'none' : '0 4px 20px rgba(187,0,0,0.35)',
+                  letterSpacing: '-0.1px', marginTop: '4px',
                 }}>
                 {loading ? 'Verifying...' : 'Continue →'}
               </button>
             </div>
 
             <p style={{
-              textAlign: 'center', color: 'rgba(255,255,255,0.20)',
+              textAlign: 'center', color: 'rgba(255,255,255,0.18)',
               fontSize: '12px', marginTop: '22px', marginBottom: 0,
               fontWeight: '500', position: 'relative', zIndex: 1,
             }}>
@@ -328,43 +323,46 @@ const ITLogin = () => {
         {/* ── OTP STEP ── */}
         {step === 'otp' && (
           <div style={{
-            background: 'rgba(255,255,255,0.07)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.10)',
             borderRadius: '20px', padding: '32px',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
-            boxShadow: '0 8px 48px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)',
+            boxShadow: '0 8px 48px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.08)',
             position: 'relative', overflow: 'hidden',
           }}>
-
             {/* Glass sheen */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 50%, transparent 100%)',
               pointerEvents: 'none', borderRadius: '20px',
             }} />
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)',
             }} />
 
             <div style={{ textAlign: 'center', marginBottom: '26px', position: 'relative', zIndex: 1 }}>
               <div style={{
                 width: '60px', height: '60px', borderRadius: '18px',
-                background: 'rgba(34,197,94,0.12)',
-                border: '1px solid rgba(34,197,94,0.28)',
+                background: 'rgba(255,255,255,0.07)',
+                border: '1px solid rgba(255,255,255,0.14)',
                 display: 'inline-flex', alignItems: 'center',
                 justifyContent: 'center', fontSize: '28px',
                 marginBottom: '16px',
-                boxShadow: '0 4px 20px rgba(34,197,94,0.15)',
               }}>🔐</div>
               <h2 style={{
                 color: '#ffffff', fontWeight: '900', fontSize: '22px',
                 margin: '0 0 8px', letterSpacing: '-0.4px',
               }}>Check your email</h2>
-              <p style={{ color: 'rgba(255,255,255,0.40)', fontSize: '13px', margin: 0, lineHeight: '1.6', fontWeight: '500' }}>
+              <p style={{
+                color: 'rgba(255,255,255,0.38)', fontSize: '13px',
+                margin: 0, lineHeight: '1.6', fontWeight: '500',
+              }}>
                 We sent a 6-digit code to<br/>
-                <span style={{ color: 'rgba(255,255,255,0.75)', fontWeight: '700' }}>{pendingEmail}</span>
+                <span style={{ color: 'rgba(255,255,255,0.72)', fontWeight: '700' }}>
+                  {pendingEmail}
+                </span>
               </p>
             </div>
 
@@ -391,15 +389,14 @@ const ITLogin = () => {
                     textAlign: 'center', fontSize: '24px',
                     fontWeight: '900', fontFamily: 'monospace',
                     background: digit
-                      ? 'rgba(34,197,94,0.14)'
-                      : 'rgba(255,255,255,0.07)',
+                      ? 'rgba(255,255,255,0.12)'
+                      : 'rgba(255,255,255,0.06)',
                     border: digit
-                      ? '1px solid rgba(34,197,94,0.45)'
-                      : '1px solid rgba(255,255,255,0.14)',
+                      ? '1px solid rgba(255,255,255,0.35)'
+                      : '1px solid rgba(255,255,255,0.12)',
                     borderRadius: '13px', color: '#ffffff',
                     outline: 'none', transition: 'all 0.15s',
-                    caretColor: '#22c55e',
-                    boxShadow: digit ? '0 0 12px rgba(34,197,94,0.15)' : 'none',
+                    caretColor: '#ffffff',
                   }}
                 />
               ))}
@@ -419,8 +416,8 @@ const ITLogin = () => {
             {successMsg && (
               <div style={{
                 padding: '11px 14px', borderRadius: '10px',
-                background: 'rgba(34,197,94,0.12)',
-                border: '1px solid rgba(34,197,94,0.28)',
+                background: 'rgba(34,197,94,0.10)',
+                border: '1px solid rgba(34,197,94,0.25)',
                 color: '#4ade80', fontSize: '13px', fontWeight: '600',
                 marginBottom: '14px', textAlign: 'center',
                 position: 'relative', zIndex: 1,
@@ -434,16 +431,16 @@ const ITLogin = () => {
                 width: '100%', padding: '14px',
                 borderRadius: '11px', border: 'none',
                 background: loading || otp.join('').length < 6
-                  ? 'rgba(255,255,255,0.08)'
+                  ? 'rgba(255,255,255,0.07)'
                   : 'linear-gradient(135deg, #006600, #004400)',
                 color: loading || otp.join('').length < 6
-                  ? 'rgba(255,255,255,0.30)' : '#ffffff',
+                  ? 'rgba(255,255,255,0.28)' : '#ffffff',
                 fontSize: '15px', fontWeight: '800',
                 cursor: loading || otp.join('').length < 6 ? 'not-allowed' : 'pointer',
                 transition: 'all 0.16s',
                 marginBottom: '16px',
                 boxShadow: otp.join('').length === 6 && !loading
-                  ? '0 4px 20px rgba(0,102,0,0.40)' : 'none',
+                  ? '0 4px 20px rgba(0,102,0,0.35)' : 'none',
                 letterSpacing: '-0.1px',
                 position: 'relative', zIndex: 1,
               }}>
@@ -458,7 +455,7 @@ const ITLogin = () => {
                 onClick={() => { setStep('credentials'); setError(''); setOtp(['','','','','','']); }}
                 style={{
                   background: 'none', border: 'none',
-                  color: 'rgba(255,255,255,0.35)', fontSize: '12px',
+                  color: 'rgba(255,255,255,0.32)', fontSize: '12px',
                   cursor: 'pointer', textDecoration: 'underline',
                   padding: 0, fontWeight: '600',
                 }}>
@@ -469,7 +466,7 @@ const ITLogin = () => {
                 disabled={resending}
                 style={{
                   background: 'none', border: 'none',
-                  color: resending ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.45)',
+                  color: resending ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.42)',
                   fontSize: '12px',
                   cursor: resending ? 'not-allowed' : 'pointer',
                   textDecoration: 'underline', padding: 0, fontWeight: '600',
@@ -483,8 +480,8 @@ const ITLogin = () => {
         {/* Bottom note */}
         <div style={{ textAlign: 'center', marginTop: '24px', position: 'relative', zIndex: 5 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 6px rgba(34,197,94,0.60)' }}/>
-            <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '11px', fontWeight: '600' }}>
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 5px rgba(34,197,94,0.50)' }}/>
+            <span style={{ color: 'rgba(255,255,255,0.20)', fontSize: '11px', fontWeight: '600' }}>
               Secured by PhishRipoti · MFA Enabled
             </span>
           </div>
