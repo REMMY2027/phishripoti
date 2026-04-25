@@ -1,4 +1,4 @@
-cat > /Users/remmykunta/Documents/GRIFFITH\ COLLEGE/DISSERTATION/PHISIRIPOTI/implementation/Phishiripoti/frontend/src/pages/ITLogin.js << 'ENDOFFILE'
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -370,4 +370,3 @@ const ITLogin = () => {
 };
 
 export default ITLogin;
-ENDOFFILE
