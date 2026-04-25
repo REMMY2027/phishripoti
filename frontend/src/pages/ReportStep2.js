@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NextStrip from '../components/NextStrip';
 import { useReport } from '../context/ReportContext';
@@ -8,258 +8,63 @@ const departments = [
     id: 'customer',
     label: 'Customer Service / Teller',
     icon: '🎧',
-    desc: 'High target for M-Pesa impersonation and account takeover phishing.',
-    accentRaw: 'green',
-    risk: 'HIGH',
-    riskLevel: 3,
+    role: 'Handles customer queries, account access, and M-Pesa transactions.',
+    targets: 'M-Pesa impersonation, account takeover calls',
+    accentColor: '#f59e0b',
+    accentLight: 'rgba(245,158,11,0.08)',
+    risk: 'MEDIUM',
   },
   {
     id: 'finance',
     label: 'Finance & Accounts',
     icon: '📊',
-    desc: 'Targeted by invoice fraud, payment diversion and CFO impersonation.',
-    accentRaw: 'red',
-    risk: 'CRITICAL',
-    riskLevel: 4,
+    role: 'Handles payments, invoices, transfers, and financial reporting.',
+    targets: 'Invoice fraud, payment diversion, CFO impersonation',
+    accentColor: '#BB0000',
+    accentLight: 'rgba(187,0,0,0.07)',
+    risk: 'HIGH',
   },
   {
     id: 'compliance',
     label: 'Compliance / Risk',
     icon: '⚖️',
-    desc: 'Targeted by regulatory impersonation emails pretending to be CBK or KRA.',
-    accentRaw: 'green',
-    risk: 'MEDIUM',
-    riskLevel: 2,
+    role: 'Oversees regulatory adherence and internal risk controls.',
+    targets: 'CBK/KRA impersonation emails, fake audit requests',
+    accentColor: '#22c55e',
+    accentLight: 'rgba(34,197,94,0.07)',
+    risk: 'LOW',
   },
   {
     id: 'loans',
     label: 'Loans / Credit Officer',
     icon: '💳',
-    desc: 'At risk from fake loan documents and credential harvesting attacks.',
-    accentRaw: 'red',
+    role: 'Processes loan applications, credit checks, and approvals.',
+    targets: 'Fake loan documents, credential harvesting',
+    accentColor: '#BB0000',
+    accentLight: 'rgba(187,0,0,0.07)',
     risk: 'HIGH',
-    riskLevel: 3,
   },
   {
     id: 'operations',
     label: 'Operations',
     icon: '⚙️',
-    desc: 'Targeted by system access phishing and fake IT support credential emails.',
-    accentRaw: 'green',
+    role: 'Manages internal systems, IT access, and daily bank operations.',
+    targets: 'Fake IT support emails, system access phishing',
+    accentColor: '#f59e0b',
+    accentLight: 'rgba(245,158,11,0.08)',
     risk: 'MEDIUM',
-    riskLevel: 2,
   },
   {
     id: 'hr',
     label: 'Human Resources',
     icon: '👥',
-    desc: 'Targeted by payroll diversion and fake employee document phishing.',
-    accentRaw: 'red',
+    role: 'Manages staff records, payroll, and employee onboarding.',
+    targets: 'Payroll diversion, fake employee document requests',
+    accentColor: '#BB0000',
+    accentLight: 'rgba(187,0,0,0.07)',
     risk: 'HIGH',
-    riskLevel: 3,
   },
 ];
-
-const riskConfig = {
-  CRITICAL: { color: '#ef4444', glow: 'rgba(239,68,68,0.35)', bg: 'rgba(239,68,68,0.08)', label: 'CRITICAL' },
-  HIGH:     { color: '#f59e0b', glow: 'rgba(245,158,11,0.30)', bg: 'rgba(245,158,11,0.07)', label: 'HIGH' },
-  MEDIUM:   { color: '#22c55e', glow: 'rgba(34,197,94,0.28)',  bg: 'rgba(34,197,94,0.06)',  label: 'MEDIUM' },
-  LOW:      { color: '#3b82f6', glow: 'rgba(59,130,246,0.25)', bg: 'rgba(59,130,246,0.05)', label: 'LOW' },
-};
-
-// ── Network canvas background ──
-const NetworkBackground = () => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animId;
-    let tick = 0;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Nodes — financial transaction hubs
-    const nodes = Array.from({ length: 28 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      r: 1.5 + Math.random() * 2.5,
-      pulse: Math.random() * Math.PI * 2,
-      pulseSpeed: 0.02 + Math.random() * 0.02,
-      type: Math.random() > 0.6 ? 'green' : Math.random() > 0.5 ? 'red' : 'dim',
-    }));
-
-    // Packets travelling along connections
-    const packets = Array.from({ length: 8 }, () => ({
-      progress: Math.random(),
-      speed: 0.002 + Math.random() * 0.003,
-      fromIdx: Math.floor(Math.random() * nodes.length),
-      toIdx: Math.floor(Math.random() * nodes.length),
-      color: Math.random() > 0.5 ? '#22c55e' : '#BB0000',
-    }));
-
-    // African geometric — subtle diamond grid
-    const drawGeometric = (W, H) => {
-      ctx.save();
-      ctx.strokeStyle = 'rgba(0,180,50,0.028)';
-      ctx.lineWidth = 0.6;
-      const step = 60;
-      for (let x = 0; x < W + step; x += step) {
-        for (let y = 0; y < H + step; y += step) {
-          ctx.beginPath();
-          ctx.moveTo(x, y - step / 2);
-          ctx.lineTo(x + step / 2, y);
-          ctx.lineTo(x, y + step / 2);
-          ctx.lineTo(x - step / 2, y);
-          ctx.closePath();
-          ctx.stroke();
-        }
-      }
-      ctx.restore();
-    };
-
-    const draw = () => {
-      tick++;
-      const W = canvas.width;
-      const H = canvas.height;
-      ctx.clearRect(0, 0, W, H);
-
-      // 1. Base
-      ctx.fillStyle = '#040f05';
-      ctx.fillRect(0, 0, W, H);
-
-      // 2. Radial ambient glows
-      const g1 = ctx.createRadialGradient(-100, -100, 0, -100, -100, W * 0.55);
-      g1.addColorStop(0, 'rgba(0,120,30,0.16)');
-      g1.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
-
-      const g2 = ctx.createRadialGradient(W + 100, H + 100, 0, W + 100, H + 100, W * 0.50);
-      g2.addColorStop(0, 'rgba(140,0,0,0.16)');
-      g2.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
-
-      // 3. African geometric pattern
-      drawGeometric(W, H);
-
-      // 4. Network connections
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 180) {
-            const alpha = (1 - dist / 180) * 0.12;
-            const col = nodes[i].type === 'green' || nodes[j].type === 'green'
-              ? `rgba(0,200,60,${alpha})`
-              : `rgba(180,0,0,${alpha * 0.7})`;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = col;
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // 5. Packets along connections
-      packets.forEach(p => {
-        p.progress += p.speed;
-        if (p.progress >= 1) {
-          p.progress = 0;
-          p.fromIdx = p.toIdx;
-          p.toIdx = Math.floor(Math.random() * nodes.length);
-        }
-        const from = nodes[p.fromIdx];
-        const to = nodes[p.toIdx];
-        const px = from.x + (to.x - from.x) * p.progress;
-        const py = from.y + (to.y - from.y) * p.progress;
-        ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-
-      // 6. Nodes
-      nodes.forEach(n => {
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
-        if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
-        n.pulse += n.pulseSpeed;
-
-        const glowR = n.r * (1.8 + 0.6 * Math.sin(n.pulse));
-        const col = n.type === 'green' ? '#22c55e' : n.type === 'red' ? '#BB0000' : '#334433';
-        const alpha = n.type === 'dim' ? 0.15 : 0.55 + 0.3 * Math.sin(n.pulse);
-
-        // Outer glow
-        const gn = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowR * 3);
-        gn.addColorStop(0, n.type === 'green' ? `rgba(34,197,94,${alpha * 0.15})` : n.type === 'red' ? `rgba(187,0,0,${alpha * 0.15})` : 'rgba(0,0,0,0)');
-        gn.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = gn;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, glowR * 3, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Core dot
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = col;
-        ctx.globalAlpha = alpha;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      });
-
-      // 7. Subtle scanline sweep
-      const scanY = ((tick * 0.5) % (H + 100)) - 50;
-      const scanGrad = ctx.createLinearGradient(0, scanY, 0, scanY + 2);
-      scanGrad.addColorStop(0, 'rgba(0,255,60,0)');
-      scanGrad.addColorStop(0.5, 'rgba(0,255,60,0.018)');
-      scanGrad.addColorStop(1, 'rgba(0,255,60,0)');
-      ctx.fillStyle = scanGrad;
-      ctx.fillRect(0, scanY, W, 2);
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
-  }, []);
-
-  return (
-    <canvas ref={canvasRef} style={{
-      position: 'fixed', inset: 0,
-      width: '100%', height: '100%',
-      zIndex: 0, pointerEvents: 'none',
-      display: 'block',
-    }} />
-  );
-};
-
-// ── Risk indicator bar ──
-const RiskBar = ({ level, color }) => (
-  <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
-    {[1,2,3,4].map(i => (
-      <div key={i} style={{
-        width: '16px', height: '3px', borderRadius: '2px',
-        background: i <= level ? color : 'rgba(255,255,255,0.12)',
-        transition: 'background 0.2s',
-        boxShadow: i <= level ? `0 0 4px ${color}` : 'none',
-      }} />
-    ))}
-  </div>
-);
 
 const ReportStep2 = () => {
   const navigate = useNavigate();
@@ -268,15 +73,6 @@ const ReportStep2 = () => {
   const [hovered, setHovered] = useState(null);
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [otherDept, setOtherDept] = useState('');
-  const [pulse, setPulse] = useState(0);
-
-  // Pulse animation for selected card
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPulse(p => (p + 1) % 100);
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSelect = (dept) => {
     if (dept.id === 'other') {
@@ -307,63 +103,147 @@ const ReportStep2 = () => {
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* Animated network background */}
-      <NetworkBackground />
+      {/* ── BASE — off-white to very light green-grey ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 0,
+        background: 'linear-gradient(145deg, #f8faf8 0%, #f2f5f2 35%, #f5f4f0 70%, #f8f6f2 100%)',
+      }} />
 
-      {/* ── NAVBAR ── */}
+      {/* ── RADIAL DEPTH — centre content lift ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 1,
+        background: 'radial-gradient(ellipse 68% 62% at 50% 42%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.60) 40%, transparent 75%)',
+      }} />
+
+      {/* ── EDGE VIGNETTE — subtle darkening at corners ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 2,
+        background: 'radial-gradient(ellipse 110% 110% at 50% 50%, transparent 50%, rgba(180,185,175,0.18) 100%)',
+      }} />
+
+      {/* ── FINANCIAL FLOW SVG — transaction lines, network dots ── */}
+      <svg style={{
+        position: 'fixed', inset: 0, width: '100%', height: '100%',
+        zIndex: 3, pointerEvents: 'none',
+      }} xmlns="http://www.w3.org/2000/svg">
+
+        {/* Transaction flow curves */}
+        <path d="M -100 300 Q 200 180 500 320 T 1100 280 T 1600 300"
+          fill="none" stroke="rgba(0,120,40,0.04)" strokeWidth="1.5"/>
+        <path d="M -100 420 Q 250 300 600 440 T 1200 380 T 1600 420"
+          fill="none" stroke="rgba(0,100,30,0.03)" strokeWidth="1"/>
+        <path d="M -100 560 Q 300 440 700 560 T 1300 500 T 1600 540"
+          fill="none" stroke="rgba(187,0,0,0.025)" strokeWidth="1"/>
+        <path d="M 0 680 Q 350 560 750 680 T 1400 620"
+          fill="none" stroke="rgba(0,100,30,0.025)" strokeWidth="1"/>
+        <path d="M 200 100 Q 500 -20 800 120 T 1400 80"
+          fill="none" stroke="rgba(0,80,20,0.03)" strokeWidth="1"/>
+
+        {/* African diamond geometric — very faint */}
+        {[...Array(8)].map((_, col) =>
+          [...Array(6)].map((_, row) => {
+            const cx = col * 180 + 40;
+            const cy = row * 140 + 40;
+            return (
+              <polygon key={`${col}-${row}`}
+                points={`${cx},${cy-22} ${cx+16},${cy} ${cx},${cy+22} ${cx-16},${cy}`}
+                fill="none"
+                stroke="rgba(0,100,30,0.025)"
+                strokeWidth="0.8"
+              />
+            );
+          })
+        )}
+
+        {/* Network nodes — scattered dots */}
+        {[
+          [8,22],[14,45],[88,18],[92,42],[6,72],[94,68],
+          [45,5],[55,95],[20,85],[80,80],[30,15],[70,20],
+          [25,55],[75,48],[50,30],[35,75],[65,72],
+        ].map(([cx, cy], i) => (
+          <circle key={i}
+            cx={`${cx}%`} cy={`${cy}%`}
+            r={i % 3 === 0 ? 2.5 : 1.8}
+            fill={i % 2 === 0 ? 'rgba(0,120,40,0.09)' : 'rgba(187,0,0,0.06)'}
+          />
+        ))}
+
+        {/* Node connection lines */}
+        <line x1="8%" y1="22%" x2="14%" y2="45%" stroke="rgba(0,100,30,0.05)" strokeWidth="0.7"/>
+        <line x1="88%" y1="18%" x2="92%" y2="42%" stroke="rgba(187,0,0,0.04)" strokeWidth="0.7"/>
+        <line x1="6%" y1="72%" x2="20%" y2="85%" stroke="rgba(0,100,30,0.04)" strokeWidth="0.7"/>
+        <line x1="80%" y1="80%" x2="94%" y2="68%" stroke="rgba(187,0,0,0.04)" strokeWidth="0.7"/>
+        <line x1="45%" y1="5%" x2="30%" y2="15%" stroke="rgba(0,100,30,0.04)" strokeWidth="0.7"/>
+        <line x1="55%" y1="95%" x2="65%" y2="72%" stroke="rgba(187,0,0,0.03)" strokeWidth="0.7"/>
+
+        {/* Concentric arcs — top left */}
+        <circle cx="-60" cy="120" r="220" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1"/>
+        <circle cx="-60" cy="120" r="170" fill="none" stroke="rgba(0,100,30,0.03)" strokeWidth="1"/>
+        <circle cx="-60" cy="120" r="120" fill="none" stroke="rgba(0,100,30,0.02)" strokeWidth="1"/>
+
+        {/* Concentric arcs — bottom right */}
+        <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(187,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="150" fill="none" stroke="rgba(187,0,0,0.03)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="100" fill="none" stroke="rgba(187,0,0,0.02)" strokeWidth="1"/>
+      </svg>
+
+      {/* ── NAVBAR — light glassmorphism ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2.5rem', height: '66px',
-        background: 'rgba(2,8,3,0.88)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderBottom: '1px solid rgba(0,200,60,0.10)',
-        boxShadow: '0 4px 32px rgba(0,0,0,0.60)',
+        padding: '0 2.5rem', height: '64px',
+        background: 'rgba(255,255,255,0.82)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
+        boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 24px rgba(0,0,0,0.06)',
         flexShrink: 0,
       }}>
+        {/* Kenyan flag stripe */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '6px',
-          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #111111 33.33%, #111111 66.66%, #006600 66.66%, #006600 100%)',
+          position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+          background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)',
         }} />
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(0,255,60,0.14), transparent)',
-        }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '38px', height: '38px', borderRadius: '10px',
+            width: '36px', height: '36px', borderRadius: '9px',
             background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 0 1px rgba(255,80,80,0.18), 0 4px 16px rgba(187,0,0,0.55)',
+            boxShadow: '0 2px 10px rgba(187,0,0,0.30)',
             flexShrink: 0,
           }}>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
                 fill="rgba(255,255,255,0.95)"/>
             </svg>
           </div>
-          <span style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '-0.5px', lineHeight: 1 }}>
-            <span style={{ color: '#ffffff' }}>Phish</span>
-            <span style={{
-              color: 'transparent',
-              background: 'linear-gradient(90deg, #22c55e 0%, #4ade80 100%)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-            }}>Ripoti</span>
+          <span style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
+            <span style={{ color: '#1a1a1a' }}>Phish</span>
+            <span style={{ color: '#006600' }}>Ripoti</span>
           </span>
         </div>
+
         <button onClick={() => navigate('/it-login')} style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '10px 20px', borderRadius: '8px',
-          background: 'rgba(255,255,255,0.07)',
-          border: '1px solid rgba(255,255,255,0.13)',
-          color: 'rgba(255,255,255,0.82)',
-          fontSize: '13px', fontWeight: '600',
-          cursor: 'pointer', letterSpacing: '0.015em',
+          display: 'flex', alignItems: 'center', gap: '7px',
+          padding: '9px 18px', borderRadius: '8px',
+          background: 'rgba(255,255,255,0.70)',
+          border: '1px solid rgba(0,0,0,0.10)',
+          color: '#333333', fontSize: '13px', fontWeight: '600',
+          cursor: 'pointer', letterSpacing: '0.01em',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
           transition: 'all 0.16s ease',
         }}
-          onMouseOver={e => { e.currentTarget.style.background='rgba(255,255,255,0.13)'; e.currentTarget.style.color='#ffffff'; e.currentTarget.style.transform='translateY(-1px)'; }}
-          onMouseOut={e => { e.currentTarget.style.background='rgba(255,255,255,0.07)'; e.currentTarget.style.color='rgba(255,255,255,0.82)'; e.currentTarget.style.transform='translateY(0)'; }}>
+          onMouseOver={e => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
+            e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.10)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+          }}
+          onMouseOut={e => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.70)';
+            e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.8"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
@@ -375,7 +255,7 @@ const ReportStep2 = () => {
       {/* ── PAGE CONTENT ── */}
       <div style={{
         flex: 1, position: 'relative', zIndex: 10,
-        padding: '26px 44px 20px',
+        padding: '28px 48px 24px',
         display: 'flex', flexDirection: 'column',
         overflowY: 'auto',
       }}>
@@ -386,23 +266,23 @@ const ReportStep2 = () => {
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
               width: i <= 2 ? '28px' : '18px',
-              background: i < 2 ? '#006600' : i === 2 ? '#BB0000' : 'rgba(255,255,255,0.12)',
+              background: i < 2 ? '#006600' : i === 2 ? '#BB0000' : 'rgba(0,0,0,0.12)',
             }} />
           ))}
           <span style={{
             fontSize: '10px', letterSpacing: '0.18em',
-            color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase',
+            color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase',
             marginLeft: '6px',
           }}>Step 2 of 4</span>
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ position: 'relative', marginBottom: '24px' }}>
+        <div style={{ position: 'relative', marginBottom: '26px' }}>
           <div style={{
-            position: 'absolute', top: '-14px', left: '-4px',
-            fontSize: '82px', fontWeight: '900',
+            position: 'absolute', top: '-16px', left: '-4px',
+            fontSize: '80px', fontWeight: '900',
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(0,220,60,0.07)',
+            WebkitTextStroke: '1px rgba(0,100,30,0.05)',
             letterSpacing: '-4px', lineHeight: 1,
             pointerEvents: 'none', userSelect: 'none', zIndex: 0,
           }}>
@@ -410,20 +290,23 @@ const ReportStep2 = () => {
           </div>
           <h2 style={{
             position: 'relative', zIndex: 1,
-            fontWeight: '800', fontSize: '22px',
-            margin: '0 0 6px', letterSpacing: '-0.4px',
+            fontWeight: '800', fontSize: '24px',
+            margin: '0 0 7px', letterSpacing: '-0.5px',
+            color: '#111111',
           }}>
-            <span style={{ color: 'rgba(255,255,255,0.92)' }}>Which </span>
+            Which{' '}
             <span style={{
               color: 'transparent',
-              background: 'linear-gradient(90deg, #22c55e 0%, #4ade80 50%, #BB0000 100%)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+              background: 'linear-gradient(90deg, #006600 0%, #004400 50%, #BB0000 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
             }}>department</span>
-            <span style={{ color: 'rgba(255,255,255,0.92)' }}> are you from?</span>
+            {' '}are you from?
           </h2>
           <p style={{
             position: 'relative', zIndex: 1,
-            color: 'rgba(255,255,255,0.38)', fontSize: '13px',
+            color: 'rgba(0,0,0,0.45)', fontSize: '14px',
             margin: 0, lineHeight: '1.6',
           }}>
             Your department helps us contextualise the threat. It is stripped before storage — never linked to your identity.
@@ -441,8 +324,6 @@ const ReportStep2 = () => {
           {departments.map((dept) => {
             const sel = selected === dept.label;
             const hov = hovered === dept.id;
-            const rc = riskConfig[dept.risk];
-            const pulseAlpha = sel ? 0.25 + 0.15 * Math.sin(pulse * 0.12) : 0;
 
             return (
               <div
@@ -451,147 +332,117 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '14px',
-                  padding: '20px 20px 18px',
+                  borderRadius: '16px',
+                  padding: '0',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
+                  display: 'flex',
                   background: sel
-                    ? `rgba(${dept.accentRaw === 'green' ? '0,40,12' : '40,0,0'},0.75)`
+                    ? 'rgba(255,255,255,0.98)'
                     : hov
-                    ? 'rgba(255,255,255,0.10)'
-                    : 'rgba(255,255,255,0.06)',
+                    ? 'rgba(255,255,255,0.95)'
+                    : 'rgba(255,255,255,0.82)',
                   border: sel
-                    ? `1px solid ${rc.color}66`
-                    : hov
-                    ? `1px solid ${rc.color}44`
-                    : '1px solid rgba(255,255,255,0.10)',
-                  transform: hov && !sel ? 'translateY(-3px) scale(1.005)' : 'translateY(0) scale(1)',
-                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
+                    ? `1px solid ${dept.accentColor}44`
+                    : '1px solid rgba(0,0,0,0.06)',
+                  transform: hov && !sel ? 'translateY(-3px)' : 'translateY(0)',
+                  transition: 'all 0.20s ease',
                   boxShadow: sel
-                    ? `0 0 0 1px ${rc.color}22, 0 12px 40px rgba(0,0,0,0.55), 0 0 32px ${rc.glow}`
+                    ? `0 4px 24px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06), 0 0 0 2px ${dept.accentColor}22`
                     : hov
-                    ? `0 8px 32px rgba(0,0,0,0.45), 0 0 20px ${rc.glow}`
-                    : '0 2px 12px rgba(0,0,0,0.35)',
-                  backdropFilter: 'blur(24px)',
-                  WebkitBackdropFilter: 'blur(24px)',
+                    ? '0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)'
+                    : '0 1px 8px rgba(0,0,0,0.06), 0 0 0 0 transparent',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
                 }}>
 
-                {/* Animated pulse border on selected */}
-                {sel && (
+                {/* Left accent bar */}
+                <div style={{
+                  width: '4px',
+                  flexShrink: 0,
+                  background: dept.accentColor,
+                  opacity: sel ? 1 : hov ? 0.85 : 0.55,
+                  borderRadius: '16px 0 0 16px',
+                  transition: 'opacity 0.20s',
+                }} />
+
+                {/* Card content */}
+                <div style={{ flex: 1, padding: '18px 18px 16px 16px' }}>
+
+                  {/* Header row */}
                   <div style={{
-                    position: 'absolute', inset: 0,
-                    borderRadius: '14px',
-                    border: `1px solid ${rc.color}`,
-                    opacity: pulseAlpha,
-                    pointerEvents: 'none',
-                  }} />
-                )}
-
-                {/* Glass sheen */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 40%, transparent 100%)',
-                  pointerEvents: 'none', borderRadius: '14px',
-                }} />
-
-                {/* Left accent strip with glow */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: '4px', height: '100%',
-                  background: `linear-gradient(180deg, ${rc.color}, ${dept.accentRaw === 'green' ? '#15803d' : '#7f1d1d'})`,
-                  opacity: sel ? 1 : hov ? 0.80 : 0.50,
-                  transition: 'opacity 0.22s',
-                  boxShadow: sel || hov ? `2px 0 12px ${rc.glow}` : 'none',
-                }} />
-
-                {/* Top shimmer */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-                  background: `linear-gradient(90deg, transparent, ${rc.color}55, transparent)`,
-                  opacity: sel ? 1 : hov ? 0.7 : 0.3,
-                }} />
-
-                {/* Header row — icon + risk badge */}
-                <div style={{
-                  display: 'flex', justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  marginBottom: '14px', paddingLeft: '8px',
-                }}>
-                  {/* Icon */}
-                  <div style={{
-                    width: '42px', height: '42px', borderRadius: '12px',
-                    background: rc.bg,
-                    border: `1px solid ${rc.color}33`,
-                    display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', fontSize: '20px',
-                    boxShadow: sel || hov ? `0 0 16px ${rc.glow}` : 'none',
-                    transition: 'box-shadow 0.22s',
+                    display: 'flex', justifyContent: 'space-between',
+                    alignItems: 'flex-start', marginBottom: '10px',
                   }}>
-                    {dept.icon}
-                  </div>
+                    {/* Icon */}
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '11px',
+                      background: dept.accentLight,
+                      border: `1px solid ${dept.accentColor}22`,
+                      display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '19px',
+                      flexShrink: 0,
+                    }}>
+                      {dept.icon}
+                    </div>
 
-                  {/* Risk badge + checkmark */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
+                    {/* Selected checkmark */}
                     {sel && (
                       <div style={{
-                        width: '20px', height: '20px', borderRadius: '50%',
-                        background: rc.color,
+                        width: '22px', height: '22px', borderRadius: '50%',
+                        background: dept.accentColor,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '10px', color: '#fff', fontWeight: '800',
-                        boxShadow: `0 2px 12px ${rc.glow}`,
+                        fontSize: '11px', color: '#fff', fontWeight: '800',
+                        boxShadow: `0 2px 8px ${dept.accentColor}55`,
+                        flexShrink: 0,
                       }}>✓</div>
                     )}
+                  </div>
+
+                  {/* Department name */}
+                  <div style={{
+                    color: '#111111',
+                    fontWeight: '700', fontSize: '14px',
+                    marginBottom: '4px', letterSpacing: '-0.2px',
+                    lineHeight: '1.3',
+                  }}>
+                    {dept.label}
+                  </div>
+
+                  {/* Role description */}
+                  <div style={{
+                    color: 'rgba(0,0,0,0.48)',
+                    fontSize: '12px', lineHeight: '1.55',
+                    marginBottom: '12px',
+                  }}>
+                    {dept.role}
+                  </div>
+
+                  {/* Common targets */}
+                  <div style={{
+                    padding: '8px 10px',
+                    borderRadius: '8px',
+                    background: dept.accentLight,
+                    border: `1px solid ${dept.accentColor}18`,
+                  }}>
                     <div style={{
-                      display: 'flex', alignItems: 'center', gap: '5px',
-                      padding: '3px 8px', borderRadius: '20px',
-                      background: rc.bg,
-                      border: `1px solid ${rc.color}33`,
+                      fontSize: '10px', fontWeight: '700',
+                      color: dept.accentColor,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      marginBottom: '3px',
                     }}>
-                      <div style={{
-                        width: '5px', height: '5px', borderRadius: '50%',
-                        background: rc.color,
-                        boxShadow: `0 0 6px ${rc.color}`,
-                      }} />
-                      <span style={{
-                        fontSize: '9px', fontWeight: '700',
-                        color: rc.color, letterSpacing: '0.10em',
-                        textTransform: 'uppercase',
-                      }}>{dept.risk}</span>
+                      Common targets
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: 'rgba(0,0,0,0.55)',
+                      lineHeight: '1.5',
+                    }}>
+                      {dept.targets}
                     </div>
                   </div>
-                </div>
-
-                {/* Label */}
-                <div style={{
-                  paddingLeft: '8px',
-                  color: '#ffffff',
-                  fontWeight: '700', fontSize: '14px',
-                  marginBottom: '6px', letterSpacing: '-0.2px',
-                }}>
-                  {dept.label}
-                </div>
-
-                {/* Description */}
-                <div style={{
-                  paddingLeft: '8px',
-                  color: 'rgba(255,255,255,0.48)',
-                  fontSize: '12px', lineHeight: '1.65',
-                  marginBottom: '14px',
-                }}>
-                  {dept.desc}
-                </div>
-
-                {/* Risk bar */}
-                <div style={{
-                  paddingLeft: '8px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                }}>
-                  <RiskBar level={dept.riskLevel} color={rc.color} />
-                  <span style={{
-                    fontSize: '10px', color: 'rgba(255,255,255,0.28)',
-                    letterSpacing: '0.06em',
-                  }}>THREAT EXPOSURE</span>
                 </div>
               </div>
             );
@@ -610,55 +461,54 @@ const ReportStep2 = () => {
             onMouseEnter={() => setHovered('other')}
             onMouseLeave={() => setHovered(null)}
             style={{
-              borderRadius: '14px', padding: '16px 20px',
-              cursor: 'pointer', position: 'relative', overflow: 'hidden',
-              background: showOtherInput
-                ? 'rgba(255,255,255,0.10)'
-                : hovered === 'other'
-                ? 'rgba(255,255,255,0.10)'
-                : 'rgba(255,255,255,0.06)',
+              borderRadius: '16px', padding: '0',
+              cursor: 'pointer', position: 'relative',
+              overflow: 'hidden', display: 'flex',
+              background: showOtherInput || hovered === 'other'
+                ? 'rgba(255,255,255,0.95)'
+                : 'rgba(255,255,255,0.82)',
               border: showOtherInput
-                ? '1px solid rgba(255,255,255,0.22)'
-                : hovered === 'other'
-                ? '1px solid rgba(255,255,255,0.18)'
-                : '1px dashed rgba(255,255,255,0.18)',
-              transition: 'all 0.22s ease',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-              boxShadow: hovered === 'other' ? '0 6px 24px rgba(0,0,0,0.40)' : '0 2px 12px rgba(0,0,0,0.30)',
+                ? '1px solid rgba(0,0,0,0.12)'
+                : '1px dashed rgba(0,0,0,0.14)',
+              transform: hovered === 'other' && !showOtherInput ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.20s ease',
+              boxShadow: hovered === 'other'
+                ? '0 8px 28px rgba(0,0,0,0.09)'
+                : '0 1px 6px rgba(0,0,0,0.05)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
             }}>
+            {/* Left accent */}
             <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 100%)',
-              pointerEvents: 'none', borderRadius: '14px',
+              width: '4px', flexShrink: 0,
+              background: 'rgba(0,0,0,0.18)',
+              opacity: hovered === 'other' ? 0.6 : 0.30,
+              borderRadius: '16px 0 0 16px',
+              transition: 'opacity 0.20s',
             }} />
             <div style={{
-              position: 'absolute', top: 0, left: 0,
-              width: '4px', height: '100%',
-              background: 'rgba(255,255,255,0.28)',
-              opacity: hovered === 'other' ? 0.75 : 0.38,
-              transition: 'opacity 0.22s',
-            }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '8px' }}>
+              flex: 1, padding: '18px 18px 18px 16px',
+              display: 'flex', alignItems: 'center', gap: '12px',
+            }}>
               <div style={{
-                width: '42px', height: '42px', borderRadius: '12px',
-                background: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.16)',
+                width: '40px', height: '40px', borderRadius: '11px',
+                background: 'rgba(0,0,0,0.04)',
+                border: '1px solid rgba(0,0,0,0.08)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '20px', flexShrink: 0,
+                justifyContent: 'center', fontSize: '19px', flexShrink: 0,
               }}>✏️</div>
               <div>
-                <div style={{ color: 'rgba(255,255,255,0.90)', fontWeight: '700', fontSize: '14px', marginBottom: '2px' }}>
+                <div style={{ color: '#222222', fontWeight: '700', fontSize: '14px', marginBottom: '2px' }}>
                   Other Department
                 </div>
-                <div style={{ color: 'rgba(255,255,255,0.40)', fontSize: '12px' }}>
-                  Not listed — enter manually
+                <div style={{ color: 'rgba(0,0,0,0.42)', fontSize: '12px' }}>
+                  Not listed above — enter manually
                 </div>
               </div>
               <div style={{
                 marginLeft: 'auto',
-                color: hovered === 'other' ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.28)',
-                fontSize: '18px', transition: 'all 0.22s',
+                color: hovered === 'other' ? 'rgba(0,0,0,0.50)' : 'rgba(0,0,0,0.22)',
+                fontSize: '18px', transition: 'all 0.20s',
                 transform: hovered === 'other' ? 'translateX(3px)' : 'translateX(0)',
               }}>→</div>
             </div>
@@ -668,18 +518,16 @@ const ReportStep2 = () => {
         {/* Other input */}
         {showOtherInput && (
           <div style={{
-            borderRadius: '14px', padding: '18px',
-            border: '1px solid rgba(255,255,255,0.12)',
-            background: 'rgba(255,255,255,0.07)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
+            borderRadius: '16px', padding: '18px',
+            border: '1px solid rgba(0,0,0,0.08)',
+            background: 'rgba(255,255,255,0.95)',
             marginTop: '12px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.50)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
           }}>
-            <div style={{ color: '#ffffff', fontWeight: '600', fontSize: '13px', marginBottom: '3px' }}>
+            <div style={{ color: '#111111', fontWeight: '700', fontSize: '14px', marginBottom: '3px' }}>
               Enter your department
             </div>
-            <div style={{ color: 'rgba(255,255,255,0.40)', fontSize: '12px', marginBottom: '10px' }}>
+            <div style={{ color: 'rgba(0,0,0,0.45)', fontSize: '13px', marginBottom: '12px' }}>
               Type your department name — it will be stripped before storage.
             </div>
             <input
@@ -687,29 +535,41 @@ const ReportStep2 = () => {
               onChange={e => setOtherDept(e.target.value)}
               placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
               style={{
-                width: '100%', background: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.14)',
-                borderRadius: '8px', color: '#ffffff',
-                padding: '10px 14px', fontSize: '13px',
-                outline: 'none', marginBottom: '12px', boxSizing: 'border-box',
+                width: '100%',
+                background: '#fafafa',
+                border: '1px solid rgba(0,0,0,0.10)',
+                borderRadius: '9px', color: '#111111',
+                padding: '11px 14px', fontSize: '13px',
+                outline: 'none', marginBottom: '12px',
+                boxSizing: 'border-box',
               }}
               onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
               autoFocus
             />
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={handleOtherConfirm} disabled={!otherDept.trim()} style={{
-                background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
-                color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
-                border: 'none', borderRadius: '8px',
-                padding: '9px 18px', fontSize: '13px', fontWeight: '600',
-                cursor: otherDept.trim() ? 'pointer' : 'not-allowed', transition: 'all 0.16s',
-              }}>Confirm →</button>
-              <button onClick={() => { setShowOtherInput(false); setOtherDept(''); }} style={{
-                background: 'transparent', color: 'rgba(255,255,255,0.45)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: '8px', padding: '9px 18px',
-                fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-              }}>Cancel</button>
+              <button
+                onClick={handleOtherConfirm}
+                disabled={!otherDept.trim()}
+                style={{
+                  background: otherDept.trim() ? '#BB0000' : 'rgba(0,0,0,0.08)',
+                  color: otherDept.trim() ? '#fff' : 'rgba(0,0,0,0.30)',
+                  border: 'none', borderRadius: '8px',
+                  padding: '9px 20px', fontSize: '13px', fontWeight: '600',
+                  cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
+                  transition: 'all 0.16s',
+                }}>
+                Confirm →
+              </button>
+              <button
+                onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
+                style={{
+                  background: 'transparent', color: 'rgba(0,0,0,0.45)',
+                  border: '1px solid rgba(0,0,0,0.10)',
+                  borderRadius: '8px', padding: '9px 20px',
+                  fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+                }}>
+                Cancel
+              </button>
             </div>
           </div>
         )}
@@ -719,14 +579,14 @@ const ReportStep2 = () => {
           <div style={{
             marginTop: '14px',
             display: 'inline-flex', alignItems: 'center', gap: '8px',
-            padding: '8px 14px', borderRadius: '8px',
-            background: 'rgba(34,197,94,0.12)',
-            border: '1px solid rgba(34,197,94,0.28)',
+            padding: '8px 14px', borderRadius: '9px',
+            background: 'rgba(0,102,0,0.07)',
+            border: '1px solid rgba(0,102,0,0.18)',
             alignSelf: 'flex-start',
           }}>
-            <span style={{ color: '#4ade80', fontSize: '13px' }}>✓</span>
-            <span style={{ color: '#4ade80', fontSize: '13px', fontWeight: '600' }}>{selected}</span>
-            <span style={{ color: 'rgba(255,255,255,0.40)', fontSize: '11px', fontWeight: '500' }}>
+            <span style={{ color: '#006600', fontSize: '13px' }}>✓</span>
+            <span style={{ color: '#006600', fontSize: '13px', fontWeight: '600' }}>{selected}</span>
+            <span style={{ color: 'rgba(0,0,0,0.42)', fontSize: '12px' }}>
               — stripped before storage
             </span>
           </div>
@@ -743,14 +603,6 @@ const ReportStep2 = () => {
           nextDisabled={!selected}
         />
       </div>
-
-      <style>{`
-        @keyframes pulse-ring {
-          0% { opacity: 0.4; transform: scale(1); }
-          50% { opacity: 0.1; transform: scale(1.02); }
-          100% { opacity: 0.4; transform: scale(1); }
-        }
-      `}</style>
     </div>
   );
 };
