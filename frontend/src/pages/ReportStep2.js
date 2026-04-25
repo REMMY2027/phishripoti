@@ -6,65 +6,65 @@ import { useReport } from '../context/ReportContext';
 const departments = [
   {
     id: 'customer',
-    label: 'Customer Service / Teller',
+    label: 'Customer Service',
     icon: '🎧',
-    role: 'Handles customer queries, account access, and M-Pesa transactions.',
-    targets: 'M-Pesa impersonation, account takeover calls',
+    role: 'Handles customer queries and M-Pesa transactions.',
+    targets: 'M-Pesa impersonation, account takeover',
     accentColor: '#f59e0b',
-    accentLight: 'rgba(245,158,11,0.08)',
     risk: 'MEDIUM',
   },
   {
     id: 'finance',
     label: 'Finance & Accounts',
     icon: '📊',
-    role: 'Handles payments, invoices, transfers, and financial reporting.',
-    targets: 'Invoice fraud, payment diversion, CFO impersonation',
+    role: 'Handles payments, invoices and financial reporting.',
+    targets: 'Invoice fraud, payment diversion',
     accentColor: '#BB0000',
-    accentLight: 'rgba(187,0,0,0.07)',
     risk: 'HIGH',
   },
   {
     id: 'compliance',
     label: 'Compliance / Risk',
     icon: '⚖️',
-    role: 'Oversees regulatory adherence and internal risk controls.',
-    targets: 'CBK/KRA impersonation emails, fake audit requests',
-    accentColor: '#22c55e',
-    accentLight: 'rgba(34,197,94,0.07)',
+    role: 'Oversees regulatory adherence and risk controls.',
+    targets: 'CBK/KRA impersonation, fake audits',
+    accentColor: '#006600',
     risk: 'LOW',
   },
   {
     id: 'loans',
-    label: 'Loans / Credit Officer',
+    label: 'Loans / Credit',
     icon: '💳',
-    role: 'Processes loan applications, credit checks, and approvals.',
-    targets: 'Fake loan documents, credential harvesting',
+    role: 'Processes loan applications and credit checks.',
+    targets: 'Fake loan documents, credential theft',
     accentColor: '#BB0000',
-    accentLight: 'rgba(187,0,0,0.07)',
     risk: 'HIGH',
   },
   {
     id: 'operations',
     label: 'Operations',
     icon: '⚙️',
-    role: 'Manages internal systems, IT access, and daily bank operations.',
-    targets: 'Fake IT support emails, system access phishing',
+    role: 'Manages internal systems and IT access.',
+    targets: 'Fake IT support, system access phishing',
     accentColor: '#f59e0b',
-    accentLight: 'rgba(245,158,11,0.08)',
     risk: 'MEDIUM',
   },
   {
     id: 'hr',
     label: 'Human Resources',
     icon: '👥',
-    role: 'Manages staff records, payroll, and employee onboarding.',
-    targets: 'Payroll diversion, fake employee document requests',
+    role: 'Manages staff records and payroll.',
+    targets: 'Payroll diversion, fake HR documents',
     accentColor: '#BB0000',
-    accentLight: 'rgba(187,0,0,0.07)',
     risk: 'HIGH',
   },
 ];
+
+const riskConfig = {
+  HIGH: { color: '#ef4444', bg: 'rgba(239,68,68,0.12)', border: 'rgba(239,68,68,0.22)' },
+  MEDIUM: { color: '#f59e0b', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.22)' },
+  LOW: { color: '#22c55e', bg: 'rgba(34,197,94,0.12)', border: 'rgba(34,197,94,0.22)' },
+};
 
 const ReportStep2 = () => {
   const navigate = useNavigate();
@@ -103,115 +103,114 @@ const ReportStep2 = () => {
       position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* ── BASE — off-white to very light green-grey ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 0,
-        background: 'linear-gradient(145deg, #f8faf8 0%, #f2f5f2 35%, #f5f4f0 70%, #f8f6f2 100%)',
-      }} />
+      {/* ── BASE — pure white ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#ffffff' }} />
 
-      {/* ── RADIAL DEPTH — centre content lift ── */}
+      {/* ── SUBTLE RADIAL DEPTH ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse 68% 62% at 50% 42%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.60) 40%, transparent 75%)',
+        background: 'radial-gradient(ellipse 70% 65% at 50% 42%, rgba(248,250,248,1) 0%, rgba(244,246,244,0.95) 40%, rgba(236,240,236,0.80) 70%, rgba(220,226,220,0.50) 100%)',
       }} />
 
-      {/* ── EDGE VIGNETTE — subtle darkening at corners ── */}
+      {/* ── VERY FAINT GREEN TOP ── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse 110% 110% at 50% 50%, transparent 50%, rgba(180,185,175,0.18) 100%)',
+        background: 'linear-gradient(180deg, rgba(0,60,10,0.04) 0%, transparent 25%)',
       }} />
 
-      {/* ── FINANCIAL FLOW SVG — transaction lines, network dots ── */}
+      {/* ── VERY FAINT RED BOTTOM ── */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 3,
+        background: 'linear-gradient(0deg, rgba(100,0,0,0.04) 0%, transparent 25%)',
+      }} />
+
+      {/* ── SVG TEXTURE — same as Step1 ── */}
       <svg style={{
         position: 'fixed', inset: 0, width: '100%', height: '100%',
-        zIndex: 3, pointerEvents: 'none',
+        zIndex: 4, pointerEvents: 'none',
       }} xmlns="http://www.w3.org/2000/svg">
-
-        {/* Transaction flow curves */}
         <path d="M -100 300 Q 200 180 500 320 T 1100 280 T 1600 300"
-          fill="none" stroke="rgba(0,120,40,0.04)" strokeWidth="1.5"/>
-        <path d="M -100 420 Q 250 300 600 440 T 1200 380 T 1600 420"
-          fill="none" stroke="rgba(0,100,30,0.03)" strokeWidth="1"/>
-        <path d="M -100 560 Q 300 440 700 560 T 1300 500 T 1600 540"
-          fill="none" stroke="rgba(187,0,0,0.025)" strokeWidth="1"/>
-        <path d="M 0 680 Q 350 560 750 680 T 1400 620"
-          fill="none" stroke="rgba(0,100,30,0.025)" strokeWidth="1"/>
-        <path d="M 200 100 Q 500 -20 800 120 T 1400 80"
+          fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1.5"/>
+        <path d="M -100 450 Q 250 330 600 460 T 1200 400"
           fill="none" stroke="rgba(0,80,20,0.03)" strokeWidth="1"/>
-
-        {/* African diamond geometric — very faint */}
-        {[...Array(8)].map((_, col) =>
-          [...Array(6)].map((_, row) => {
-            const cx = col * 180 + 40;
-            const cy = row * 140 + 40;
-            return (
-              <polygon key={`${col}-${row}`}
-                points={`${cx},${cy-22} ${cx+16},${cy} ${cx},${cy+22} ${cx-16},${cy}`}
-                fill="none"
-                stroke="rgba(0,100,30,0.025)"
-                strokeWidth="0.8"
-              />
-            );
-          })
-        )}
-
-        {/* Network nodes — scattered dots */}
-        {[
-          [8,22],[14,45],[88,18],[92,42],[6,72],[94,68],
-          [45,5],[55,95],[20,85],[80,80],[30,15],[70,20],
-          [25,55],[75,48],[50,30],[35,75],[65,72],
-        ].map(([cx, cy], i) => (
-          <circle key={i}
-            cx={`${cx}%`} cy={`${cy}%`}
-            r={i % 3 === 0 ? 2.5 : 1.8}
-            fill={i % 2 === 0 ? 'rgba(0,120,40,0.09)' : 'rgba(187,0,0,0.06)'}
-          />
-        ))}
-
-        {/* Node connection lines */}
-        <line x1="8%" y1="22%" x2="14%" y2="45%" stroke="rgba(0,100,30,0.05)" strokeWidth="0.7"/>
-        <line x1="88%" y1="18%" x2="92%" y2="42%" stroke="rgba(187,0,0,0.04)" strokeWidth="0.7"/>
-        <line x1="6%" y1="72%" x2="20%" y2="85%" stroke="rgba(0,100,30,0.04)" strokeWidth="0.7"/>
-        <line x1="80%" y1="80%" x2="94%" y2="68%" stroke="rgba(187,0,0,0.04)" strokeWidth="0.7"/>
-        <line x1="45%" y1="5%" x2="30%" y2="15%" stroke="rgba(0,100,30,0.04)" strokeWidth="0.7"/>
-        <line x1="55%" y1="95%" x2="65%" y2="72%" stroke="rgba(187,0,0,0.03)" strokeWidth="0.7"/>
-
-        {/* Concentric arcs — top left */}
+        <path d="M 0 600 Q 350 480 750 600 T 1400 560"
+          fill="none" stroke="rgba(140,0,0,0.03)" strokeWidth="1"/>
         <circle cx="-60" cy="120" r="220" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1"/>
-        <circle cx="-60" cy="120" r="170" fill="none" stroke="rgba(0,100,30,0.03)" strokeWidth="1"/>
-        <circle cx="-60" cy="120" r="120" fill="none" stroke="rgba(0,100,30,0.02)" strokeWidth="1"/>
-
-        {/* Concentric arcs — bottom right */}
-        <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(187,0,0,0.04)" strokeWidth="1"/>
-        <circle cx="110%" cy="85%" r="150" fill="none" stroke="rgba(187,0,0,0.03)" strokeWidth="1"/>
-        <circle cx="110%" cy="85%" r="100" fill="none" stroke="rgba(187,0,0,0.02)" strokeWidth="1"/>
+        <circle cx="-60" cy="120" r="160" fill="none" stroke="rgba(0,100,30,0.03)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="140" fill="none" stroke="rgba(140,0,0,0.03)" strokeWidth="1"/>
+        <circle cx="8%" cy="22%" r="2.5" fill="rgba(0,100,30,0.08)"/>
+        <circle cx="13%" cy="42%" r="1.8" fill="rgba(0,100,30,0.06)"/>
+        <circle cx="89%" cy="20%" r="2.5" fill="rgba(140,0,0,0.08)"/>
+        <circle cx="93%" cy="38%" r="1.8" fill="rgba(140,0,0,0.06)"/>
+        <line x1="8%" y1="22%" x2="13%" y2="42%" stroke="rgba(0,100,30,0.05)" strokeWidth="0.7"/>
+        <line x1="89%" y1="20%" x2="93%" y2="38%" stroke="rgba(140,0,0,0.05)" strokeWidth="0.7"/>
       </svg>
 
-      {/* ── NAVBAR — light glassmorphism ── */}
+      {/* ── NAIROBI SKYLINE ── */}
+      <div style={{
+        position: 'fixed', bottom: '-30px', right: 0,
+        width: '580px', height: '220px',
+        zIndex: 5, pointerEvents: 'none',
+        WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
+        maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
+      }}>
+        <svg width="100%" height="100%" viewBox="0 0 580 260"
+          xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
+          <rect x="20" y="180" width="18" height="80" />
+          <rect x="42" y="170" width="14" height="90" />
+          <rect x="60" y="185" width="20" height="75" />
+          <rect x="84" y="175" width="16" height="85" />
+          <rect x="104" y="188" width="22" height="72" />
+          <rect x="310" y="60" width="38" height="200" />
+          <rect x="318" y="50" width="22" height="15" />
+          <rect x="324" y="40" width="10" height="14" />
+          <rect x="327" y="30" width="4" height="12" />
+          <rect x="200" y="90" width="32" height="170" />
+          <ellipse cx="216" cy="90" rx="18" ry="8" />
+          <rect x="212" y="75" width="8" height="18" />
+          <rect x="214" y="65" width="4" height="12" />
+          <rect x="380" y="80" width="34" height="180" />
+          <rect x="386" y="72" width="22" height="12" />
+          <rect x="392" y="62" width="10" height="12" />
+          <rect x="395" y="52" width="4" height="12" />
+          <rect x="150" y="120" width="26" height="140" />
+          <rect x="180" y="130" width="18" height="130" />
+          <rect x="250" y="110" width="24" height="150" />
+          <rect x="278" y="125" width="28" height="135" />
+          <rect x="418" y="100" width="28" height="160" />
+          <rect x="450" y="115" width="22" height="145" />
+          <rect x="476" y="130" width="26" height="130" />
+          <rect x="130" y="155" width="18" height="105" />
+          <rect x="500" y="150" width="20" height="110" />
+          <rect x="524" y="160" width="24" height="100" />
+          <rect x="552" y="155" width="18" height="105" />
+          <rect x="0" y="258" width="580" height="2" />
+        </svg>
+      </div>
+
+      {/* ── NAVBAR — same as Step1 ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2.5rem', height: '64px',
-        background: 'rgba(255,255,255,0.82)',
+        padding: '0 2.5rem', height: '66px',
+        background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(0,0,0,0.06)',
-        boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 24px rgba(0,0,0,0.06)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06)',
         flexShrink: 0,
       }}>
-        {/* Kenyan flag stripe */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
           background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)',
         }} />
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
           <div style={{
             width: '36px', height: '36px', borderRadius: '9px',
             background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 2px 10px rgba(187,0,0,0.30)',
-            flexShrink: 0,
+            boxShadow: '0 2px 10px rgba(187,0,0,0.30)', flexShrink: 0,
           }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
@@ -219,19 +218,17 @@ const ReportStep2 = () => {
             </svg>
           </div>
           <span style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
-            <span style={{ color: '#1a1a1a' }}>Phish</span>
+            <span style={{ color: '#111111' }}>Phish</span>
             <span style={{ color: '#006600' }}>Ripoti</span>
           </span>
         </div>
-
         <button onClick={() => navigate('/it/login')} style={{
-          display: 'flex', alignItems: 'center', gap: '7px',
+          display: 'flex', alignItems: 'center', gap: '8px',
           padding: '9px 18px', borderRadius: '8px',
           background: 'rgba(255,255,255,0.70)',
           border: '1px solid rgba(0,0,0,0.10)',
           color: '#333333', fontSize: '13px', fontWeight: '600',
-          cursor: 'pointer', letterSpacing: '0.01em',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+          cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
           transition: 'all 0.16s ease',
         }}
           onMouseOver={e => {
@@ -255,34 +252,34 @@ const ReportStep2 = () => {
       {/* ── PAGE CONTENT ── */}
       <div style={{
         flex: 1, position: 'relative', zIndex: 10,
-        padding: '28px 48px 24px',
+        padding: '26px 44px 20px',
         display: 'flex', flexDirection: 'column',
         overflowY: 'auto',
       }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '18px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
               width: i <= 2 ? '28px' : '18px',
-              background: i < 2 ? '#006600' : i === 2 ? '#BB0000' : 'rgba(0,0,0,0.12)',
+              background: i < 2 ? '#006600' : i === 2 ? '#BB0000' : 'rgba(0,0,0,0.14)',
             }} />
           ))}
           <span style={{
             fontSize: '10px', letterSpacing: '0.18em',
             color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase',
-            marginLeft: '6px',
+            marginLeft: '6px', fontWeight: '600',
           }}>Step 2 of 4</span>
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ position: 'relative', marginBottom: '26px' }}>
+        <div style={{ position: 'relative', marginBottom: '24px' }}>
           <div style={{
-            position: 'absolute', top: '-16px', left: '-4px',
-            fontSize: '80px', fontWeight: '900',
+            position: 'absolute', top: '-14px', left: '-4px',
+            fontSize: '82px', fontWeight: '900',
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(0,100,30,0.05)',
+            WebkitTextStroke: '1px rgba(0,100,30,0.06)',
             letterSpacing: '-4px', lineHeight: 1,
             pointerEvents: 'none', userSelect: 'none', zIndex: 0,
           }}>
@@ -290,9 +287,8 @@ const ReportStep2 = () => {
           </div>
           <h2 style={{
             position: 'relative', zIndex: 1,
-            fontWeight: '800', fontSize: '24px',
-            margin: '0 0 7px', letterSpacing: '-0.5px',
-            color: '#111111',
+            fontWeight: '900', fontSize: '24px',
+            margin: '0 0 7px', letterSpacing: '-0.5px', color: '#111111',
           }}>
             Which{' '}
             <span style={{
@@ -309,21 +305,22 @@ const ReportStep2 = () => {
             color: 'rgba(0,0,0,0.45)', fontSize: '14px',
             margin: 0, lineHeight: '1.6',
           }}>
-            Your department helps us contextualise the threat. It is stripped before storage — never linked to your identity.
+            Your department helps us contextualise the threat. Stripped before storage — never linked to your identity.
           </p>
         </div>
 
-        {/* ── CARDS GRID ── */}
+        {/* ── SQUARE CARDS GRID — 3 columns ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '14px',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '12px',
           width: '100%',
-          marginBottom: '14px',
+          marginBottom: '12px',
         }}>
           {departments.map((dept) => {
             const sel = selected === dept.label;
             const hov = hovered === dept.id;
+            const rc = riskConfig[dept.risk];
 
             return (
               <div
@@ -332,116 +329,132 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '16px',
-                  padding: '0',
+                  borderRadius: '14px',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
+                  // Square — use aspectRatio
+                  aspectRatio: '1 / 1',
                   display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  padding: '16px',
+                  // Dark charcoal glass — same as Step1
                   background: sel
-                    ? 'rgba(255,255,255,0.98)'
+                    ? 'rgba(14,20,14,0.96)'
                     : hov
-                    ? 'rgba(255,255,255,0.95)'
-                    : 'rgba(255,255,255,0.82)',
+                    ? 'rgba(18,26,18,0.94)'
+                    : 'rgba(22,30,22,0.88)',
                   border: sel
-                    ? `1px solid ${dept.accentColor}44`
-                    : '1px solid rgba(0,0,0,0.06)',
-                  transform: hov && !sel ? 'translateY(-3px)' : 'translateY(0)',
-                  transition: 'all 0.20s ease',
-                  boxShadow: sel
-                    ? `0 4px 24px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06), 0 0 0 2px ${dept.accentColor}22`
+                    ? `1px solid ${dept.accentColor}55`
                     : hov
-                    ? '0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)'
-                    : '0 1px 8px rgba(0,0,0,0.06), 0 0 0 0 transparent',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
+                    ? '1px solid rgba(255,255,255,0.12)'
+                    : '1px solid rgba(255,255,255,0.08)',
+                  transform: hov && !sel ? 'translateY(-3px) scale(1.02)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
+                  boxShadow: sel
+                    ? `0 12px 36px rgba(0,0,0,0.20), 0 0 0 1px ${dept.accentColor}22`
+                    : hov
+                    ? '0 10px 32px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.08)'
+                    : '0 4px 16px rgba(0,0,0,0.10)',
+                  backdropFilter: 'blur(28px)',
+                  WebkitBackdropFilter: 'blur(28px)',
                 }}>
+
+                {/* Glass sheen */}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
+                  pointerEvents: 'none', borderRadius: '14px',
+                }} />
+
+                {/* Top shimmer */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
+                  background: sel || hov
+                    ? `linear-gradient(90deg, transparent, ${dept.accentColor}55, transparent)`
+                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)',
+                }} />
 
                 {/* Left accent bar */}
                 <div style={{
+                  position: 'absolute', top: 0, left: 0, bottom: 0,
                   width: '4px',
-                  flexShrink: 0,
-                  background: dept.accentColor,
-                  opacity: sel ? 1 : hov ? 0.85 : 0.55,
-                  borderRadius: '16px 0 0 16px',
-                  transition: 'opacity 0.20s',
+                  background: sel
+                    ? `linear-gradient(180deg, ${dept.accentColor}, ${dept.accentColor}88)`
+                    : `${dept.accentColor}`,
+                  opacity: sel ? 1 : hov ? 0.80 : 0.45,
+                  borderRadius: '14px 0 0 14px',
+                  transition: 'opacity 0.22s',
+                  boxShadow: sel || hov ? `2px 0 10px ${dept.accentColor}33` : 'none',
                 }} />
 
-                {/* Card content */}
-                <div style={{ flex: 1, padding: '18px 18px 16px 16px' }}>
-
-                  {/* Header row */}
+                {/* TOP — icon + risk badge */}
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  paddingLeft: '6px',
+                }}>
                   <div style={{
-                    display: 'flex', justifyContent: 'space-between',
-                    alignItems: 'flex-start', marginBottom: '10px',
+                    width: '38px', height: '38px', borderRadius: '11px',
+                    background: sel || hov
+                      ? `${dept.accentColor}22`
+                      : 'rgba(255,255,255,0.07)',
+                    border: `1px solid ${dept.accentColor}33`,
+                    display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', fontSize: '18px',
+                    transition: 'all 0.22s',
+                    boxShadow: sel || hov ? `0 0 14px ${dept.accentColor}25` : 'none',
                   }}>
-                    {/* Icon */}
-                    <div style={{
-                      width: '40px', height: '40px', borderRadius: '11px',
-                      background: dept.accentLight,
-                      border: `1px solid ${dept.accentColor}22`,
-                      display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '19px',
-                      flexShrink: 0,
-                    }}>
-                      {dept.icon}
-                    </div>
-
-                    {/* Selected checkmark */}
-                    {sel && (
-                      <div style={{
-                        width: '22px', height: '22px', borderRadius: '50%',
-                        background: dept.accentColor,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '11px', color: '#fff', fontWeight: '800',
-                        boxShadow: `0 2px 8px ${dept.accentColor}55`,
-                        flexShrink: 0,
-                      }}>✓</div>
-                    )}
+                    {dept.icon}
                   </div>
 
-                  {/* Department name */}
+                  {/* Risk badge */}
                   <div style={{
-                    color: '#111111',
-                    fontWeight: '700', fontSize: '14px',
-                    marginBottom: '4px', letterSpacing: '-0.2px',
+                    display: 'flex', alignItems: 'center', gap: '4px',
+                    padding: '3px 8px', borderRadius: '20px',
+                    background: rc.bg, border: `1px solid ${rc.border}`,
+                  }}>
+                    <div style={{
+                      width: '4px', height: '4px', borderRadius: '50%',
+                      background: rc.color,
+                    }}/>
+                    <span style={{
+                      fontSize: '8px', fontWeight: '800',
+                      color: rc.color, letterSpacing: '0.09em',
+                      textTransform: 'uppercase',
+                    }}>{dept.risk}</span>
+                  </div>
+                </div>
+
+                {/* BOTTOM — label + target */}
+                <div style={{ paddingLeft: '6px' }}>
+                  {/* Selected checkmark */}
+                  {sel && (
+                    <div style={{
+                      width: '18px', height: '18px', borderRadius: '50%',
+                      background: dept.accentColor,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '9px', color: '#fff', fontWeight: '900',
+                      marginBottom: '6px',
+                      boxShadow: `0 2px 8px ${dept.accentColor}55`,
+                    }}>✓</div>
+                  )}
+
+                  <div style={{
+                    color: sel ? '#ffffff' : 'rgba(255,255,255,0.88)',
+                    fontWeight: '800', fontSize: '12px',
+                    marginBottom: '4px', letterSpacing: '-0.1px',
                     lineHeight: '1.3',
                   }}>
                     {dept.label}
                   </div>
 
-                  {/* Role description */}
                   <div style={{
-                    color: 'rgba(0,0,0,0.48)',
-                    fontSize: '12px', lineHeight: '1.55',
-                    marginBottom: '12px',
+                    color: sel ? 'rgba(255,255,255,0.48)' : 'rgba(255,255,255,0.32)',
+                    fontSize: '10px', lineHeight: '1.45',
                   }}>
-                    {dept.role}
-                  </div>
-
-                  {/* Common targets */}
-                  <div style={{
-                    padding: '8px 10px',
-                    borderRadius: '8px',
-                    background: dept.accentLight,
-                    border: `1px solid ${dept.accentColor}18`,
-                  }}>
-                    <div style={{
-                      fontSize: '10px', fontWeight: '700',
-                      color: dept.accentColor,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      marginBottom: '3px',
-                    }}>
-                      Common targets
-                    </div>
-                    <div style={{
-                      fontSize: '12px',
-                      color: 'rgba(0,0,0,0.55)',
-                      lineHeight: '1.5',
-                    }}>
-                      {dept.targets}
-                    </div>
+                    {dept.targets}
                   </div>
                 </div>
               </div>
@@ -449,11 +462,11 @@ const ReportStep2 = () => {
           })}
         </div>
 
-        {/* ── OTHER DEPARTMENT ── */}
+        {/* ── OTHER DEPARTMENT — one card wide ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '14px',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '12px',
           width: '100%',
         }}>
           <div
@@ -461,54 +474,58 @@ const ReportStep2 = () => {
             onMouseEnter={() => setHovered('other')}
             onMouseLeave={() => setHovered(null)}
             style={{
-              borderRadius: '16px', padding: '0',
-              cursor: 'pointer', position: 'relative',
-              overflow: 'hidden', display: 'flex',
-              background: showOtherInput || hovered === 'other'
-                ? 'rgba(255,255,255,0.95)'
-                : 'rgba(255,255,255,0.82)',
+              borderRadius: '14px', padding: '14px 16px',
+              cursor: 'pointer', position: 'relative', overflow: 'hidden',
+              background: showOtherInput
+                ? 'rgba(18,26,18,0.94)'
+                : hovered === 'other'
+                ? 'rgba(18,26,18,0.94)'
+                : 'rgba(22,30,22,0.88)',
               border: showOtherInput
-                ? '1px solid rgba(0,0,0,0.12)'
-                : '1px dashed rgba(0,0,0,0.14)',
-              transform: hovered === 'other' && !showOtherInput ? 'translateY(-3px)' : 'translateY(0)',
-              transition: 'all 0.20s ease',
+                ? '1px solid rgba(255,255,255,0.16)'
+                : hovered === 'other'
+                ? '1px solid rgba(255,255,255,0.12)'
+                : '1px dashed rgba(255,255,255,0.18)',
+              transition: 'all 0.22s ease',
+              backdropFilter: 'blur(28px)',
+              WebkitBackdropFilter: 'blur(28px)',
               boxShadow: hovered === 'other'
-                ? '0 8px 28px rgba(0,0,0,0.09)'
-                : '0 1px 6px rgba(0,0,0,0.05)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
+                ? '0 8px 28px rgba(0,0,0,0.14)'
+                : '0 2px 10px rgba(0,0,0,0.08)',
             }}>
-            {/* Left accent */}
+            {/* Glass sheen */}
             <div style={{
-              width: '4px', flexShrink: 0,
-              background: 'rgba(0,0,0,0.18)',
-              opacity: hovered === 'other' ? 0.6 : 0.30,
-              borderRadius: '16px 0 0 16px',
-              transition: 'opacity 0.20s',
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 100%)',
+              pointerEvents: 'none', borderRadius: '14px',
             }} />
             <div style={{
-              flex: 1, padding: '18px 18px 18px 16px',
-              display: 'flex', alignItems: 'center', gap: '12px',
-            }}>
+              position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px',
+              background: 'rgba(255,255,255,0.20)',
+              opacity: hovered === 'other' ? 0.65 : 0.30,
+              borderRadius: '14px 0 0 14px',
+              transition: 'opacity 0.22s',
+            }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '6px' }}>
               <div style={{
-                width: '40px', height: '40px', borderRadius: '11px',
-                background: 'rgba(0,0,0,0.04)',
-                border: '1px solid rgba(0,0,0,0.08)',
+                width: '34px', height: '34px', borderRadius: '10px',
+                background: 'rgba(255,255,255,0.07)',
+                border: '1px solid rgba(255,255,255,0.14)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '19px', flexShrink: 0,
+                justifyContent: 'center', fontSize: '16px', flexShrink: 0,
               }}>✏️</div>
               <div>
-                <div style={{ color: '#222222', fontWeight: '700', fontSize: '14px', marginBottom: '2px' }}>
+                <div style={{ color: 'rgba(255,255,255,0.85)', fontWeight: '700', fontSize: '13px' }}>
                   Other Department
                 </div>
-                <div style={{ color: 'rgba(0,0,0,0.42)', fontSize: '12px' }}>
-                  Not listed above — enter manually
+                <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '11px' }}>
+                  Not listed — enter manually
                 </div>
               </div>
               <div style={{
                 marginLeft: 'auto',
-                color: hovered === 'other' ? 'rgba(0,0,0,0.50)' : 'rgba(0,0,0,0.22)',
-                fontSize: '18px', transition: 'all 0.20s',
+                color: hovered === 'other' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.28)',
+                fontSize: '16px', transition: 'all 0.22s',
                 transform: hovered === 'other' ? 'translateX(3px)' : 'translateX(0)',
               }}>→</div>
             </div>
@@ -518,16 +535,18 @@ const ReportStep2 = () => {
         {/* Other input */}
         {showOtherInput && (
           <div style={{
-            borderRadius: '16px', padding: '18px',
-            border: '1px solid rgba(0,0,0,0.08)',
-            background: 'rgba(255,255,255,0.95)',
-            marginTop: '12px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            borderRadius: '14px', padding: '18px',
+            border: '1px solid rgba(255,255,255,0.10)',
+            background: 'rgba(18,26,18,0.96)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
+            marginTop: '10px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.20)',
           }}>
-            <div style={{ color: '#111111', fontWeight: '700', fontSize: '14px', marginBottom: '3px' }}>
+            <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13px', marginBottom: '3px' }}>
               Enter your department
             </div>
-            <div style={{ color: 'rgba(0,0,0,0.45)', fontSize: '13px', marginBottom: '12px' }}>
+            <div style={{ color: 'rgba(255,255,255,0.40)', fontSize: '12px', marginBottom: '10px' }}>
               Type your department name — it will be stripped before storage.
             </div>
             <input
@@ -536,10 +555,10 @@ const ReportStep2 = () => {
               placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
               style={{
                 width: '100%',
-                background: '#fafafa',
-                border: '1px solid rgba(0,0,0,0.10)',
-                borderRadius: '9px', color: '#111111',
-                padding: '11px 14px', fontSize: '13px',
+                background: 'rgba(255,255,255,0.07)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                borderRadius: '8px', color: '#ffffff',
+                padding: '10px 14px', fontSize: '13px',
                 outline: 'none', marginBottom: '12px',
                 boxSizing: 'border-box',
               }}
@@ -551,10 +570,10 @@ const ReportStep2 = () => {
                 onClick={handleOtherConfirm}
                 disabled={!otherDept.trim()}
                 style={{
-                  background: otherDept.trim() ? '#BB0000' : 'rgba(0,0,0,0.08)',
-                  color: otherDept.trim() ? '#fff' : 'rgba(0,0,0,0.30)',
+                  background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
+                  color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.30)',
                   border: 'none', borderRadius: '8px',
-                  padding: '9px 20px', fontSize: '13px', fontWeight: '600',
+                  padding: '9px 20px', fontSize: '13px', fontWeight: '700',
                   cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
                   transition: 'all 0.16s',
                 }}>
@@ -563,8 +582,8 @@ const ReportStep2 = () => {
               <button
                 onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
                 style={{
-                  background: 'transparent', color: 'rgba(0,0,0,0.45)',
-                  border: '1px solid rgba(0,0,0,0.10)',
+                  background: 'transparent', color: 'rgba(255,255,255,0.45)',
+                  border: '1px solid rgba(255,255,255,0.12)',
                   borderRadius: '8px', padding: '9px 20px',
                   fontSize: '13px', fontWeight: '600', cursor: 'pointer',
                 }}>
@@ -577,16 +596,16 @@ const ReportStep2 = () => {
         {/* Selected confirmation */}
         {selected && (
           <div style={{
-            marginTop: '14px',
+            marginTop: '12px',
             display: 'inline-flex', alignItems: 'center', gap: '8px',
-            padding: '8px 14px', borderRadius: '9px',
-            background: 'rgba(0,102,0,0.07)',
-            border: '1px solid rgba(0,102,0,0.18)',
+            padding: '7px 13px', borderRadius: '8px',
+            background: 'rgba(34,197,94,0.10)',
+            border: '1px solid rgba(34,197,94,0.22)',
             alignSelf: 'flex-start',
           }}>
-            <span style={{ color: '#006600', fontSize: '13px' }}>✓</span>
-            <span style={{ color: '#006600', fontSize: '13px', fontWeight: '600' }}>{selected}</span>
-            <span style={{ color: 'rgba(0,0,0,0.42)', fontSize: '12px' }}>
+            <span style={{ color: '#22c55e', fontSize: '12px' }}>✓</span>
+            <span style={{ color: '#22c55e', fontSize: '13px', fontWeight: '700' }}>{selected}</span>
+            <span style={{ color: 'rgba(0,0,0,0.45)', fontSize: '11px' }}>
               — stripped before storage
             </span>
           </div>
