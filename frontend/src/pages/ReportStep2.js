@@ -6,10 +6,10 @@ import { useReport } from '../context/ReportContext';
 const departments = [
   {
     id: 'customer',
-    label: 'Customer Service / Teller',
+    label: 'Customer Service',
     icon: '🎧',
     role: 'Handles customer queries and M-Pesa transactions.',
-    targets: 'M-Pesa impersonation, account takeover calls',
+    targets: 'M-Pesa impersonation, account takeover',
     accentColor: '#f59e0b',
     risk: 'MEDIUM',
   },
@@ -18,7 +18,7 @@ const departments = [
     label: 'Finance & Accounts',
     icon: '📊',
     role: 'Handles payments, invoices and financial reporting.',
-    targets: 'Invoice fraud, payment diversion, CFO impersonation',
+    targets: 'Invoice fraud, payment diversion',
     accentColor: '#BB0000',
     risk: 'HIGH',
   },
@@ -27,16 +27,16 @@ const departments = [
     label: 'Compliance / Risk',
     icon: '⚖️',
     role: 'Oversees regulatory adherence and risk controls.',
-    targets: 'CBK/KRA impersonation, fake audit requests',
+    targets: 'CBK/KRA impersonation, fake audits',
     accentColor: '#006600',
     risk: 'LOW',
   },
   {
     id: 'loans',
-    label: 'Loans / Credit Officer',
+    label: 'Loans / Credit',
     icon: '💳',
     role: 'Processes loan applications and credit checks.',
-    targets: 'Fake loan documents, credential harvesting',
+    targets: 'Fake loan docs, credential theft',
     accentColor: '#BB0000',
     risk: 'HIGH',
   },
@@ -45,7 +45,7 @@ const departments = [
     label: 'Operations',
     icon: '⚙️',
     role: 'Manages internal systems and IT access.',
-    targets: 'Fake IT support emails, system access phishing',
+    targets: 'Fake IT support, system phishing',
     accentColor: '#f59e0b',
     risk: 'MEDIUM',
   },
@@ -54,16 +54,16 @@ const departments = [
     label: 'Human Resources',
     icon: '👥',
     role: 'Manages staff records and payroll.',
-    targets: 'Payroll diversion, fake employee documents',
+    targets: 'Payroll diversion, fake HR docs',
     accentColor: '#BB0000',
     risk: 'HIGH',
   },
 ];
 
 const riskConfig = {
-  HIGH:   { color: '#ef4444', bg: 'rgba(239,68,68,0.12)',   border: 'rgba(239,68,68,0.22)'   },
-  MEDIUM: { color: '#f59e0b', bg: 'rgba(245,158,11,0.12)',  border: 'rgba(245,158,11,0.22)'  },
-  LOW:    { color: '#22c55e', bg: 'rgba(34,197,94,0.12)',   border: 'rgba(34,197,94,0.22)'   },
+  HIGH:   { color: '#ef4444', bg: 'rgba(239,68,68,0.14)',  border: 'rgba(239,68,68,0.25)'  },
+  MEDIUM: { color: '#f59e0b', bg: 'rgba(245,158,11,0.14)', border: 'rgba(245,158,11,0.25)' },
+  LOW:    { color: '#22c55e', bg: 'rgba(34,197,94,0.14)',  border: 'rgba(34,197,94,0.25)'  },
 };
 
 const ReportStep2 = () => {
@@ -99,7 +99,8 @@ const ReportStep2 = () => {
 
   return (
     <div style={{
-      minHeight: '100vh', display: 'flex', flexDirection: 'column',
+      minHeight: '100vh', height: '100vh',
+      display: 'flex', flexDirection: 'column',
       position: 'relative', overflow: 'hidden',
     }}>
 
@@ -175,11 +176,11 @@ const ReportStep2 = () => {
         </svg>
       </div>
 
-      {/* ── NAVBAR — identical to Step1 ── */}
+      {/* ── NAVBAR ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2.5rem', height: '66px',
+        padding: '0 2.5rem', height: '60px',
         background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
@@ -191,43 +192,41 @@ const ReportStep2 = () => {
           position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
           background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)',
         }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '36px', height: '36px', borderRadius: '9px',
+            width: '34px', height: '34px', borderRadius: '9px',
             background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 2px 10px rgba(187,0,0,0.30)', flexShrink: 0,
           }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
                 fill="rgba(255,255,255,0.95)"/>
             </svg>
           </div>
-          <span style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
+          <span style={{ fontSize: '19px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
             <span style={{ color: '#111111' }}>Phish</span>
             <span style={{ color: '#006600' }}>Ripoti</span>
           </span>
         </div>
         <button onClick={() => navigate('/it/login')} style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '9px 18px', borderRadius: '8px',
+          display: 'flex', alignItems: 'center', gap: '7px',
+          padding: '8px 16px', borderRadius: '8px',
           background: 'rgba(255,255,255,0.70)',
           border: '1px solid rgba(0,0,0,0.10)',
-          color: '#333333', fontSize: '13px', fontWeight: '600',
+          color: '#333333', fontSize: '12px', fontWeight: '600',
           cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
           transition: 'all 0.16s ease',
         }}
           onMouseOver={e => {
             e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
-            e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.10)';
             e.currentTarget.style.transform = 'translateY(-1px)';
           }}
           onMouseOut={e => {
             e.currentTarget.style.background = 'rgba(255,255,255,0.70)';
-            e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
             e.currentTarget.style.transform = 'translateY(0)';
           }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.8"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
           </svg>
@@ -235,16 +234,16 @@ const ReportStep2 = () => {
         </button>
       </nav>
 
-      {/* ── PAGE CONTENT ── */}
+      {/* ── PAGE CONTENT — no scroll ── */}
       <div style={{
         flex: 1, position: 'relative', zIndex: 10,
-        padding: '26px 44px 20px',
+        padding: '16px 36px 10px',
         display: 'flex', flexDirection: 'column',
-        overflowY: 'auto',
+        overflow: 'hidden',
       }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{
               height: '3px', borderRadius: '2px',
@@ -260,21 +259,19 @@ const ReportStep2 = () => {
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ position: 'relative', marginBottom: '24px' }}>
+        <div style={{ position: 'relative', marginBottom: '14px' }}>
           <div style={{
-            position: 'absolute', top: '-14px', left: '-4px',
-            fontSize: '82px', fontWeight: '900',
+            position: 'absolute', top: '-10px', left: '-4px',
+            fontSize: '62px', fontWeight: '900',
             color: 'transparent',
             WebkitTextStroke: '1px rgba(0,100,30,0.06)',
             letterSpacing: '-4px', lineHeight: 1,
             pointerEvents: 'none', userSelect: 'none', zIndex: 0,
-          }}>
-            DEPARTMENT
-          </div>
+          }}>DEPT</div>
           <h2 style={{
             position: 'relative', zIndex: 1,
-            fontWeight: '900', fontSize: '24px',
-            margin: '0 0 7px', letterSpacing: '-0.5px', color: '#111111',
+            fontWeight: '900', fontSize: '20px',
+            margin: '0 0 4px', letterSpacing: '-0.4px', color: '#111111',
           }}>
             Which{' '}
             <span style={{
@@ -288,21 +285,22 @@ const ReportStep2 = () => {
           </h2>
           <p style={{
             position: 'relative', zIndex: 1,
-            color: 'rgba(0,0,0,0.45)', fontSize: '14px',
-            margin: 0, lineHeight: '1.6',
+            color: 'rgba(0,0,0,0.45)', fontSize: '12px',
+            margin: 0, lineHeight: '1.5',
           }}>
-            Your department helps us contextualise the threat. Stripped before storage — never linked to your identity.
+            Helps contextualise the threat. Stripped before storage — never linked to your identity.
           </p>
         </div>
 
-        {/* ── 2-COLUMN CARDS — same size as Step1 ── */}
+        {/* ── 3-COLUMN CARDS GRID ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '14px',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '10px',
           width: '100%',
-          maxWidth: '820px',
-          marginBottom: '14px',
+          marginBottom: '10px',
+          flex: 1,
+          alignContent: 'start',
         }}>
           {departments.map((dept) => {
             const sel = selected === dept.label;
@@ -316,30 +314,29 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '16px',
+                  borderRadius: '14px',
                   padding: '0',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
-                  // Dark charcoal glass — identical to Step1
                   background: sel
-                    ? 'rgba(14,20,14,0.96)'
+                    ? 'rgba(14,20,14,0.97)'
                     : hov
-                    ? 'rgba(18,26,18,0.94)'
-                    : 'rgba(22,30,22,0.88)',
+                    ? 'rgba(18,26,18,0.95)'
+                    : 'rgba(22,30,22,0.90)',
                   border: sel
-                    ? `1px solid ${dept.accentColor}55`
+                    ? `1px solid ${dept.accentColor}60`
                     : hov
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1px solid rgba(255,255,255,0.08)',
-                  transform: hov && !sel ? 'translateY(-3px) scale(1.005)' : 'translateY(0) scale(1)',
-                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
+                    ? '1px solid rgba(255,255,255,0.14)'
+                    : '1px solid rgba(255,255,255,0.09)',
+                  transform: hov && !sel ? 'translateY(-2px) scale(1.005)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.20s cubic-bezier(0.16,1,0.3,1)',
                   boxShadow: sel
-                    ? `0 12px 36px rgba(0,0,0,0.20), 0 0 0 1px ${dept.accentColor}22`
+                    ? `0 8px 28px rgba(0,0,0,0.22), 0 0 0 1px ${dept.accentColor}20`
                     : hov
-                    ? '0 10px 32px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.08)'
-                    : '0 4px 16px rgba(0,0,0,0.10)',
+                    ? '0 8px 24px rgba(0,0,0,0.18)'
+                    : '0 3px 12px rgba(0,0,0,0.12)',
                   backdropFilter: 'blur(28px)',
                   WebkitBackdropFilter: 'blur(28px)',
                 }}>
@@ -347,233 +344,223 @@ const ReportStep2 = () => {
                 {/* Glass sheen */}
                 <div style={{
                   position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
-                  pointerEvents: 'none', borderRadius: '16px',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
+                  pointerEvents: 'none', borderRadius: '14px',
                 }} />
 
                 {/* Top shimmer */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
                   background: sel || hov
-                    ? `linear-gradient(90deg, transparent, ${dept.accentColor}55, transparent)`
-                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)',
+                    ? `linear-gradient(90deg, transparent, ${dept.accentColor}60, transparent)`
+                    : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)',
                 }} />
 
                 {/* Left accent bar */}
                 <div style={{
                   width: '5px', flexShrink: 0,
-                  background: sel
-                    ? `linear-gradient(180deg, ${dept.accentColor}, ${dept.accentColor}88)`
-                    : dept.accentColor,
-                  opacity: sel ? 1 : hov ? 0.80 : 0.55,
-                  borderRadius: '16px 0 0 16px',
-                  transition: 'all 0.22s',
-                  boxShadow: sel || hov ? `2px 0 10px ${dept.accentColor}33` : 'none',
+                  background: dept.accentColor,
+                  opacity: sel ? 1 : hov ? 0.85 : 0.55,
+                  borderRadius: '14px 0 0 14px',
+                  transition: 'opacity 0.20s',
+                  boxShadow: sel || hov ? `2px 0 10px ${dept.accentColor}40` : 'none',
                 }} />
 
                 {/* Card content */}
-                <div style={{ flex: 1, padding: '18px 18px 16px 14px' }}>
+                <div style={{ flex: 1, padding: '14px 14px 12px 12px' }}>
 
-                  {/* Icon + risk badge + checkmark */}
+                  {/* Icon + risk badge row */}
                   <div style={{
                     display: 'flex', justifyContent: 'space-between',
-                    alignItems: 'flex-start', marginBottom: '12px',
+                    alignItems: 'center', marginBottom: '10px',
                   }}>
                     <div style={{
-                      width: '40px', height: '40px', borderRadius: '11px',
+                      width: '36px', height: '36px', borderRadius: '10px',
                       background: sel || hov
                         ? `${dept.accentColor}22`
-                        : 'rgba(255,255,255,0.07)',
-                      border: `1px solid ${dept.accentColor}33`,
+                        : 'rgba(255,255,255,0.08)',
+                      border: `1px solid ${dept.accentColor}35`,
                       display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '19px',
-                      transition: 'all 0.22s',
-                      boxShadow: sel || hov ? `0 0 14px ${dept.accentColor}25` : 'none',
+                      justifyContent: 'center', fontSize: '18px',
+                      transition: 'all 0.20s',
+                      flexShrink: 0,
                     }}>
                       {dept.icon}
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                       {sel && (
                         <div style={{
-                          width: '20px', height: '20px', borderRadius: '50%',
+                          width: '18px', height: '18px', borderRadius: '50%',
                           background: dept.accentColor,
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '10px', color: '#fff', fontWeight: '900',
-                          boxShadow: `0 2px 8px ${dept.accentColor}55`,
+                          fontSize: '9px', color: '#fff', fontWeight: '900',
+                          flexShrink: 0,
                         }}>✓</div>
                       )}
-                      {/* Risk badge */}
                       <div style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '4px',
-                        padding: '3px 8px', borderRadius: '20px',
+                        display: 'inline-flex', alignItems: 'center', gap: '3px',
+                        padding: '2px 7px', borderRadius: '20px',
                         background: rc.bg, border: `1px solid ${rc.border}`,
                       }}>
                         <div style={{
                           width: '4px', height: '4px', borderRadius: '50%',
-                          background: rc.color,
+                          background: rc.color, flexShrink: 0,
                         }}/>
                         <span style={{
                           fontSize: '8px', fontWeight: '800',
-                          color: rc.color, letterSpacing: '0.09em',
+                          color: rc.color, letterSpacing: '0.07em',
                           textTransform: 'uppercase',
                         }}>{dept.risk}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Title */}
+                  {/* Department name — large and clear */}
                   <div style={{
-                    color: sel ? '#ffffff' : 'rgba(255,255,255,0.92)',
+                    color: '#ffffff',
                     fontWeight: '800', fontSize: '13px',
-                    marginBottom: '5px', letterSpacing: '-0.1px',
+                    marginBottom: '4px', letterSpacing: '-0.1px',
+                    lineHeight: '1.25',
                   }}>
                     {dept.label}
                   </div>
 
                   {/* Role */}
                   <div style={{
-                    color: sel ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.38)',
-                    fontSize: '11px', lineHeight: '1.6',
-                    marginBottom: '12px',
+                    color: 'rgba(255,255,255,0.60)',
+                    fontSize: '11px', lineHeight: '1.5',
+                    marginBottom: '10px',
                   }}>
                     {dept.role}
                   </div>
 
                   {/* Targets tag */}
                   <div style={{
-                    padding: '6px 10px', borderRadius: '7px',
-                    background: `${dept.accentColor}14`,
-                    border: `1px solid ${dept.accentColor}25`,
+                    padding: '5px 9px', borderRadius: '6px',
+                    background: `${dept.accentColor}16`,
+                    border: `1px solid ${dept.accentColor}28`,
                     fontSize: '10px',
                     color: dept.accentColor,
-                    lineHeight: '1.5', fontWeight: '600',
+                    lineHeight: '1.4', fontWeight: '700',
                   }}>
                     ⚠ {dept.targets}
                   </div>
-
-                  {/* Arrow */}
-                  {!sel && (
-                    <div style={{
-                      textAlign: 'right', marginTop: '8px',
-                      color: hov ? dept.accentColor : 'rgba(255,255,255,0.18)',
-                      fontSize: '15px', transition: 'all 0.22s',
-                      transform: hov ? 'translateX(3px)' : 'translateX(0)',
-                    }}>→</div>
-                  )}
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* ── OTHER DEPARTMENT — one card wide ── */}
+        {/* ── BOTTOM ROW — other dept + selected confirmation ── */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '14px',
-          width: '100%',
-          maxWidth: '820px',
+          display: 'flex', gap: '10px', alignItems: 'flex-start',
+          marginBottom: '8px',
         }}>
+          {/* Other Department */}
           <div
             onClick={() => handleSelect({ id: 'other', label: '' })}
             onMouseEnter={() => setHovered('other')}
             onMouseLeave={() => setHovered(null)}
             style={{
-              borderRadius: '16px', padding: '0',
+              borderRadius: '12px', padding: '0',
               cursor: 'pointer', position: 'relative',
               overflow: 'hidden', display: 'flex',
               background: showOtherInput || hovered === 'other'
-                ? 'rgba(18,26,18,0.94)'
+                ? 'rgba(18,26,18,0.95)'
                 : 'rgba(22,30,22,0.88)',
               border: showOtherInput
-                ? '1px solid rgba(255,255,255,0.16)'
-                : hovered === 'other'
-                ? '1px solid rgba(255,255,255,0.12)'
-                : '1px dashed rgba(255,255,255,0.18)',
-              transform: hovered === 'other' ? 'translateY(-3px)' : 'translateY(0)',
-              transition: 'all 0.22s ease',
+                ? '1px solid rgba(255,255,255,0.18)'
+                : '1px dashed rgba(255,255,255,0.22)',
+              transition: 'all 0.20s ease',
               backdropFilter: 'blur(28px)',
               WebkitBackdropFilter: 'blur(28px)',
               boxShadow: hovered === 'other'
-                ? '0 10px 32px rgba(0,0,0,0.14)'
-                : '0 4px 16px rgba(0,0,0,0.10)',
+                ? '0 6px 20px rgba(0,0,0,0.16)'
+                : '0 2px 8px rgba(0,0,0,0.10)',
+              flexShrink: 0,
             }}>
             <div style={{
               position: 'absolute', inset: 0,
               background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 100%)',
-              pointerEvents: 'none', borderRadius: '16px',
+              pointerEvents: 'none', borderRadius: '12px',
             }} />
             <div style={{
-              width: '5px', flexShrink: 0,
-              background: 'rgba(255,255,255,0.22)',
+              width: '4px', flexShrink: 0,
+              background: 'rgba(255,255,255,0.25)',
               opacity: hovered === 'other' ? 0.65 : 0.28,
-              borderRadius: '16px 0 0 16px',
-              transition: 'opacity 0.22s',
+              borderRadius: '12px 0 0 12px',
+              transition: 'opacity 0.20s',
             }} />
             <div style={{
-              flex: 1, padding: '18px 18px 18px 14px',
-              display: 'flex', alignItems: 'center', gap: '12px',
+              padding: '12px 16px 12px 12px',
+              display: 'flex', alignItems: 'center', gap: '10px',
             }}>
               <div style={{
-                width: '40px', height: '40px', borderRadius: '11px',
+                width: '34px', height: '34px', borderRadius: '9px',
                 background: 'rgba(255,255,255,0.07)',
                 border: '1px solid rgba(255,255,255,0.14)',
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '19px', flexShrink: 0,
+                justifyContent: 'center', fontSize: '16px', flexShrink: 0,
               }}>✏️</div>
               <div>
-                <div style={{ color: 'rgba(255,255,255,0.88)', fontWeight: '700', fontSize: '13px', marginBottom: '2px' }}>
+                <div style={{ color: 'rgba(255,255,255,0.90)', fontWeight: '700', fontSize: '12px', marginBottom: '1px' }}>
                   Other Department
                 </div>
-                <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '11px' }}>
-                  Not listed above — enter manually
+                <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '11px' }}>
+                  Not listed — enter manually
                 </div>
               </div>
               <div style={{
-                marginLeft: 'auto',
-                color: hovered === 'other' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.25)',
-                fontSize: '18px', transition: 'all 0.22s',
+                marginLeft: '12px',
+                color: hovered === 'other' ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.28)',
+                fontSize: '16px', transition: 'all 0.20s',
                 transform: hovered === 'other' ? 'translateX(3px)' : 'translateX(0)',
               }}>→</div>
             </div>
           </div>
-        </div>
 
-        {/* Other input */}
-        {showOtherInput && (
-          <div style={{
-            borderRadius: '14px', padding: '18px',
-            border: '1px solid rgba(255,255,255,0.10)',
-            background: 'rgba(14,20,14,0.96)',
-            backdropFilter: 'blur(28px)',
-            WebkitBackdropFilter: 'blur(28px)',
-            marginTop: '12px', maxWidth: '820px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-          }}>
-            <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13px', marginBottom: '3px' }}>
-              Enter your department
+          {/* Selected confirmation */}
+          {selected && (
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '7px',
+              padding: '8px 13px', borderRadius: '10px',
+              background: 'rgba(34,197,94,0.10)',
+              border: '1px solid rgba(34,197,94,0.24)',
+              alignSelf: 'center',
+            }}>
+              <span style={{ color: '#22c55e', fontSize: '13px' }}>✓</span>
+              <span style={{ color: '#22c55e', fontSize: '12px', fontWeight: '700' }}>{selected}</span>
+              <span style={{ color: 'rgba(0,0,0,0.40)', fontSize: '11px' }}>— stripped before storage</span>
             </div>
-            <div style={{ color: 'rgba(255,255,255,0.40)', fontSize: '12px', marginBottom: '10px' }}>
-              Type your department name — it will be stripped before storage.
-            </div>
-            <input
-              value={otherDept}
-              onChange={e => setOtherDept(e.target.value)}
-              placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
-              style={{
-                width: '100%',
-                background: 'rgba(255,255,255,0.07)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: '8px', color: '#ffffff',
-                padding: '10px 14px', fontSize: '13px',
-                outline: 'none', marginBottom: '12px',
-                boxSizing: 'border-box',
-              }}
-              onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
-              autoFocus
-            />
-            <div style={{ display: 'flex', gap: '8px' }}>
+          )}
+
+          {/* Other input inline */}
+          {showOtherInput && (
+            <div style={{
+              flex: 1, borderRadius: '12px', padding: '12px 14px',
+              border: '1px solid rgba(255,255,255,0.10)',
+              background: 'rgba(14,20,14,0.96)',
+              backdropFilter: 'blur(28px)',
+              WebkitBackdropFilter: 'blur(28px)',
+              boxShadow: '0 6px 24px rgba(0,0,0,0.18)',
+              display: 'flex', gap: '10px', alignItems: 'center',
+            }}>
+              <input
+                value={otherDept}
+                onChange={e => setOtherDept(e.target.value)}
+                placeholder="e.g. Mobile Banking, Digital Channels..."
+                style={{
+                  flex: 1,
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  borderRadius: '8px', color: '#ffffff',
+                  padding: '9px 12px', fontSize: '13px',
+                  outline: 'none',
+                }}
+                onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
+                autoFocus
+              />
               <button
                 onClick={handleOtherConfirm}
                 disabled={!otherDept.trim()}
@@ -581,8 +568,9 @@ const ReportStep2 = () => {
                   background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)',
                   color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.30)',
                   border: 'none', borderRadius: '8px',
-                  padding: '9px 20px', fontSize: '13px', fontWeight: '700',
+                  padding: '9px 16px', fontSize: '12px', fontWeight: '700',
                   cursor: otherDept.trim() ? 'pointer' : 'not-allowed',
+                  whiteSpace: 'nowrap',
                   transition: 'all 0.16s',
                 }}>
                 Confirm →
@@ -590,32 +578,17 @@ const ReportStep2 = () => {
               <button
                 onClick={() => { setShowOtherInput(false); setOtherDept(''); }}
                 style={{
-                  background: 'transparent', color: 'rgba(255,255,255,0.45)',
+                  background: 'transparent',
+                  color: 'rgba(255,255,255,0.40)',
                   border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '8px', padding: '9px 20px',
-                  fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+                  borderRadius: '8px', padding: '9px 14px',
+                  fontSize: '12px', fontWeight: '600', cursor: 'pointer',
                 }}>
                 Cancel
               </button>
             </div>
-          </div>
-        )}
-
-        {/* Selected confirmation */}
-        {selected && (
-          <div style={{
-            marginTop: '12px', maxWidth: '820px',
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            padding: '7px 13px', borderRadius: '8px',
-            background: 'rgba(34,197,94,0.10)',
-            border: '1px solid rgba(34,197,94,0.22)',
-            alignSelf: 'flex-start',
-          }}>
-            <span style={{ color: '#22c55e', fontSize: '12px' }}>✓</span>
-            <span style={{ color: '#22c55e', fontSize: '13px', fontWeight: '700' }}>{selected}</span>
-            <span style={{ color: 'rgba(0,0,0,0.45)', fontSize: '11px' }}>— stripped before storage</span>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* ── NEXT STRIP ── */}
