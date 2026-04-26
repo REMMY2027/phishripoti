@@ -117,7 +117,6 @@ const ReportStep3 = () => {
 
       <svg style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', zIndex: 4, pointerEvents: 'none' }} xmlns="http://www.w3.org/2000/svg">
         <path d="M -100 300 Q 200 180 500 320 T 1100 280 T 1600 300" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1.5"/>
-        <path d="M -100 450 Q 250 330 600 460 T 1200 400" fill="none" stroke="rgba(0,80,20,0.03)" strokeWidth="1"/>
         <circle cx="-60" cy="120" r="220" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1"/>
         <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
         <circle cx="8%" cy="22%" r="2.5" fill="rgba(0,100,30,0.08)"/>
@@ -133,11 +132,10 @@ const ReportStep3 = () => {
         maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
       }}>
         <svg width="100%" height="100%" viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
-          <rect x="20" y="180" width="18" height="80" /><rect x="42" y="170" width="14" height="90" />
-          <rect x="310" y="60" width="38" height="200" /><rect x="200" y="90" width="32" height="170" />
-          <ellipse cx="216" cy="90" rx="18" ry="8" /><rect x="380" y="80" width="34" height="180" />
-          <rect x="150" y="120" width="26" height="140" /><rect x="250" y="110" width="24" height="150" />
-          <rect x="418" y="100" width="28" height="160" /><rect x="476" y="130" width="26" height="130" />
+          <rect x="20" y="180" width="18" height="80" /><rect x="310" y="60" width="38" height="200" />
+          <rect x="200" y="90" width="32" height="170" /><ellipse cx="216" cy="90" rx="18" ry="8" />
+          <rect x="380" y="80" width="34" height="180" /><rect x="150" y="120" width="26" height="140" />
+          <rect x="250" y="110" width="24" height="150" /><rect x="418" y="100" width="28" height="160" />
           <rect x="0" y="258" width="580" height="2" />
         </svg>
       </div>
@@ -179,92 +177,154 @@ const ReportStep3 = () => {
       </nav>
 
       {/* ── PAGE CONTENT ── */}
-      <div style={{ flex: 1, position: 'relative', zIndex: 10, padding: '26px 44px 20px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-        <div style={{ maxWidth: '760px', width: '100%' }}>
+      <div style={{ flex: 1, position: 'relative', zIndex: 10, padding: '28px 44px 20px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        <div style={{ maxWidth: '820px', width: '100%' }}>
 
           {/* Step indicator */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px' }}>
             {[1,2,3,4].map(i => (
-              <div key={i} style={{ height: '3px', borderRadius: '2px', width: i <= 3 ? '28px' : '18px', background: i < 3 ? '#006600' : i === 3 ? '#BB0000' : 'rgba(0,0,0,0.14)' }} />
+              <div key={i} style={{ height: '3px', borderRadius: '2px', width: i <= 3 ? '32px' : '18px', background: i < 3 ? '#006600' : i === 3 ? '#BB0000' : 'rgba(0,0,0,0.14)' }} />
             ))}
-            <span style={{ fontSize: '10px', letterSpacing: '0.18em', color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase', marginLeft: '6px', fontWeight: '600' }}>Step 3 of 4</span>
+            <span style={{ fontSize: '10px', letterSpacing: '0.18em', color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase', marginLeft: '8px', fontWeight: '700' }}>Step 3 of 4</span>
           </div>
 
-          {/* Headline */}
-          <div style={{ position: 'relative', marginBottom: '22px' }}>
-            <div style={{ position: 'absolute', top: '-14px', left: '-4px', fontSize: '72px', fontWeight: '900', color: 'transparent', WebkitTextStroke: '1px rgba(187,0,0,0.06)', letterSpacing: '-4px', lineHeight: 1, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>EMAIL</div>
-            <h2 style={{ position: 'relative', zIndex: 1, fontWeight: '900', fontSize: '24px', margin: '0 0 7px', letterSpacing: '-0.5px', color: '#111111' }}>
-              Tell us about the{' '}
-              <span style={{ color: 'transparent', background: 'linear-gradient(90deg, #BB0000 0%, #8B0000 45%, #006600 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>suspicious email</span>
-            </h2>
-            <p style={{ position: 'relative', zIndex: 1, color: 'rgba(0,0,0,0.45)', fontSize: '14px', margin: 0, lineHeight: '1.6' }}>
-              Choose how you would like to fill in the details below.
-            </p>
+          {/* ── HEADLINE ── */}
+          <div style={{ marginBottom: '28px', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: '-18px', left: '-6px', fontSize: '88px', fontWeight: '900', color: 'transparent', WebkitTextStroke: '1px rgba(187,0,0,0.05)', letterSpacing: '-5px', lineHeight: 1, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>EMAIL</div>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '10px', padding: '4px 12px', borderRadius: '20px', background: 'rgba(187,0,0,0.07)', border: '1px solid rgba(187,0,0,0.14)' }}>
+                <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#BB0000' }}/>
+                <span style={{ fontSize: '10px', fontWeight: '800', color: '#BB0000', textTransform: 'uppercase', letterSpacing: '0.12em' }}>PII Stripped Automatically</span>
+              </div>
+              <h1 style={{ fontWeight: '900', fontSize: '30px', margin: '0 0 10px', letterSpacing: '-0.8px', lineHeight: 1.15, color: '#0a0a0a' }}>
+                Tell us about the{' '}
+                <span style={{ position: 'relative', display: 'inline-block' }}>
+                  <span style={{ color: 'transparent', background: 'linear-gradient(90deg, #BB0000 0%, #8B0000 50%, #006600 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>suspicious email</span>
+                  <span style={{ position: 'absolute', bottom: '-3px', left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #BB0000, #006600)', borderRadius: '2px', opacity: 0.5 }}/>
+                </span>
+              </h1>
+              <p style={{ color: 'rgba(0,0,0,0.48)', fontSize: '14px', margin: 0, lineHeight: '1.65', maxWidth: '520px', fontWeight: '500' }}>
+                Choose how to fill in the details. <span style={{ color: 'rgba(0,0,0,0.28)', fontWeight: '400' }}>All personal information is stripped by GPT-4o before being stored.</span>
+              </p>
+            </div>
           </div>
 
           {/* ── MODE SELECTOR ── */}
           {!fillMode && (
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontSize: '11px', fontWeight: '600', color: 'rgba(0,0,0,0.35)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '12px' }}>
-                How would you like to fill in the details?
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-                <div onClick={() => setFillMode('ai')} style={{ borderRadius: '16px', padding: '0', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'flex', background: 'rgba(18,26,18,0.92)', border: '1px solid rgba(234,150,0,0.30)', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)' }}
-                  onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'rgba(234,150,0,0.50)'; }}
-                  onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(234,150,0,0.30)'; }}>
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 100%)', pointerEvents: 'none', borderRadius: '16px' }} />
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(234,150,0,0.35), transparent)' }} />
-                  <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #ffd166, #ea9600)', opacity: 0.80, borderRadius: '16px 0 0 16px' }} />
-                  <div style={{ flex: 1, padding: '20px 18px 18px 14px' }}>
-                    <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(234,150,0,0.15)', border: '1px solid rgba(234,150,0,0.28)', borderRadius: '20px', padding: '2px 10px', fontSize: '8px', fontWeight: '800', color: '#ffd166', letterSpacing: '0.09em', textTransform: 'uppercase' }}>Recommended</div>
-                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(234,150,0,0.14)', border: '1px solid rgba(234,150,0,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', marginBottom: '12px' }}>⚡</div>
-                    <div style={{ color: '#ffd166', fontWeight: '800', fontSize: '14px', marginBottom: '6px' }}>AI Quick Fill</div>
-                    <div style={{ color: 'rgba(255,255,255,0.50)', fontSize: '12px', lineHeight: '1.6' }}>Paste the full email — GPT-4o automatically extracts all details in seconds.</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '24px' }}>
+
+              {/* AI Quick Fill */}
+              <div onClick={() => setFillMode('ai')} style={{
+                borderRadius: '16px', padding: '0', cursor: 'pointer',
+                position: 'relative', overflow: 'hidden', display: 'flex',
+                background: 'rgba(18,26,18,0.92)',
+                border: '1px solid rgba(234,150,0,0.35)',
+                boxShadow: '0 6px 24px rgba(0,0,0,0.14)',
+                backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+                transition: 'all 0.24s cubic-bezier(0.16,1,0.3,1)',
+              }}
+                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 44px rgba(0,0,0,0.20)'; e.currentTarget.style.borderColor = 'rgba(234,150,0,0.55)'; }}
+                onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,0,0,0.14)'; e.currentTarget.style.borderColor = 'rgba(234,150,0,0.35)'; }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(234,150,0,0.09) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(234,150,0,0.45), transparent)' }} />
+                <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #ffd166, #ea9600)', opacity: 0.85, borderRadius: '16px 0 0 16px' }} />
+                <div style={{ flex: 1, padding: '26px 22px 24px 18px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '18px' }}>
+                    <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(234,150,0,0.16)', border: '1px solid rgba(234,150,0,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px' }}>⚡</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+                      <div style={{ background: 'rgba(234,150,0,0.18)', border: '1px solid rgba(234,150,0,0.32)', borderRadius: '20px', padding: '3px 11px', fontSize: '9px', fontWeight: '900', color: '#ffd166', letterSpacing: '0.10em', textTransform: 'uppercase' }}>⚡ Recommended</div>
+                      <div style={{ background: 'rgba(234,150,0,0.10)', border: '1px solid rgba(234,150,0,0.20)', borderRadius: '4px', padding: '2px 8px', fontSize: '9px', fontWeight: '800', color: 'rgba(255,210,100,0.70)', letterSpacing: '0.09em', textTransform: 'uppercase' }}>GPT-4o Powered</div>
+                    </div>
+                  </div>
+                  <div style={{ color: '#ffd166', fontWeight: '900', fontSize: '18px', marginBottom: '8px', letterSpacing: '-0.2px' }}>AI Quick Fill</div>
+                  <div style={{ color: 'rgba(255,255,255,0.52)', fontSize: '13px', lineHeight: '1.70', marginBottom: '18px' }}>
+                    Paste the raw email and GPT-4o automatically extracts the sender, subject, links and description — all personal data stripped before storage.
+                  </div>
+                  {/* Feature bullets */}
+                  {['Extracts all fields automatically', 'Strips personal info with AI', 'Takes less than 10 seconds'].map((f, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '5px' }}>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'rgba(234,150,0,0.18)', border: '1px solid rgba(234,150,0,0.30)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <span style={{ color: '#ffd166', fontSize: '9px', fontWeight: '900' }}>✓</span>
+                      </div>
+                      <span style={{ color: 'rgba(255,210,100,0.65)', fontSize: '12px', fontWeight: '500' }}>{f}</span>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '6px', color: '#ffd166', fontSize: '13px', fontWeight: '700' }}>
+                    Get started <span style={{ fontSize: '16px' }}>→</span>
                   </div>
                 </div>
+              </div>
 
-                <div onClick={() => setFillMode('manual')} style={{ borderRadius: '16px', padding: '0', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'flex', background: 'rgba(22,30,22,0.88)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 20px rgba(0,0,0,0.10)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)' }}
-                  onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
-                  onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 100%)', pointerEvents: 'none', borderRadius: '16px' }} />
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)' }} />
-                  <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.65, borderRadius: '16px 0 0 16px' }} />
-                  <div style={{ flex: 1, padding: '20px 18px 18px 14px' }}>
-                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', marginBottom: '12px' }}>✍️</div>
-                    <div style={{ color: 'rgba(255,255,255,0.92)', fontWeight: '800', fontSize: '14px', marginBottom: '6px' }}>Fill Manually</div>
-                    <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '12px', lineHeight: '1.6' }}>Enter the email details yourself field by field at your own pace.</div>
+              {/* Manual Fill */}
+              <div onClick={() => setFillMode('manual')} style={{
+                borderRadius: '16px', padding: '0', cursor: 'pointer',
+                position: 'relative', overflow: 'hidden', display: 'flex',
+                background: 'rgba(22,30,22,0.88)',
+                border: '1px solid rgba(255,255,255,0.09)',
+                boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
+                backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+                transition: 'all 0.24s cubic-bezier(0.16,1,0.3,1)',
+              }}
+                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 44px rgba(0,0,0,0.18)'; e.currentTarget.style.borderColor = 'rgba(34,197,94,0.30)'; }}
+                onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,0,0,0.12)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)'; }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(34,197,94,0.06) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.20), transparent)' }} />
+                <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.70, borderRadius: '16px 0 0 16px' }} />
+                <div style={{ flex: 1, padding: '26px 22px 24px 18px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '18px' }}>
+                    <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.20)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px' }}>✍️</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+                      <div style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.22)', borderRadius: '20px', padding: '3px 11px', fontSize: '9px', fontWeight: '900', color: '#4ade80', letterSpacing: '0.10em', textTransform: 'uppercase' }}>Manual Entry</div>
+                      <div style={{ background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.14)', borderRadius: '4px', padding: '2px 8px', fontSize: '9px', fontWeight: '800', color: 'rgba(74,222,128,0.55)', letterSpacing: '0.09em', textTransform: 'uppercase' }}>Full Control</div>
+                    </div>
+                  </div>
+                  <div style={{ color: 'rgba(255,255,255,0.92)', fontWeight: '900', fontSize: '18px', marginBottom: '8px', letterSpacing: '-0.2px' }}>Fill Manually</div>
+                  <div style={{ color: 'rgba(255,255,255,0.48)', fontSize: '13px', lineHeight: '1.70', marginBottom: '18px' }}>
+                    Enter each field yourself at your own pace. Ideal if you want to carefully review what information you are sharing before submitting.
+                  </div>
+                  {['Full control over each field', 'Review before submitting', 'Works without pasting the email'].map((f, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '5px' }}>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <span style={{ color: '#4ade80', fontSize: '9px', fontWeight: '900' }}>✓</span>
+                      </div>
+                      <span style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px', fontWeight: '500' }}>{f}</span>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '6px', color: 'rgba(255,255,255,0.65)', fontSize: '13px', fontWeight: '700' }}>
+                    Start filling <span style={{ fontSize: '16px' }}>→</span>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ── AI QUICK FILL ── */}
+          {/* ── AI QUICK FILL INPUT ── */}
           {fillMode === 'ai' && !extracted && (
             <div style={{ borderRadius: '16px', marginBottom: '20px', overflow: 'hidden', border: '1px solid rgba(234,150,0,0.28)', background: 'rgba(18,26,18,0.92)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)', position: 'relative' }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-              <div style={{ padding: '14px 18px', borderBottom: '1px solid rgba(234,150,0,0.14)', display: 'flex', alignItems: 'center', gap: '10px', position: 'relative', zIndex: 1 }}>
-                <span style={{ fontSize: '16px' }}>⚡</span>
-                <span style={{ color: '#ffd166', fontWeight: '700', fontSize: '14px' }}>AI Quick Fill</span>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(234,150,0,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
+              <div style={{ height: '3px', background: 'linear-gradient(90deg, #ffd166, #ea9600, transparent)' }} />
+              <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(234,150,0,0.14)', display: 'flex', alignItems: 'center', gap: '10px', position: 'relative', zIndex: 1 }}>
+                <span style={{ fontSize: '18px' }}>⚡</span>
+                <span style={{ color: '#ffd166', fontWeight: '800', fontSize: '15px' }}>AI Quick Fill</span>
                 <button onClick={() => setFillMode(null)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'rgba(255,255,255,0.35)', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>← Change method</button>
               </div>
-              <div style={{ padding: '18px', position: 'relative', zIndex: 1 }}>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.38)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.10em' }}>Paste the full email content here</label>
+              <div style={{ padding: '20px', position: 'relative', zIndex: 1 }}>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.40)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.10em' }}>Paste the full email content here</label>
                 <textarea value={rawEmail} onChange={e => setRawEmail(e.target.value)}
-                  placeholder="Paste everything — from, subject, body, links...&#10;&#10;GPT-4o will extract all the details automatically."
-                  style={{ width: '100%', background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(234,150,0,0.14)', borderRadius: '10px', color: '#ffffff', padding: '14px', fontSize: '13px', outline: 'none', resize: 'none', lineHeight: '1.7', minHeight: '150px', boxSizing: 'border-box', fontFamily: 'monospace' }} autoFocus/>
+                  placeholder="Paste everything — from, subject, body, links...&#10;&#10;GPT-4o will extract all the details and strip any personal information automatically."
+                  style={{ width: '100%', background: 'rgba(0,0,0,0.22)', border: '1px solid rgba(234,150,0,0.16)', borderRadius: '10px', color: '#ffffff', padding: '14px', fontSize: '13px', outline: 'none', resize: 'none', lineHeight: '1.7', minHeight: '160px', boxSizing: 'border-box', fontFamily: 'monospace' }} autoFocus/>
                 {extractError && <div style={{ marginTop: '8px', padding: '8px 12px', background: 'rgba(187,0,0,0.12)', border: '1px solid rgba(187,0,0,0.22)', borderRadius: '8px', color: '#ff8080', fontSize: '12px' }}>{extractError}</div>}
                 <button onClick={doQuickFill} disabled={extracting || !rawEmail.trim()} style={{
-                  marginTop: '12px',
+                  marginTop: '14px',
                   background: extracting || !rawEmail.trim() ? 'rgba(255,255,255,0.07)' : 'linear-gradient(135deg, #ea9600, #cc7a00)',
                   color: extracting || !rawEmail.trim() ? 'rgba(255,255,255,0.28)' : '#fff',
-                  border: 'none', borderRadius: '10px', padding: '11px 22px', fontSize: '13px', fontWeight: '700',
+                  border: 'none', borderRadius: '10px', padding: '12px 24px', fontSize: '13px', fontWeight: '800',
                   cursor: extracting || !rawEmail.trim() ? 'not-allowed' : 'pointer',
                   display: 'flex', alignItems: 'center', gap: '8px',
-                  boxShadow: extracting || !rawEmail.trim() ? 'none' : '0 4px 16px rgba(234,150,0,0.28)',
+                  boxShadow: extracting || !rawEmail.trim() ? 'none' : '0 4px 16px rgba(234,150,0,0.30)',
                   transition: 'all 0.16s',
                 }}>
-                  {extracting ? (<><svg style={{ animation: 'spin 1s linear infinite' }} width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="white" strokeWidth="3" strokeLinecap="round"/></svg><style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>Extracting with GPT-4o...</>) : '⚡ Extract Details →'}
+                  {extracting ? (<><svg style={{ animation: 'spin 1s linear infinite' }} width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="white" strokeWidth="3" strokeLinecap="round"/></svg><style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>Extracting with GPT-4o...</>) : '⚡ Extract Details →'}
                 </button>
               </div>
             </div>
@@ -272,8 +332,8 @@ const ReportStep3 = () => {
 
           {/* Extracted success */}
           {extracted && (
-            <div style={{ marginBottom: '16px', padding: '11px 14px', background: 'rgba(0,102,0,0.08)', border: '1px solid rgba(34,197,94,0.20)', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>✅</span>
+            <div style={{ marginBottom: '16px', padding: '11px 16px', background: 'rgba(0,102,0,0.08)', border: '1px solid rgba(34,197,94,0.20)', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '18px' }}>✅</span>
               <span style={{ color: '#006600', fontSize: '13px', fontWeight: '700' }}>AI Quick Fill complete — review and edit the fields below if needed</span>
               <button onClick={() => { setExtracted(false); setFillMode('ai'); }} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'rgba(0,0,0,0.38)', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>Redo</button>
             </div>
@@ -286,18 +346,15 @@ const ReportStep3 = () => {
               {/* EMAIL DETAILS PANEL */}
               <div style={{ borderRadius: '16px', padding: '0', background: 'rgba(18,26,18,0.92)', border: '1px solid rgba(255,255,255,0.09)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)', position: 'relative', overflow: 'hidden', display: 'flex' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)' }} />
+                <div style={{ height: '3px', position: 'absolute', top: 0, left: 0, right: 0, background: 'linear-gradient(90deg, #22c55e, #15803d, transparent)' }} />
                 <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.65, borderRadius: '16px 0 0 16px' }} />
-
-                <div style={{ flex: 1, padding: '20px 20px 20px 16px', position: 'relative', zIndex: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ flex: 1, padding: '22px 22px 22px 18px', position: 'relative', zIndex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div style={{ width: '3px', height: '14px', borderRadius: '2px', background: '#22c55e' }} />
                       <span style={{ fontSize: '11px', fontWeight: '800', color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.10em' }}>Email Details</span>
                     </div>
-                    {!extracted && (
-                      <button onClick={() => setFillMode(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.30)', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>← Change method</button>
-                    )}
+                    {!extracted && <button onClick={() => setFillMode(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.30)', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>← Change method</button>}
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
@@ -331,13 +388,9 @@ const ReportStep3 = () => {
                         <div style={{ width: '34px', height: '34px', borderRadius: '9px', background: 'rgba(234,150,0,0.20)', border: '1px solid rgba(234,150,0,0.40)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>📋</div>
                         <div>
                           <div style={{ color: '#ffd166', fontWeight: '800', fontSize: '13px', marginBottom: '2px' }}>Email Header</div>
-                          <div style={{ color: 'rgba(255,210,100,0.55)', fontSize: '11px' }}>
-                            {form.emailHeader ? '✓ Header provided — click to edit' : 'Optional — greatly improves threat detection accuracy'}
-                          </div>
+                          <div style={{ color: 'rgba(255,210,100,0.55)', fontSize: '11px' }}>{form.emailHeader ? '✓ Header provided — click to edit' : 'Optional — greatly improves threat detection accuracy'}</div>
                         </div>
-                        {form.emailHeader && (
-                          <div style={{ padding: '2px 8px', borderRadius: '5px', background: 'rgba(34,197,94,0.16)', border: '1px solid rgba(34,197,94,0.32)', fontSize: '9px', fontWeight: '800', color: '#4ade80', letterSpacing: '0.07em' }}>PROVIDED</div>
-                        )}
+                        {form.emailHeader && <div style={{ padding: '2px 8px', borderRadius: '5px', background: 'rgba(34,197,94,0.16)', border: '1px solid rgba(34,197,94,0.32)', fontSize: '9px', fontWeight: '800', color: '#4ade80', letterSpacing: '0.07em' }}>PROVIDED</div>}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <span style={{ fontSize: '10px', background: 'rgba(234,150,0,0.18)', color: '#ffd166', padding: '2px 8px', borderRadius: '4px', fontWeight: '700', border: '1px solid rgba(234,150,0,0.30)' }}>Optional</span>
@@ -349,8 +402,8 @@ const ReportStep3 = () => {
                         <div style={{ padding: '14px', borderRadius: '10px', background: 'rgba(0,0,0,0.30)', border: '1px solid rgba(234,150,0,0.18)', marginBottom: '14px' }}>
                           <div style={{ color: '#ffd166', fontWeight: '800', fontSize: '11px', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.07em' }}>💡 How to find your email header</div>
                           {[
-                            { app: 'Gmail',      steps: 'Open email → Click ⋮ (3 dots) top right → "Show original" → Copy the text at the top' },
-                            { app: 'Outlook',    steps: 'Open email → File → Properties → Copy text from "Internet headers" box' },
+                            { app: 'Gmail', steps: 'Open email → Click ⋮ (3 dots) top right → "Show original" → Copy the text at the top' },
+                            { app: 'Outlook', steps: 'Open email → File → Properties → Copy text from "Internet headers" box' },
                             { app: 'Apple Mail', steps: 'Open email → View menu → Message → All Headers → Copy the header text' },
                           ].map((item, i) => (
                             <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: i < 2 ? '8px' : '0', padding: '9px 12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}>
@@ -361,11 +414,9 @@ const ReportStep3 = () => {
                         </div>
                         <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: 'rgba(255,210,100,0.60)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.09em' }}>Paste email header here</label>
                         <textarea value={form.emailHeader} onChange={e => handleChange('emailHeader', e.target.value)}
-                          placeholder={'Received: from mail.suspicious.com (192.168.1.1)\nDate: Mon, 20 Apr 2026 08:32:11 +0300\nFrom: "KCB Bank" <security@kcb-alerts.net>\nSubject: URGENT: Verify your account\nMessage-ID: <abc123@suspicious.com>'}
+                          placeholder={'Received: from mail.suspicious.com (192.168.1.1)\nDate: Mon, 20 Apr 2026 08:32:11 +0300\nFrom: "KCB Bank" <security@kcb-alerts.net>'}
                           style={{ width: '100%', background: 'rgba(255,255,255,0.07)', border: form.emailHeader ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(234,150,0,0.35)', borderRadius: '10px', color: 'rgba(255,255,255,0.90)', padding: '13px 14px', fontSize: '12px', outline: 'none', resize: 'vertical', minHeight: '110px', boxSizing: 'border-box', lineHeight: '1.7', fontFamily: 'monospace', transition: 'border 0.18s' }}/>
-                        <div style={{ marginTop: '8px', fontSize: '11px', color: 'rgba(255,210,100,0.45)', fontWeight: '500' }}>
-                          The email header reveals routing info, sender IP addresses and authentication failures that help identify phishing.
-                        </div>
+                        <div style={{ marginTop: '8px', fontSize: '11px', color: 'rgba(255,210,100,0.45)', fontWeight: '500' }}>The email header reveals routing info, sender IP addresses and authentication failures that help identify phishing.</div>
                       </div>
                     )}
                   </div>
@@ -374,23 +425,16 @@ const ReportStep3 = () => {
 
               {/* ── DID YOU CLICK SECTION ── */}
               <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.09)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
-
-                {/* Header */}
                 <div style={{ padding: '15px 20px', background: 'rgba(22,10,10,0.98)', borderBottom: '1px solid rgba(187,0,0,0.25)', display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(187,0,0,0.22)', border: '1px solid rgba(187,0,0,0.38)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px', flexShrink: 0 }}>🖱️</div>
                   <div>
                     <div style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px', marginBottom: '2px' }}>Did you interact with the email?</div>
                     <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px' }}>Select one option below — required <span style={{ color: '#BB0000' }}>*</span></div>
                   </div>
-                  {!form.clickedAnything && (
-                    <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(187,0,0,0.18)', border: '1px solid rgba(187,0,0,0.35)', fontSize: '10px', fontWeight: '800', color: '#ff8080', letterSpacing: '0.07em' }}>NOT SELECTED</div>
-                  )}
-                  {form.clickedAnything && (
-                    <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(34,197,94,0.14)', border: '1px solid rgba(34,197,94,0.30)', fontSize: '10px', fontWeight: '800', color: '#4ade80', letterSpacing: '0.07em' }}>✓ SELECTED</div>
-                  )}
+                  {!form.clickedAnything && <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(187,0,0,0.18)', border: '1px solid rgba(187,0,0,0.35)', fontSize: '10px', fontWeight: '800', color: '#ff8080', letterSpacing: '0.07em' }}>NOT SELECTED</div>}
+                  {form.clickedAnything && <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(34,197,94,0.14)', border: '1px solid rgba(34,197,94,0.30)', fontSize: '10px', fontWeight: '800', color: '#4ade80', letterSpacing: '0.07em' }}>✓ SELECTED</div>}
                 </div>
 
-                {/* Tiles */}
                 <div style={{ padding: '16px', background: 'rgba(16,22,16,0.98)', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                   {clickedOptions.map(opt => {
                     const active = form.clickedAnything === opt.value;
@@ -405,40 +449,19 @@ const ReportStep3 = () => {
                       }}
                         onMouseOver={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.10)'; }}
                         onMouseOut={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}>
-                        <div style={{ width: '40px', height: '40px', borderRadius: '11px', background: active ? opt.safe ? 'rgba(34,197,94,0.22)' : 'rgba(187,0,0,0.28)' : 'rgba(255,255,255,0.09)', border: active ? opt.safe ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(187,0,0,0.45)' : '1px solid rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', transition: 'all 0.18s' }}>
-                          {opt.icon}
-                        </div>
-                        <div style={{ fontWeight: '800', fontSize: '13px', lineHeight: '1.2', color: active ? opt.safe ? '#4ade80' : '#ff8080' : 'rgba(255,255,255,0.88)' }}>
-                          {opt.label}
-                        </div>
-                        <div style={{ fontSize: '10px', lineHeight: '1.45', fontWeight: '500', color: active ? opt.safe ? 'rgba(74,222,128,0.70)' : 'rgba(255,128,128,0.70)' : 'rgba(255,255,255,0.42)' }}>
-                          {opt.sub}
-                        </div>
-                        {active && (
-                          <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: opt.safe ? '#22c55e' : '#BB0000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#fff', fontWeight: '900' }}>✓</div>
-                        )}
+                        <div style={{ width: '40px', height: '40px', borderRadius: '11px', background: active ? opt.safe ? 'rgba(34,197,94,0.22)' : 'rgba(187,0,0,0.28)' : 'rgba(255,255,255,0.09)', border: active ? opt.safe ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(187,0,0,0.45)' : '1px solid rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', transition: 'all 0.18s' }}>{opt.icon}</div>
+                        <div style={{ fontWeight: '800', fontSize: '13px', lineHeight: '1.2', color: active ? opt.safe ? '#4ade80' : '#ff8080' : 'rgba(255,255,255,0.88)' }}>{opt.label}</div>
+                        <div style={{ fontSize: '10px', lineHeight: '1.45', fontWeight: '500', color: active ? opt.safe ? 'rgba(74,222,128,0.70)' : 'rgba(255,128,128,0.70)' : 'rgba(255,255,255,0.42)' }}>{opt.sub}</div>
+                        {active && <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: opt.safe ? '#22c55e' : '#BB0000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#fff', fontWeight: '900' }}>✓</div>}
                       </button>
                     );
                   })}
                 </div>
 
-                {/* ── ADVICE PANEL — fully dark, no pink ── */}
                 {form.clickedAnything && !clickedOptions.find(o => o.value === form.clickedAnything)?.safe && (
-                  <div style={{
-                    background: 'rgba(16,22,16,0.98)',
-                    borderTop: '1px solid rgba(187,0,0,0.20)',
-                    padding: '16px 20px',
-                  }}>
-                    <div style={{
-                      padding: '14px 16px',
-                      background: 'rgba(187,0,0,0.14)',
-                      border: '1px solid rgba(187,0,0,0.30)',
-                      borderLeft: '4px solid #BB0000',
-                      borderRadius: '10px',
-                    }}>
-                      <div style={{ color: '#ff8080', fontWeight: '800', fontSize: '11px', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span>⚠</span> Do this immediately:
-                      </div>
+                  <div style={{ background: 'rgba(16,22,16,0.98)', borderTop: '1px solid rgba(187,0,0,0.20)', padding: '16px 20px' }}>
+                    <div style={{ padding: '14px 16px', background: 'rgba(187,0,0,0.14)', border: '1px solid rgba(187,0,0,0.30)', borderLeft: '4px solid #BB0000', borderRadius: '10px' }}>
+                      <div style={{ color: '#ff8080', fontWeight: '800', fontSize: '11px', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>⚠ Do this immediately:</div>
                       {getClickedAdvice(form.clickedAnything).map((tip, i) => (
                         <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: i < getClickedAdvice(form.clickedAnything).length - 1 ? '7px' : '0', alignItems: 'flex-start' }}>
                           <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(187,0,0,0.22)', border: '1px solid rgba(187,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
