@@ -64,10 +64,10 @@ const ReportStep3 = () => {
   const isValid = form.senderEmail && form.subjectLine && form.emailDescription && form.clickedAnything;
 
   const clickedOptions = [
-    { value: 'no',         label: 'No',             sub: 'I did not click anything',                  icon: '✓',  safe: true  },
-    { value: 'link',       label: 'Clicked a link', sub: 'I clicked a link in the email',             icon: '🔗', safe: false },
-    { value: 'attachment', label: 'Opened file',    sub: 'I opened an attachment',                    icon: '📎', safe: false },
-    { value: 'both',       label: 'Both',           sub: 'Clicked a link and opened an attachment',   icon: '⚠️', safe: false },
+    { value: 'no',         label: 'No',             sub: 'I did not click anything',                icon: '✓',  safe: true  },
+    { value: 'link',       label: 'Clicked a link', sub: 'I clicked a link in the email',           icon: '🔗', safe: false },
+    { value: 'attachment', label: 'Opened file',    sub: 'I opened an attachment',                  icon: '📎', safe: false },
+    { value: 'both',       label: 'Both',           sub: 'Clicked a link and opened an attachment', icon: '⚠️', safe: false },
   ];
 
   const getClickedAdvice = (value) => {
@@ -109,7 +109,7 @@ const ReportStep3 = () => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
 
-      {/* ── BACKGROUND — identical to Step1/Step2 ── */}
+      {/* ── BACKGROUND ── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#ffffff' }} />
       <div style={{ position: 'fixed', inset: 0, zIndex: 1, background: 'radial-gradient(ellipse 70% 65% at 50% 42%, rgba(248,250,248,1) 0%, rgba(244,246,244,0.95) 40%, rgba(236,240,236,0.80) 70%, rgba(220,226,220,0.50) 100%)' }} />
       <div style={{ position: 'fixed', inset: 0, zIndex: 2, background: 'linear-gradient(180deg, rgba(0,60,10,0.04) 0%, transparent 25%)' }} />
@@ -209,14 +209,7 @@ const ReportStep3 = () => {
                 How would you like to fill in the details?
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-
-                {/* AI Quick Fill */}
-                <div onClick={() => setFillMode('ai')} style={{
-                  borderRadius: '16px', padding: '0', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'flex',
-                  background: 'rgba(18,26,18,0.92)', border: '1px solid rgba(234,150,0,0.30)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.12)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
-                }}
+                <div onClick={() => setFillMode('ai')} style={{ borderRadius: '16px', padding: '0', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'flex', background: 'rgba(18,26,18,0.92)', border: '1px solid rgba(234,150,0,0.30)', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)' }}
                   onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'rgba(234,150,0,0.50)'; }}
                   onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(234,150,0,0.30)'; }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 100%)', pointerEvents: 'none', borderRadius: '16px' }} />
@@ -230,13 +223,7 @@ const ReportStep3 = () => {
                   </div>
                 </div>
 
-                {/* Manual Fill */}
-                <div onClick={() => setFillMode('manual')} style={{
-                  borderRadius: '16px', padding: '0', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'flex',
-                  background: 'rgba(22,30,22,0.88)', border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.10)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
-                }}
+                <div onClick={() => setFillMode('manual')} style={{ borderRadius: '16px', padding: '0', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'flex', background: 'rgba(22,30,22,0.88)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 20px rgba(0,0,0,0.10)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)' }}
                   onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
                   onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 100%)', pointerEvents: 'none', borderRadius: '16px' }} />
@@ -297,14 +284,7 @@ const ReportStep3 = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
 
               {/* EMAIL DETAILS PANEL */}
-              <div style={{
-                borderRadius: '16px', padding: '0',
-                background: 'rgba(18,26,18,0.92)',
-                border: '1px solid rgba(255,255,255,0.09)',
-                backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.14)',
-                position: 'relative', overflow: 'hidden', display: 'flex',
-              }}>
+              <div style={{ borderRadius: '16px', padding: '0', background: 'rgba(18,26,18,0.92)', border: '1px solid rgba(255,255,255,0.09)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)', position: 'relative', overflow: 'hidden', display: 'flex' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.22), transparent)' }} />
                 <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.65, borderRadius: '16px 0 0 16px' }} />
@@ -341,10 +321,9 @@ const ReportStep3 = () => {
                     <textarea value={form.emailDescription} onChange={e => handleChange('emailDescription', e.target.value)} placeholder="e.g. Click a link to verify my password, transfer funds urgently, provide my M-Pesa PIN..." style={{ ...inputStyle(form.emailDescription), resize: 'none', minHeight: '80px', lineHeight: '1.65' }}/>
                   </div>
 
-                  {/* ── EMAIL HEADER — amber themed, very visible ── */}
+                  {/* EMAIL HEADER */}
                   <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(234,150,0,0.35)', background: 'rgba(20,14,0,0.60)' }}>
-                    <div
-                      onClick={() => setShowHeaderInfo(!showHeaderInfo)}
+                    <div onClick={() => setShowHeaderInfo(!showHeaderInfo)}
                       style={{ padding: '13px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(234,150,0,0.10)', transition: 'background 0.14s' }}
                       onMouseOver={e => e.currentTarget.style.background = 'rgba(234,150,0,0.16)'}
                       onMouseOut={e => e.currentTarget.style.background = 'rgba(234,150,0,0.10)'}>
@@ -365,7 +344,6 @@ const ReportStep3 = () => {
                         <span style={{ color: 'rgba(255,210,100,0.50)', fontSize: '14px', transform: showHeaderInfo ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s', display: 'block' }}>▾</span>
                       </div>
                     </div>
-
                     {showHeaderInfo && (
                       <div style={{ padding: '16px', borderTop: '1px solid rgba(234,150,0,0.22)' }}>
                         <div style={{ padding: '14px', borderRadius: '10px', background: 'rgba(0,0,0,0.30)', border: '1px solid rgba(234,150,0,0.18)', marginBottom: '14px' }}>
@@ -381,24 +359,10 @@ const ReportStep3 = () => {
                             </div>
                           ))}
                         </div>
-
                         <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: 'rgba(255,210,100,0.60)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.09em' }}>Paste email header here</label>
-                        <textarea
-                          value={form.emailHeader}
-                          onChange={e => handleChange('emailHeader', e.target.value)}
+                        <textarea value={form.emailHeader} onChange={e => handleChange('emailHeader', e.target.value)}
                           placeholder={'Received: from mail.suspicious.com (192.168.1.1)\nDate: Mon, 20 Apr 2026 08:32:11 +0300\nFrom: "KCB Bank" <security@kcb-alerts.net>\nSubject: URGENT: Verify your account\nMessage-ID: <abc123@suspicious.com>'}
-                          style={{
-                            width: '100%',
-                            background: 'rgba(255,255,255,0.07)',
-                            border: form.emailHeader ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(234,150,0,0.35)',
-                            borderRadius: '10px',
-                            color: 'rgba(255,255,255,0.90)',
-                            padding: '13px 14px', fontSize: '12px',
-                            outline: 'none', resize: 'vertical', minHeight: '110px',
-                            boxSizing: 'border-box', lineHeight: '1.7',
-                            fontFamily: 'monospace', transition: 'border 0.18s',
-                          }}
-                        />
+                          style={{ width: '100%', background: 'rgba(255,255,255,0.07)', border: form.emailHeader ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(234,150,0,0.35)', borderRadius: '10px', color: 'rgba(255,255,255,0.90)', padding: '13px 14px', fontSize: '12px', outline: 'none', resize: 'vertical', minHeight: '110px', boxSizing: 'border-box', lineHeight: '1.7', fontFamily: 'monospace', transition: 'border 0.18s' }}/>
                         <div style={{ marginTop: '8px', fontSize: '11px', color: 'rgba(255,210,100,0.45)', fontWeight: '500' }}>
                           The email header reveals routing info, sender IP addresses and authentication failures that help identify phishing.
                         </div>
@@ -408,136 +372,82 @@ const ReportStep3 = () => {
                 </div>
               </div>
 
-              {/* ── DID YOU CLICK — fully dark, tile card style ── */}
-              <div style={{
-                borderRadius: '16px', overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.09)',
-                backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.14)',
-              }}>
+              {/* ── DID YOU CLICK SECTION ── */}
+              <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.09)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
 
-                {/* Section header */}
-                <div style={{
-                  padding: '15px 20px',
-                  background: 'rgba(22,10,10,0.95)',
-                  borderBottom: '1px solid rgba(187,0,0,0.22)',
-                  display: 'flex', alignItems: 'center', gap: '12px',
-                }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(187,0,0,0.18)', border: '1px solid rgba(187,0,0,0.32)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px', flexShrink: 0 }}>🖱️</div>
+                {/* Header */}
+                <div style={{ padding: '15px 20px', background: 'rgba(22,10,10,0.98)', borderBottom: '1px solid rgba(187,0,0,0.25)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(187,0,0,0.22)', border: '1px solid rgba(187,0,0,0.38)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px', flexShrink: 0 }}>🖱️</div>
                   <div>
                     <div style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px', marginBottom: '2px' }}>Did you interact with the email?</div>
                     <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px' }}>Select one option below — required <span style={{ color: '#BB0000' }}>*</span></div>
                   </div>
                   {!form.clickedAnything && (
-                    <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(187,0,0,0.14)', border: '1px solid rgba(187,0,0,0.28)', fontSize: '10px', fontWeight: '800', color: '#ff8080', letterSpacing: '0.07em' }}>NOT SELECTED</div>
+                    <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(187,0,0,0.18)', border: '1px solid rgba(187,0,0,0.35)', fontSize: '10px', fontWeight: '800', color: '#ff8080', letterSpacing: '0.07em' }}>NOT SELECTED</div>
                   )}
                   {form.clickedAnything && (
-                    <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.28)', fontSize: '10px', fontWeight: '800', color: '#4ade80', letterSpacing: '0.07em' }}>✓ SELECTED</div>
+                    <div style={{ marginLeft: 'auto', padding: '4px 11px', borderRadius: '6px', background: 'rgba(34,197,94,0.14)', border: '1px solid rgba(34,197,94,0.30)', fontSize: '10px', fontWeight: '800', color: '#4ade80', letterSpacing: '0.07em' }}>✓ SELECTED</div>
                   )}
                 </div>
 
-                {/* Tile options */}
-                <div style={{
-                  padding: '16px',
-                  background: 'rgba(16,22,16,0.96)',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(4, 1fr)',
-                  gap: '10px',
-                }}>
+                {/* Tiles */}
+                <div style={{ padding: '16px', background: 'rgba(16,22,16,0.98)', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                   {clickedOptions.map(opt => {
                     const active = form.clickedAnything === opt.value;
                     return (
-                      <button
-                        key={opt.value}
-                        onClick={() => handleChange('clickedAnything', opt.value)}
-                        style={{
-                          padding: '16px 10px 14px',
-                          borderRadius: '12px',
-                          cursor: 'pointer',
-                          textAlign: 'center',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: '8px',
-                          border: active
-                            ? opt.safe ? '1.5px solid rgba(34,197,94,0.60)' : '1.5px solid rgba(187,0,0,0.55)'
-                            : '1px solid rgba(255,255,255,0.10)',
-                          background: active
-                            ? opt.safe ? 'rgba(0,102,0,0.25)' : 'rgba(187,0,0,0.20)'
-                            : 'rgba(255,255,255,0.05)',
-                          transition: 'all 0.18s',
-                          boxShadow: active
-                            ? opt.safe ? '0 4px 20px rgba(0,102,0,0.22)' : '0 4px 20px rgba(187,0,0,0.22)'
-                            : 'none',
-                        }}
-                        onMouseOver={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.09)'; }}
-                        onMouseOut={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}>
-
-                        {/* Icon box */}
-                        <div style={{
-                          width: '40px', height: '40px', borderRadius: '11px',
-                          background: active
-                            ? opt.safe ? 'rgba(34,197,94,0.22)' : 'rgba(187,0,0,0.25)'
-                            : 'rgba(255,255,255,0.08)',
-                          border: active
-                            ? opt.safe ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(187,0,0,0.45)'
-                            : '1px solid rgba(255,255,255,0.12)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '18px', transition: 'all 0.18s',
-                        }}>
+                      <button key={opt.value} onClick={() => handleChange('clickedAnything', opt.value)} style={{
+                        padding: '16px 10px 14px', borderRadius: '12px', cursor: 'pointer',
+                        textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+                        border: active ? opt.safe ? '1.5px solid rgba(34,197,94,0.60)' : '1.5px solid rgba(187,0,0,0.55)' : '1px solid rgba(255,255,255,0.12)',
+                        background: active ? opt.safe ? 'rgba(0,102,0,0.28)' : 'rgba(187,0,0,0.22)' : 'rgba(255,255,255,0.06)',
+                        transition: 'all 0.18s',
+                        boxShadow: active ? opt.safe ? '0 4px 20px rgba(0,102,0,0.22)' : '0 4px 20px rgba(187,0,0,0.22)' : 'none',
+                      }}
+                        onMouseOver={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.10)'; }}
+                        onMouseOut={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '11px', background: active ? opt.safe ? 'rgba(34,197,94,0.22)' : 'rgba(187,0,0,0.28)' : 'rgba(255,255,255,0.09)', border: active ? opt.safe ? '1px solid rgba(34,197,94,0.45)' : '1px solid rgba(187,0,0,0.45)' : '1px solid rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', transition: 'all 0.18s' }}>
                           {opt.icon}
                         </div>
-
-                        {/* Label */}
-                        <div style={{
-                          fontWeight: '800', fontSize: '13px', lineHeight: '1.2',
-                          color: active
-                            ? opt.safe ? '#4ade80' : '#ff8080'
-                            : 'rgba(255,255,255,0.82)',
-                        }}>
+                        <div style={{ fontWeight: '800', fontSize: '13px', lineHeight: '1.2', color: active ? opt.safe ? '#4ade80' : '#ff8080' : 'rgba(255,255,255,0.88)' }}>
                           {opt.label}
                         </div>
-
-                        {/* Sub */}
-                        <div style={{
-                          fontSize: '10px', lineHeight: '1.45', fontWeight: '500',
-                          color: active
-                            ? opt.safe ? 'rgba(74,222,128,0.65)' : 'rgba(255,128,128,0.65)'
-                            : 'rgba(255,255,255,0.38)',
-                        }}>
+                        <div style={{ fontSize: '10px', lineHeight: '1.45', fontWeight: '500', color: active ? opt.safe ? 'rgba(74,222,128,0.70)' : 'rgba(255,128,128,0.70)' : 'rgba(255,255,255,0.42)' }}>
                           {opt.sub}
                         </div>
-
-                        {/* Selected dot */}
                         {active && (
-                          <div style={{
-                            width: '20px', height: '20px', borderRadius: '50%',
-                            background: opt.safe ? '#22c55e' : '#BB0000',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontSize: '10px', color: '#fff', fontWeight: '900',
-                          }}>✓</div>
+                          <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: opt.safe ? '#22c55e' : '#BB0000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#fff', fontWeight: '900' }}>✓</div>
                         )}
                       </button>
                     );
                   })}
                 </div>
 
-                {/* Advice panel */}
+                {/* ── ADVICE PANEL — fully dark, no pink ── */}
                 {form.clickedAnything && !clickedOptions.find(o => o.value === form.clickedAnything)?.safe && (
                   <div style={{
-                    margin: '0 16px 16px', padding: '14px 16px',
-                    background: 'rgba(60,0,0,0.35)',
-                    border: '1px solid rgba(187,0,0,0.28)',
-                    borderLeft: '4px solid #BB0000',
-                    borderRadius: '10px',
+                    background: 'rgba(16,22,16,0.98)',
+                    borderTop: '1px solid rgba(187,0,0,0.20)',
+                    padding: '16px 20px',
                   }}>
-                    <div style={{ color: '#ff8080', fontWeight: '800', fontSize: '11px', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.07em' }}>⚠ Do this immediately:</div>
-                    {getClickedAdvice(form.clickedAnything).map((tip, i) => (
-                      <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: i < getClickedAdvice(form.clickedAnything).length - 1 ? '5px' : '0' }}>
-                        <span style={{ color: '#BB0000', fontSize: '10px', marginTop: '2px', flexShrink: 0 }}>▸</span>
-                        <span style={{ fontSize: '12px', color: 'rgba(255,200,200,0.75)', lineHeight: '1.55' }}>{tip}</span>
+                    <div style={{
+                      padding: '14px 16px',
+                      background: 'rgba(187,0,0,0.14)',
+                      border: '1px solid rgba(187,0,0,0.30)',
+                      borderLeft: '4px solid #BB0000',
+                      borderRadius: '10px',
+                    }}>
+                      <div style={{ color: '#ff8080', fontWeight: '800', fontSize: '11px', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span>⚠</span> Do this immediately:
                       </div>
-                    ))}
+                      {getClickedAdvice(form.clickedAnything).map((tip, i) => (
+                        <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: i < getClickedAdvice(form.clickedAnything).length - 1 ? '7px' : '0', alignItems: 'flex-start' }}>
+                          <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(187,0,0,0.22)', border: '1px solid rgba(187,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                            <span style={{ color: '#ff8080', fontSize: '9px', fontWeight: '900' }}>{i + 1}</span>
+                          </div>
+                          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.80)', lineHeight: '1.6', fontWeight: '500' }}>{tip}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
