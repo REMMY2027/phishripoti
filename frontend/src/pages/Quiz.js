@@ -109,7 +109,6 @@ const Quiz = () => {
     </nav>
   );
 
-  // ── LOADING ──
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
@@ -134,7 +133,7 @@ const Quiz = () => {
                       {isPost ? 'Generating post-assessment...' : 'Generating your quiz...'}
                     </div>
                     <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px', lineHeight: '1.5' }}>
-                      GPT-4o is creating questions for <span style={{ color: accentLight, fontWeight: '700' }}>{department}</span>
+                      GPT-4o creating questions for <span style={{ color: accentLight, fontWeight: '700' }}>{department}</span>
                     </div>
                   </div>
                 </div>
@@ -164,7 +163,6 @@ const Quiz = () => {
     );
   }
 
-  // ── ERROR ──
   if (error) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
@@ -175,7 +173,7 @@ const Quiz = () => {
             <div style={{ fontSize: '36px', marginBottom: '14px' }}>⚠️</div>
             <div style={{ color: '#ff8080', fontSize: '15px', fontWeight: '800', marginBottom: '8px' }}>Failed to load quiz</div>
             <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '13px', lineHeight: '1.65', marginBottom: '24px' }}>{error}</div>
-            <button onClick={generateQuestions} style={{ background: 'linear-gradient(135deg, #BB0000, #880000)', color: '#fff', border: 'none', borderRadius: '10px', padding: '12px 28px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 16px rgba(187,0,0,0.30)', transition: 'all 0.16s' }}>Try Again →</button>
+            <button onClick={generateQuestions} style={{ background: 'linear-gradient(135deg, #BB0000, #880000)', color: '#fff', border: 'none', borderRadius: '10px', padding: '12px 28px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 16px rgba(187,0,0,0.30)' }}>Try Again →</button>
           </div>
         </div>
       </div>
@@ -189,53 +187,98 @@ const Quiz = () => {
   const emailMockup = question.emailMockup || null;
   const isCorrect = selected === question.correctIndex;
 
+  const getOptionStyle = (index) => {
+    if (!answered) return {
+      bg: 'rgba(18,26,18,0.95)',
+      border: '1px solid rgba(255,255,255,0.12)',
+      shadow: '0 2px 12px rgba(0,0,0,0.18)',
+      textColor: '#ffffff',
+      badgeBg: 'rgba(255,255,255,0.12)',
+      badgeColor: 'rgba(255,255,255,0.70)',
+      badgeText: String.fromCharCode(65 + index),
+      accentBar: null,
+      opacity: 1,
+    };
+    const isThisCorrect = index === question.correctIndex;
+    const isThisWrong = index === selected && index !== question.correctIndex;
+    if (isThisCorrect) return {
+      bg: 'rgba(0,60,10,1)',
+      border: '1px solid rgba(34,197,94,0.55)',
+      shadow: '0 4px 24px rgba(0,120,40,0.35)',
+      textColor: '#4ade80',
+      badgeBg: '#006600',
+      badgeColor: '#ffffff',
+      badgeText: '✓',
+      accentBar: '#22c55e',
+      opacity: 1,
+    };
+    if (isThisWrong) return {
+      bg: 'rgba(80,0,0,1)',
+      border: '1px solid rgba(239,68,68,0.55)',
+      shadow: '0 4px 24px rgba(140,0,0,0.35)',
+      textColor: '#ff8080',
+      badgeBg: '#BB0000',
+      badgeColor: '#ffffff',
+      badgeText: '✕',
+      accentBar: '#ef4444',
+      opacity: 1,
+    };
+    return {
+      bg: 'rgba(14,18,14,0.70)',
+      border: '1px solid rgba(255,255,255,0.05)',
+      shadow: 'none',
+      textColor: 'rgba(255,255,255,0.22)',
+      badgeBg: 'rgba(255,255,255,0.07)',
+      badgeColor: 'rgba(255,255,255,0.22)',
+      badgeText: String.fromCharCode(65 + index),
+      accentBar: null,
+      opacity: 0.55,
+    };
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes slideIn { from { opacity:0; transform:translateX(-8px); } to { opacity:1; transform:translateX(0); } }
-        @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+        @keyframes slideIn { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+        @keyframes glow { 0%,100%{box-shadow:0 0 8px rgba(34,197,94,0.3)} 50%{box-shadow:0 0 18px rgba(34,197,94,0.6)} }
       `}</style>
 
       <Bg/><NavBar/>
 
-      {/* ── QUIZ HEADER STRIP — dark glass ── */}
-      <div style={{ position: 'relative', zIndex: 20, flexShrink: 0, background: 'rgba(10,16,10,0.97)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: `1px solid ${accentColor}22` }}>
-        <div style={{ height: '3px', background: `linear-gradient(90deg, ${accentColor}, ${accentLight}, rgba(255,255,255,0.05))`, backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite' }}/>
-        <div style={{ padding: '14px 44px 13px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            {/* Assessment badge */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 13px', borderRadius: '8px', background: `${accentColor}18`, border: `1px solid ${accentColor}35` }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor }}/>
-              <span style={{ fontSize: '11px', fontWeight: '900', color: accentLight, textTransform: 'uppercase', letterSpacing: '0.09em' }}>{isPost ? 'Post-Assessment' : 'Pre-Assessment'}</span>
+      {/* ── QUIZ HEADER ── */}
+      <div style={{ position: 'relative', zIndex: 20, flexShrink: 0, background: 'rgba(8,14,8,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: `1px solid ${accentColor}20` }}>
+        <div style={{ height: '3px', background: `linear-gradient(90deg, ${accentColor}, ${accentLight}, rgba(255,255,255,0.04))`, backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite' }}/>
+        <div style={{ padding: '13px 44px 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 13px', borderRadius: '8px', background: `${accentColor}18`, border: `1px solid ${accentColor}35` }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor }}/>
+                <span style={{ fontSize: '11px', fontWeight: '900', color: accentLight, textTransform: 'uppercase', letterSpacing: '0.09em' }}>{isPost ? 'Post-Assessment' : 'Pre-Assessment'}</span>
+              </div>
+              <div>
+                <div style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px', letterSpacing: '-0.2px', marginBottom: '2px' }}>{module}</div>
+                <div style={{ color: 'rgba(255,255,255,0.32)', fontSize: '11px' }}>{department} · Q{currentQ + 1} of {questions.length}</div>
+              </div>
             </div>
-            <div>
-              <div style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px', letterSpacing: '-0.2px', marginBottom: '2px' }}>{module}</div>
-              <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px', fontWeight: '500' }}>{department} · Q{currentQ + 1} of {questions.length}</div>
-            </div>
-          </div>
-
-          {/* Right: progress dots + score */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            {/* Dots */}
-            <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
-              {questions.map((_, i) => (
-                <div key={i} style={{ height: '6px', borderRadius: '3px', width: i === currentQ ? '24px' : '8px', background: i < currentQ ? accentColor : i === currentQ ? accentLight : 'rgba(255,255,255,0.14)', transition: 'all 0.3s ease', boxShadow: i === currentQ ? `0 0 6px ${accentLight}60` : 'none' }}/>
-              ))}
-            </div>
-            {/* Score */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '9px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', fontWeight: '600' }}>Score</span>
-              <span style={{ fontSize: '20px', fontWeight: '900', color: accentLight, letterSpacing: '-0.5px', lineHeight: 1 }}>{score}</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.22)' }}>/{questions.length}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                {questions.map((_, i) => (
+                  <div key={i} style={{ height: '6px', borderRadius: '3px', width: i === currentQ ? '22px' : '8px', background: i < currentQ ? accentColor : i === currentQ ? accentLight : 'rgba(255,255,255,0.12)', transition: 'all 0.3s ease' }}/>
+                ))}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '9px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', fontWeight: '600' }}>Score</span>
+                <span style={{ fontSize: '20px', fontWeight: '900', color: accentLight, letterSpacing: '-0.5px', lineHeight: 1 }}>{score}</span>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.20)' }}>/{questions.length}</span>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Progress bar */}
-        <div style={{ height: '3px', background: 'rgba(255,255,255,0.06)' }}>
-          <div style={{ height: '100%', background: `linear-gradient(90deg, ${accentColor}, ${accentLight})`, width: `${progress}%`, transition: 'width 0.5s ease', boxShadow: `0 0 8px ${accentColor}60` }}/>
+        <div style={{ height: '3px', background: 'rgba(255,255,255,0.05)' }}>
+          <div style={{ height: '100%', background: `linear-gradient(90deg, ${accentColor}, ${accentLight})`, width: `${progress}%`, transition: 'width 0.5s ease', boxShadow: `0 0 8px ${accentColor}70` }}/>
         </div>
       </div>
 
@@ -243,110 +286,66 @@ const Quiz = () => {
       <div style={{ flex: 1, overflowY: 'auto', position: 'relative', zIndex: 10, padding: '28px 44px 32px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: emailMockup ? '1fr 1fr' : '1fr', gap: '28px', maxWidth: emailMockup ? '1060px' : '680px', alignItems: 'start' }}>
 
-          {/* ── LEFT ── */}
           <div>
-
             {/* Question card */}
-            <div style={{ borderRadius: '18px', marginBottom: '16px', background: 'rgba(10,16,10,0.97)', border: `1px solid ${accentColor}30`, backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: `0 8px 32px rgba(0,0,0,0.16), 0 0 0 1px ${accentColor}10`, position: 'relative', overflow: 'hidden', animation: 'fadeIn 0.35s ease both' }}>
-              {/* Shimmer top */}
+            <div style={{ borderRadius: '18px', marginBottom: '14px', background: 'rgba(8,14,8,0.98)', border: `1px solid ${accentColor}28`, backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', boxShadow: `0 8px 32px rgba(0,0,0,0.18)`, position: 'relative', overflow: 'hidden', animation: 'fadeIn 0.3s ease both' }}>
               <div style={{ height: '3px', background: `linear-gradient(90deg, ${accentColor}, ${accentLight}, ${accentColor})`, backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite' }}/>
-              {/* Glass sheen */}
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%)', pointerEvents: 'none' }} />
-
-              <div style={{ padding: '22px 24px 24px', position: 'relative', zIndex: 1 }}>
-                {/* Question number badge */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: `${accentColor}22`, border: `1px solid ${accentColor}45`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: '900', color: accentLight, boxShadow: `0 2px 10px ${accentColor}25` }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)', pointerEvents: 'none' }} />
+              <div style={{ padding: '20px 24px 22px', position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+                  <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: `${accentColor}22`, border: `1px solid ${accentColor}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '900', color: accentLight }}>
                     {currentQ + 1}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '700' }}>Question {currentQ + 1} of {questions.length}</span>
-                    <span style={{ fontSize: '10px', color: `${accentColor}80`, fontWeight: '700' }}>·</span>
-                    <span style={{ fontSize: '10px', color: `${accentColor}90`, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{module}</span>
-                  </div>
+                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '700' }}>Question {currentQ + 1} of {questions.length}</span>
+                  <span style={{ fontSize: '10px', color: `${accentColor}90`, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em' }}>· {module}</span>
                 </div>
-
-                {/* Question text */}
-                <h2 style={{ color: '#ffffff', fontWeight: '800', fontSize: '18px', lineHeight: '1.65', margin: 0, letterSpacing: '-0.3px' }}>
+                <h2 style={{ color: '#ffffff', fontWeight: '800', fontSize: '17px', lineHeight: '1.70', margin: 0, letterSpacing: '-0.2px' }}>
                   {question.question}
                 </h2>
               </div>
             </div>
 
             {/* Options */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
               {question.options.map((option, index) => {
-                const isThisCorrect = answered && index === question.correctIndex;
-                const isThisWrong = answered && index === selected && index !== question.correctIndex;
-                const isThisUnselected = answered && index !== selected && index !== question.correctIndex;
-
-                let bg, border, shadow, textColor, badgeBg, badgeText;
-
-                if (isThisCorrect) {
-                  bg = 'linear-gradient(135deg, rgba(0,80,0,0.55), rgba(0,60,0,0.45))';
-                  border = '1px solid rgba(0,200,80,0.45)';
-                  shadow = '0 4px 20px rgba(0,120,0,0.25)';
-                  textColor = '#4ade80';
-                  badgeBg = '#006600';
-                  badgeText = '✓';
-                } else if (isThisWrong) {
-                  bg = 'linear-gradient(135deg, rgba(120,0,0,0.50), rgba(80,0,0,0.40))';
-                  border = '1px solid rgba(220,50,50,0.45)';
-                  shadow = '0 4px 20px rgba(140,0,0,0.22)';
-                  textColor = '#ff8080';
-                  badgeBg = '#BB0000';
-                  badgeText = '✕';
-                } else if (isThisUnselected) {
-                  bg = 'rgba(10,16,10,0.50)';
-                  border = '1px solid rgba(255,255,255,0.05)';
-                  shadow = 'none';
-                  textColor = 'rgba(255,255,255,0.28)';
-                  badgeBg = 'rgba(255,255,255,0.06)';
-                  badgeText = String.fromCharCode(65 + index);
-                } else {
-                  bg = 'rgba(14,22,14,0.92)';
-                  border = '1px solid rgba(255,255,255,0.10)';
-                  shadow = '0 2px 10px rgba(0,0,0,0.14)';
-                  textColor = '#ffffff';
-                  badgeBg = 'rgba(255,255,255,0.10)';
-                  badgeText = String.fromCharCode(65 + index);
-                }
-
+                const s = getOptionStyle(index);
                 return (
                   <div key={index} onClick={() => handleAnswer(index)} style={{
                     borderRadius: '13px', padding: '14px 16px',
                     cursor: answered ? 'default' : 'pointer',
-                    display: 'flex', alignItems: 'center', gap: '13px',
-                    background: bg, border, boxShadow: shadow,
+                    display: 'flex', alignItems: 'center', gap: '12px',
+                    background: s.bg,
+                    border: s.border,
+                    boxShadow: s.shadow,
+                    opacity: s.opacity,
                     backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
                     transition: 'all 0.22s ease',
-                    animation: `slideIn 0.3s ease ${index * 0.06}s both`,
                     position: 'relative', overflow: 'hidden',
+                    animation: `slideIn 0.3s ease ${index * 0.05}s both`,
                   }}
                     onMouseOver={e => {
                       if (!answered) {
-                        e.currentTarget.style.background = 'rgba(20,32,20,0.98)';
-                        e.currentTarget.style.border = `1px solid ${accentColor}50`;
+                        e.currentTarget.style.background = 'rgba(24,36,24,0.99)';
+                        e.currentTarget.style.border = `1px solid ${accentColor}55`;
                         e.currentTarget.style.transform = 'translateX(5px)';
-                        e.currentTarget.style.boxShadow = `0 4px 18px rgba(0,0,0,0.18), 2px 0 0 ${accentColor}`;
+                        e.currentTarget.style.boxShadow = `4px 0 0 ${accentColor}, 0 4px 20px rgba(0,0,0,0.22)`;
                       }
                     }}
                     onMouseOut={e => {
                       if (!answered) {
-                        e.currentTarget.style.background = 'rgba(14,22,14,0.92)';
-                        e.currentTarget.style.border = '1px solid rgba(255,255,255,0.10)';
+                        e.currentTarget.style.background = 'rgba(18,26,18,0.95)';
+                        e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)';
                         e.currentTarget.style.transform = 'translateX(0)';
-                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.14)';
+                        e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.18)';
                       }
                     }}>
-                    {/* Left accent line for correct/wrong */}
-                    {(isThisCorrect || isThisWrong) && (
-                      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: isThisCorrect ? '#006600' : '#BB0000', borderRadius: '13px 0 0 13px' }}/>
-                    )}
-                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '900', background: badgeBg, color: '#ffffff', border: isThisCorrect ? '2px solid rgba(0,220,80,0.45)' : isThisWrong ? '2px solid rgba(255,80,80,0.45)' : '1px solid rgba(255,255,255,0.14)', boxShadow: isThisCorrect ? '0 2px 10px rgba(0,150,0,0.40)' : isThisWrong ? '0 2px 10px rgba(187,0,0,0.40)' : 'none', transition: 'all 0.22s' }}>
-                      {badgeText}
+                    {/* Accent bar */}
+                    {s.accentBar && <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: s.accentBar, borderRadius: '13px 0 0 13px' }}/>}
+                    {/* Letter badge */}
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: '900', background: s.badgeBg, color: s.badgeColor, border: s.accentBar ? `2px solid ${s.accentBar}55` : '1px solid rgba(255,255,255,0.16)', transition: 'all 0.22s', boxShadow: s.accentBar ? `0 2px 12px ${s.accentBar}40` : 'none' }}>
+                      {s.badgeText}
                     </div>
-                    <span style={{ color: textColor, fontSize: '13px', lineHeight: '1.55', fontWeight: isThisCorrect ? '700' : isThisWrong ? '600' : '500', transition: 'color 0.22s' }}>
+                    <span style={{ color: s.textColor, fontSize: '13px', lineHeight: '1.55', fontWeight: s.accentBar ? '700' : '500', transition: 'color 0.22s' }}>
                       {option}
                     </span>
                   </div>
@@ -356,40 +355,48 @@ const Quiz = () => {
 
             {/* Explanation */}
             {answered && (
-              <div style={{ borderRadius: '14px', padding: '18px 20px', marginBottom: '14px', background: isCorrect ? 'rgba(0,50,0,0.55)' : 'rgba(90,0,0,0.45)', border: `1px solid ${isCorrect ? 'rgba(0,200,80,0.30)' : 'rgba(220,50,50,0.30)'}`, borderLeft: `4px solid ${isCorrect ? '#22c55e' : '#BB0000'}`, backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', animation: 'fadeIn 0.3s ease both', boxShadow: isCorrect ? '0 4px 20px rgba(0,100,0,0.18)' : '0 4px 20px rgba(120,0,0,0.18)' }}>
+              <div style={{
+                borderRadius: '14px', padding: '18px 20px', marginBottom: '14px',
+                background: isCorrect ? 'rgba(0,50,10,0.98)' : 'rgba(70,0,0,0.98)',
+                border: `1px solid ${isCorrect ? 'rgba(34,197,94,0.40)' : 'rgba(239,68,68,0.40)'}`,
+                borderLeft: `4px solid ${isCorrect ? '#22c55e' : '#ef4444'}`,
+                backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+                animation: 'fadeIn 0.3s ease both',
+                boxShadow: isCorrect ? '0 6px 28px rgba(0,120,40,0.22)' : '0 6px 28px rgba(140,0,0,0.22)',
+              }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: isCorrect ? 'rgba(0,150,50,0.30)' : 'rgba(187,0,0,0.30)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>
+                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: isCorrect ? 'rgba(34,197,94,0.22)' : 'rgba(239,68,68,0.22)', border: `1px solid ${isCorrect ? 'rgba(34,197,94,0.35)' : 'rgba(239,68,68,0.35)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', flexShrink: 0 }}>
                     {isCorrect ? '✅' : '❌'}
                   </div>
                   <div>
-                    <div style={{ fontWeight: '800', fontSize: '14px', color: isCorrect ? '#4ade80' : '#ff8080', marginBottom: '2px' }}>
+                    <div style={{ fontWeight: '900', fontSize: '15px', color: isCorrect ? '#4ade80' : '#ff8080', marginBottom: '2px', letterSpacing: '-0.1px' }}>
                       {isCorrect ? 'Correct!' : 'Incorrect'}
                     </div>
-                    {!isCorrect && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)' }}>Correct answer: option {String.fromCharCode(65 + question.correctIndex)}</div>}
+                    {!isCorrect && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.40)' }}>Correct answer: option {String.fromCharCode(65 + question.correctIndex)}</div>}
                   </div>
                 </div>
-                <div style={{ height: '1px', background: isCorrect ? 'rgba(0,200,80,0.18)' : 'rgba(220,50,50,0.18)', marginBottom: '10px' }}/>
-                <p style={{ color: 'rgba(255,255,255,0.84)', fontSize: '13px', lineHeight: '1.75', margin: 0 }}>{question.explanation}</p>
+                <div style={{ height: '1px', background: isCorrect ? 'rgba(34,197,94,0.20)' : 'rgba(239,68,68,0.20)', marginBottom: '10px' }}/>
+                <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: '13px', lineHeight: '1.80', margin: 0, fontWeight: '400' }}>{question.explanation}</p>
               </div>
             )}
 
             {/* Next button */}
             {answered && (
-              <button onClick={handleNext} style={{ width: '100%', background: `linear-gradient(135deg, ${accentColor}, ${isPost ? '#b37000' : '#004d00'})`, color: '#fff', border: 'none', borderRadius: '13px', padding: '15px', fontSize: '14px', fontWeight: '800', cursor: 'pointer', transition: 'all 0.18s', boxShadow: `0 6px 22px ${accentColor}45`, animation: 'fadeIn 0.3s ease both', letterSpacing: '0.01em' }}
-                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = `0 10px 30px ${accentColor}55`; }}
-                onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 6px 22px ${accentColor}45`; }}>
+              <button onClick={handleNext} style={{ width: '100%', background: `linear-gradient(135deg, ${accentColor}, ${isPost ? '#b37000' : '#004d00'})`, color: '#fff', border: 'none', borderRadius: '13px', padding: '15px', fontSize: '14px', fontWeight: '800', cursor: 'pointer', transition: 'all 0.18s', boxShadow: `0 6px 24px ${accentColor}45`, animation: 'fadeIn 0.3s ease both', letterSpacing: '0.01em' }}
+                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = `0 10px 32px ${accentColor}55`; }}
+                onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 6px 24px ${accentColor}45`; }}>
                 {currentQ < questions.length - 1 ? 'Next Question →' : isPost ? 'See My Results →' : 'Continue to Learning Content →'}
               </button>
             )}
           </div>
 
-          {/* ── RIGHT: Email mockup ── */}
+          {/* Email mockup */}
           {emailMockup && (
             <div style={{ animation: 'fadeIn 0.4s ease 0.12s both' }}>
               <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(0,0,0,0.38)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span>📧</span> Email in Question
               </div>
-              <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.10)', background: 'rgba(8,14,8,0.97)', boxShadow: '0 8px 40px rgba(0,0,0,0.20)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)' }}>
+              <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.10)', background: 'rgba(8,14,8,0.98)', boxShadow: '0 8px 40px rgba(0,0,0,0.20)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)' }}>
                 <div style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '11px 16px', display: 'flex', alignItems: 'center', gap: '7px' }}>
                   <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#BB0000', opacity: 0.85 }}/>
                   <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ea9600', opacity: 0.85 }}/>
