@@ -10,7 +10,8 @@ export const ReportProvider = ({ children }) => {
     subjectLine: '',
     suspiciousLinks: '',
     emailDescription: '',
-    clickedAnything: 'no'
+    emailHeader: '',
+    clickedAnything: '',
   });
   const [result, setResult] = useState(null);
 
@@ -26,7 +27,8 @@ export const ReportProvider = ({ children }) => {
       subjectLine: '',
       suspiciousLinks: '',
       emailDescription: '',
-      clickedAnything: 'no'
+      emailHeader: '',
+      clickedAnything: '',
     });
     setResult(null);
   };
