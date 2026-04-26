@@ -25,12 +25,8 @@ const Result = () => {
       const increment = target / 40;
       const timer = setInterval(() => {
         current += increment;
-        if (current >= target) {
-          setScoreAnimated(target);
-          clearInterval(timer);
-        } else {
-          setScoreAnimated(Math.round(current));
-        }
+        if (current >= target) { setScoreAnimated(target); clearInterval(timer); }
+        else { setScoreAnimated(Math.round(current)); }
       }, 30);
       return () => clearInterval(timer);
     }
@@ -41,27 +37,24 @@ const Result = () => {
   const riskConfig = {
     HIGH: {
       accent: '#BB0000', accentLight: '#ff6666',
-      border: 'rgba(187,0,0,0.30)', glow: 'rgba(187,0,0,0.15)',
+      border: 'rgba(187,0,0,0.35)', glow: 'rgba(187,0,0,0.15)',
       label: 'High Risk Phishing Detected',
-      sublabel: 'Do NOT click any links or open any attachments. Delete this email immediately.',
-      gaugeColor: '#BB0000', badgeBg: 'rgba(187,0,0,0.12)',
-      heroBg: 'rgba(187,0,0,0.06)',
+      sublabel: 'This email is dangerous. Do not click any links, do not open attachments, and delete it immediately.',
+      gaugeColor: '#BB0000', badgeBg: 'rgba(187,0,0,0.14)',
     },
     MEDIUM: {
       accent: '#d97706', accentLight: '#fcd34d',
-      border: 'rgba(217,119,6,0.30)', glow: 'rgba(217,119,6,0.15)',
+      border: 'rgba(217,119,6,0.35)', glow: 'rgba(217,119,6,0.15)',
       label: 'Medium Risk — Exercise Caution',
-      sublabel: 'Do not click any links until you have verified the sender through official channels.',
-      gaugeColor: '#d97706', badgeBg: 'rgba(217,119,6,0.12)',
-      heroBg: 'rgba(217,119,6,0.06)',
+      sublabel: 'This email looks suspicious. Do not click any links until you have confirmed the sender is real.',
+      gaugeColor: '#d97706', badgeBg: 'rgba(217,119,6,0.14)',
     },
     LOW: {
       accent: '#006600', accentLight: '#4ade80',
-      border: 'rgba(0,102,0,0.30)', glow: 'rgba(0,102,0,0.15)',
+      border: 'rgba(0,102,0,0.35)', glow: 'rgba(0,102,0,0.15)',
       label: 'Low Risk — Likely Safe',
-      sublabel: 'Both analysis layers returned weak signals. The email appears legitimate.',
-      gaugeColor: '#006600', badgeBg: 'rgba(0,102,0,0.12)',
-      heroBg: 'rgba(0,102,0,0.06)',
+      sublabel: 'This email shows weak threat signals and appears legitimate. Still stay cautious.',
+      gaugeColor: '#006600', badgeBg: 'rgba(0,102,0,0.14)',
     },
   };
 
@@ -70,24 +63,31 @@ const Result = () => {
   const strokeDashoffset = circumference * (1 - scoreAnimated / 100);
   const handleHome = () => { clearReport(); navigate('/'); };
 
-  // Shared dark glass card style
-  const glassCard = {
-    borderRadius: '16px', padding: '0',
-    background: 'rgba(18,26,18,0.92)',
-    border: '1px solid rgba(255,255,255,0.09)',
-    backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.14)',
-    position: 'relative', overflow: 'hidden',
-  };
+  // Kenyan-context Did You Know tips
+  const kenyaTips = [
+    "M-Pesa will NEVER ask you to share your PIN via email or SMS. If you receive such a request, it is a scam — report it to Safaricom on 100.",
+    "Equity Bank, KCB, and Co-op Bank will never email you asking to verify your account by clicking a link. Always call your branch directly.",
+    "The Central Bank of Kenya (CBK) does not send emails asking for personal information. Any such email is fraudulent.",
+    "KRA iTax portal emails only come from @kra.go.ke. Any email from a different domain claiming to be KRA is a phishing attempt.",
+    "In Kenya, over 60% of phishing attacks target mobile banking users. Always access M-Pesa and banking apps directly — never through email links.",
+  ];
+  const tipText = result.didYouKnow || kenyaTips[Math.floor(Math.random() * kenyaTips.length)];
 
-  const CardHeader = ({ icon, label, accentColor }) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-      <div style={{ width: '3px', height: '14px', borderRadius: '2px', background: accentColor || '#BB0000' }} />
-      <span style={{ fontSize: '11px', fontWeight: '800', color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.10em' }}>
-        {icon} {label}
-      </span>
-    </div>
-  );
+  // Simple English actions
+  const simpleActions = result.recommendedActions?.map(action => {
+    if (action.toLowerCase().includes('delete') || action.toLowerCase().includes('remove')) return 'Delete this email from your inbox right now.';
+    if (action.toLowerCase().includes('report') || action.toLowerCase().includes('forward')) return 'Forward the email to your IT security team.';
+    if (action.toLowerCase().includes('link') || action.toLowerCase().includes('click')) return 'Do not click any links in the email.';
+    if (action.toLowerCase().includes('credential') || action.toLowerCase().includes('password')) return 'Change your password immediately if you clicked anything.';
+    if (action.toLowerCase().includes('attachment') || action.toLowerCase().includes('file')) return 'Do not open any attachments from this email.';
+    if (action.toLowerCase().includes('verify') || action.toLowerCase().includes('confirm')) return 'Call the sender directly using the official phone number — not one in the email.';
+    return action;
+  }) || [
+    'Delete this email from your inbox immediately.',
+    'Do not click any links or open any attachments.',
+    'Tell your IT security team about this email.',
+    'If you clicked anything, change your passwords now.',
+  ];
 
   return (
     <div style={{
@@ -99,10 +99,10 @@ const Result = () => {
       <style>{`
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
       `}</style>
 
-      {/* ── BACKGROUND — identical to all steps ── */}
+      {/* ── BACKGROUND ── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#ffffff' }} />
       <div style={{ position: 'fixed', inset: 0, zIndex: 1, background: 'radial-gradient(ellipse 70% 65% at 50% 42%, rgba(248,250,248,1) 0%, rgba(244,246,244,0.95) 40%, rgba(236,240,236,0.80) 70%, rgba(220,226,220,0.50) 100%)' }} />
       <div style={{ position: 'fixed', inset: 0, zIndex: 2, background: 'linear-gradient(180deg, rgba(0,60,10,0.04) 0%, transparent 25%)' }} />
@@ -169,112 +169,171 @@ const Result = () => {
 
       {/* ── CONTENT ── */}
       <div style={{ flex: 1, position: 'relative', zIndex: 10, overflowY: 'auto', padding: '28px 44px 32px' }}>
-        <div style={{ maxWidth: '900px', width: '100%' }}>
+        <div style={{ maxWidth: '980px', width: '100%' }}>
 
-          {/* ── HERO RISK BANNER — dark glass ── */}
-          <div style={{
-            ...glassCard,
-            display: 'flex', marginBottom: '20px',
-            border: `1px solid ${config.border}`,
-            animation: 'fadeInUp 0.4s ease 0s both',
-          }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, ${config.accent}44, transparent)` }} />
-            <div style={{ width: '5px', flexShrink: 0, background: config.accent, opacity: 0.85, borderRadius: '16px 0 0 16px' }} />
+          {/* ── ROW 1: HERO BANNER + TOKEN side by side ── */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '14px', marginBottom: '14px', animation: 'fadeInUp 0.4s ease 0s both' }}>
 
-            <div style={{ flex: 1, padding: '28px 28px 24px 22px', position: 'relative', zIndex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-
-                {/* Circular gauge */}
-                <div style={{ position: 'relative', flexShrink: 0 }}>
-                  <svg width="130" height="130" viewBox="0 0 120 120">
-                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8"/>
-                    <circle cx="60" cy="60" r="52" fill="none" stroke={config.gaugeColor} strokeWidth="8"
-                      strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
-                      transform="rotate(-90 60 60)" style={{ transition: 'stroke-dashoffset 0.1s linear' }}/>
-                    <circle cx="60" cy="60" r="44" fill="none" stroke={config.gaugeColor} strokeWidth="1" opacity="0.18"/>
-                    <text x="60" y="55" textAnchor="middle" fill="white" fontSize="22" fontWeight="800" fontFamily="-apple-system, sans-serif">{scoreAnimated}%</text>
-                    <text x="60" y="72" textAnchor="middle" fill="rgba(255,255,255,0.40)" fontSize="10" fontFamily="-apple-system, sans-serif">RISK SCORE</text>
-                  </svg>
-                </div>
-
-                {/* Risk info */}
-                <div style={{ flex: 1 }}>
-                  {/* Risk badge */}
-                  <div style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    padding: '5px 14px', borderRadius: '20px',
-                    background: config.badgeBg, border: `1px solid ${config.border}`,
-                    marginBottom: '12px',
-                  }}>
-                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: config.accent }}/>
-                    <span style={{ fontSize: '11px', fontWeight: '800', color: config.accentLight, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-                      {result.riskLevel} RISK
-                    </span>
+            {/* Hero risk banner */}
+            <div style={{
+              borderRadius: '16px', overflow: 'hidden',
+              background: 'rgba(14,20,14,0.96)',
+              border: `1px solid ${config.border}`,
+              backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+              boxShadow: `0 8px 32px rgba(0,0,0,0.18), 0 0 0 1px ${config.glow}`,
+              position: 'relative', display: 'flex',
+            }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, ${config.accent}55, transparent)` }} />
+              <div style={{ width: '6px', flexShrink: 0, background: `linear-gradient(180deg, ${config.accent}, ${config.accent}88)`, borderRadius: '16px 0 0 16px' }} />
+              <div style={{ flex: 1, padding: '26px 26px 22px 20px', position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+                  {/* Gauge */}
+                  <div style={{ flexShrink: 0 }}>
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="9"/>
+                      <circle cx="60" cy="60" r="52" fill="none" stroke={config.gaugeColor} strokeWidth="9"
+                        strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
+                        transform="rotate(-90 60 60)" style={{ transition: 'stroke-dashoffset 0.1s linear' }}/>
+                      <circle cx="60" cy="60" r="42" fill="none" stroke={config.gaugeColor} strokeWidth="1" opacity="0.15"/>
+                      <text x="60" y="54" textAnchor="middle" fill="white" fontSize="21" fontWeight="900" fontFamily="-apple-system,sans-serif">{scoreAnimated}%</text>
+                      <text x="60" y="70" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="9" fontFamily="-apple-system,sans-serif" letterSpacing="1">RISK SCORE</text>
+                    </svg>
                   </div>
-
-                  <h2 style={{ color: '#ffffff', fontWeight: '900', fontSize: '22px', margin: '0 0 8px', letterSpacing: '-0.3px' }}>
-                    {config.label}
-                  </h2>
-                  <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: '14px', margin: '0 0 18px', lineHeight: '1.6', maxWidth: '480px' }}>
-                    {config.sublabel}
-                  </p>
-
-                  {/* Score breakdown pills */}
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    {[
-                      { label: `🤖 GPT-4o: ${Math.round(result.riskScore * 0.7)}% weight` },
-                      { label: `🔍 Safe Browsing: ${Math.round(result.riskScore * 0.3)}% weight` },
-                    ].map((p, i) => (
-                      <div key={i} style={{
-                        padding: '5px 12px', borderRadius: '20px', fontSize: '12px',
-                        fontWeight: '600', background: 'rgba(255,255,255,0.07)',
-                        color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.10)',
-                      }}>{p.label}</div>
-                    ))}
-                    {result.alertSent && (
-                      <div style={{ padding: '5px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: '700', background: 'rgba(187,0,0,0.14)', color: '#ff8080', border: '1px solid rgba(187,0,0,0.28)' }}>
-                        ⚡ Alert sent to security team
-                      </div>
-                    )}
+                  {/* Info */}
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 13px', borderRadius: '20px', background: config.badgeBg, border: `1px solid ${config.border}`, marginBottom: '10px' }}>
+                      <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: config.accent, animation: 'pulse 2s infinite' }}/>
+                      <span style={{ fontSize: '11px', fontWeight: '900', color: config.accentLight, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{result.riskLevel} RISK</span>
+                    </div>
+                    <h2 style={{ color: '#ffffff', fontWeight: '900', fontSize: '20px', margin: '0 0 8px', letterSpacing: '-0.3px' }}>{config.label}</h2>
+                    <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '13px', margin: '0 0 16px', lineHeight: '1.65', maxWidth: '420px' }}>{config.sublabel}</p>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <div style={{ padding: '4px 11px', borderRadius: '20px', fontSize: '11px', fontWeight: '600', background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.50)', border: '1px solid rgba(255,255,255,0.10)' }}>🤖 GPT-4o: {Math.round(result.riskScore * 0.7)}% weight</div>
+                      <div style={{ padding: '4px 11px', borderRadius: '20px', fontSize: '11px', fontWeight: '600', background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.50)', border: '1px solid rgba(255,255,255,0.10)' }}>🔍 Safe Browsing: {Math.round(result.riskScore * 0.3)}% weight</div>
+                      {result.alertSent && (
+                        <div style={{ padding: '4px 11px', borderRadius: '20px', fontSize: '11px', fontWeight: '700', background: 'rgba(187,0,0,0.16)', color: '#ff8080', border: '1px solid rgba(187,0,0,0.30)' }}>⚡ Alert sent to security team</div>
+                      )}
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* ── TOKEN CARD — side ── */}
+            <div style={{
+              borderRadius: '16px', overflow: 'hidden',
+              background: 'rgba(0,40,10,0.92)',
+              border: '1px solid rgba(0,102,0,0.35)',
+              backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+              position: 'relative', display: 'flex', flexDirection: 'column',
+            }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,102,0,0.15) 0%, transparent 60%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.35), transparent)' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '5px', background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.80, borderRadius: '16px 0 0 16px' }} />
+
+              <div style={{ flex: 1, padding: '22px 18px 18px 16px', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(34,197,94,0.14)', border: '1px solid rgba(34,197,94,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', marginBottom: '12px' }}>🔐</div>
+                <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(74,222,128,0.60)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '14px' }}>Anonymous Report Token</div>
+
+                <div style={{
+                  fontFamily: 'monospace', fontSize: '14px', fontWeight: '900',
+                  color: '#4ade80', letterSpacing: '0.12em',
+                  padding: '11px 16px', borderRadius: '10px',
+                  background: 'rgba(0,102,0,0.20)', border: '1px solid rgba(34,197,94,0.30)',
+                  marginBottom: '12px', width: '100%', boxSizing: 'border-box',
+                  backgroundImage: 'linear-gradient(90deg, rgba(0,102,0,0.20), rgba(0,150,0,0.28), rgba(0,102,0,0.20))',
+                  backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite',
+                  wordBreak: 'break-all',
+                }}>
+                  {result.tokenId}
+                </div>
+
+                <div style={{ color: 'rgba(255,255,255,0.30)', fontSize: '11px', lineHeight: '1.6', fontWeight: '500' }}>
+                  Cannot be traced to your identity
+                </div>
+
+                {result.alertSent && (
+                  <div style={{ marginTop: '10px', padding: '6px 12px', borderRadius: '7px', background: 'rgba(187,0,0,0.14)', border: '1px solid rgba(187,0,0,0.28)' }}>
+                    <span style={{ color: '#ff8080', fontSize: '11px', fontWeight: '700' }}>⚡ Security team alerted</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* ── 2-COLUMN GRID ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
+          {/* ── ROW 2: What to do next — FULL WIDTH STANDOUT ── */}
+          <div style={{
+            borderRadius: '16px', marginBottom: '14px', overflow: 'hidden',
+            background: 'rgba(14,20,14,0.96)',
+            border: `1px solid ${config.border}`,
+            backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+            boxShadow: `0 6px 28px rgba(0,0,0,0.16)`,
+            position: 'relative',
+            animation: 'fadeInUp 0.4s ease 0.10s both',
+          }}>
+            {/* Coloured top bar — makes it stand out */}
+            <div style={{ height: '4px', background: `linear-gradient(90deg, ${config.accent}, ${config.accent}88, transparent)` }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%)', pointerEvents: 'none' }} />
 
-            {/* What to do next */}
-            <div style={{ ...glassCard, display: 'flex', animation: 'fadeInUp 0.4s ease 0.10s both' }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-              <div style={{ width: '5px', flexShrink: 0, background: config.accent, opacity: 0.75, borderRadius: '16px 0 0 16px' }} />
-              <div style={{ flex: 1, padding: '20px 18px 18px 14px', position: 'relative', zIndex: 1 }}>
-                <CardHeader icon="🚨" label="What to do next" accentColor={config.accent} />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
-                  {result.recommendedActions?.map((action, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <div style={{
-                        width: '22px', height: '22px', borderRadius: '7px',
-                        background: config.badgeBg, border: `1px solid ${config.border}`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '10px', fontWeight: '900', color: config.accentLight,
-                        flexShrink: 0, marginTop: '1px',
-                      }}>{i + 1}</div>
-                      <span style={{ color: 'rgba(255,255,255,0.72)', fontSize: '13px', lineHeight: '1.65' }}>{action}</span>
-                    </div>
-                  ))}
+            <div style={{ padding: '20px 24px 22px', position: 'relative', zIndex: 1 }}>
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: config.badgeBg, border: `1px solid ${config.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>🚨</div>
+                <div>
+                  <div style={{ color: config.accentLight, fontWeight: '900', fontSize: '16px', letterSpacing: '-0.2px' }}>What to do next</div>
+                  <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '12px', fontWeight: '500' }}>Follow these steps immediately</div>
                 </div>
               </div>
-            </div>
 
-            {/* GPT-4o Analysis */}
-            <div style={{ ...glassCard, display: 'flex', animation: 'fadeInUp 0.4s ease 0.15s both' }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-              <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.65, borderRadius: '16px 0 0 16px' }} />
-              <div style={{ flex: 1, padding: '20px 18px 18px 14px', position: 'relative', zIndex: 1 }}>
-                <CardHeader icon="🤖" label="GPT-4o Analysis" accentColor="#22c55e" />
+              {/* Steps — horizontal on wide screen */}
+              <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(simpleActions.length, 4)}, 1fr)`, gap: '10px' }}>
+                {simpleActions.slice(0, 4).map((action, i) => (
+                  <div key={i} style={{
+                    padding: '14px 14px',
+                    borderRadius: '12px',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${config.border}`,
+                    display: 'flex', flexDirection: 'column', gap: '10px',
+                  }}>
+                    <div style={{
+                      width: '28px', height: '28px', borderRadius: '8px',
+                      background: config.badgeBg, border: `1px solid ${config.border}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '12px', fontWeight: '900', color: config.accentLight,
+                      flexShrink: 0,
+                    }}>{i + 1}</div>
+                    <span style={{ color: 'rgba(255,255,255,0.82)', fontSize: '13px', lineHeight: '1.6', fontWeight: '500' }}>{action}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── ROW 3: GPT analysis + Threat indicators ── */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
+
+            {/* GPT-4o Analysis — teal/green themed */}
+            <div style={{
+              borderRadius: '16px', overflow: 'hidden',
+              background: 'rgba(0,20,10,0.94)',
+              border: '1px solid rgba(34,197,94,0.22)',
+              backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.14)',
+              position: 'relative',
+              animation: 'fadeInUp 0.4s ease 0.15s both',
+            }}>
+              <div style={{ height: '3px', background: 'linear-gradient(90deg, #22c55e, #15803d, transparent)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(34,197,94,0.07) 0%, transparent 55%)', pointerEvents: 'none' }} />
+              <div style={{ padding: '18px 20px 20px', position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(34,197,94,0.14)', border: '1px solid rgba(34,197,94,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>🤖</div>
+                  <div>
+                    <div style={{ color: '#4ade80', fontWeight: '800', fontSize: '14px' }}>GPT-4o Analysis</div>
+                    <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>AI threat detection results</div>
+                  </div>
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
                     { label: 'Domain spoofing',       value: result.aiAnalysis?.domainSpoofing },
@@ -285,20 +344,13 @@ const Result = () => {
                     <div key={i} style={{
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                       padding: '9px 12px', borderRadius: '9px',
-                      background: item.value ? 'rgba(187,0,0,0.10)' : 'rgba(0,102,0,0.08)',
-                      border: item.value ? '1px solid rgba(187,0,0,0.20)' : '1px solid rgba(0,102,0,0.18)',
+                      background: item.value ? 'rgba(187,0,0,0.12)' : 'rgba(34,197,94,0.07)',
+                      border: item.value ? '1px solid rgba(187,0,0,0.22)' : '1px solid rgba(34,197,94,0.16)',
                     }}>
-                      <span style={{ color: 'rgba(255,255,255,0.68)', fontSize: '12px', fontWeight: '600' }}>{item.label}</span>
-                      <div style={{
-                        display: 'flex', alignItems: 'center', gap: '5px',
-                        padding: '3px 9px', borderRadius: '20px',
-                        background: item.value ? 'rgba(187,0,0,0.16)' : 'rgba(0,102,0,0.16)',
-                        border: item.value ? '1px solid rgba(187,0,0,0.30)' : '1px solid rgba(0,102,0,0.30)',
-                      }}>
+                      <span style={{ color: 'rgba(255,255,255,0.70)', fontSize: '12px', fontWeight: '600' }}>{item.label}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '3px 9px', borderRadius: '20px', background: item.value ? 'rgba(187,0,0,0.18)' : 'rgba(34,197,94,0.14)', border: item.value ? '1px solid rgba(187,0,0,0.32)' : '1px solid rgba(34,197,94,0.28)' }}>
                         <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: item.value ? '#ff6666' : '#4ade80' }}/>
-                        <span style={{ fontSize: '11px', fontWeight: '800', color: item.value ? '#ff8080' : '#4ade80' }}>
-                          {item.value ? 'Detected' : 'Clear'}
-                        </span>
+                        <span style={{ fontSize: '11px', fontWeight: '800', color: item.value ? '#ff8080' : '#4ade80' }}>{item.value ? 'Detected' : 'Clear'}</span>
                       </div>
                     </div>
                   ))}
@@ -306,118 +358,95 @@ const Result = () => {
               </div>
             </div>
 
-            {/* Threat indicators */}
-            <div style={{ ...glassCard, display: 'flex', animation: 'fadeInUp 0.4s ease 0.20s both' }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-              <div style={{ width: '5px', flexShrink: 0, background: '#BB0000', opacity: 0.70, borderRadius: '16px 0 0 16px' }} />
-              <div style={{ flex: 1, padding: '20px 18px 18px 14px', position: 'relative', zIndex: 1 }}>
-                <CardHeader icon="⚠️" label="Threat Indicators" accentColor="#BB0000" />
+            {/* Threat Indicators — red themed */}
+            <div style={{
+              borderRadius: '16px', overflow: 'hidden',
+              background: 'rgba(20,0,0,0.94)',
+              border: '1px solid rgba(187,0,0,0.25)',
+              backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.14)',
+              position: 'relative',
+              animation: 'fadeInUp 0.4s ease 0.20s both',
+            }}>
+              <div style={{ height: '3px', background: 'linear-gradient(90deg, #BB0000, #7a0000, transparent)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(187,0,0,0.08) 0%, transparent 55%)', pointerEvents: 'none' }} />
+              <div style={{ padding: '18px 20px 20px', position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(187,0,0,0.18)', border: '1px solid rgba(187,0,0,0.32)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>⚠️</div>
+                  <div>
+                    <div style={{ color: '#ff8080', fontWeight: '800', fontSize: '14px' }}>Threat Indicators</div>
+                    <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>What triggered the alert</div>
+                  </div>
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {result.reasons?.map((reason, i) => (
-                    <div key={i} style={{
-                      display: 'flex', alignItems: 'flex-start', gap: '10px',
-                      padding: '9px 12px', borderRadius: '9px',
-                      background: 'rgba(187,0,0,0.08)', border: '1px solid rgba(187,0,0,0.16)',
-                    }}>
-                      <span style={{ color: '#ff8080', fontSize: '11px', marginTop: '2px', flexShrink: 0, fontWeight: '800' }}>▸</span>
+                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px 12px', borderRadius: '9px', background: 'rgba(187,0,0,0.09)', border: '1px solid rgba(187,0,0,0.18)' }}>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '6px', background: 'rgba(187,0,0,0.20)', border: '1px solid rgba(187,0,0,0.32)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '900', color: '#ff8080', flexShrink: 0, marginTop: '1px' }}>{i + 1}</div>
                       <span style={{ color: 'rgba(255,255,255,0.72)', fontSize: '12px', lineHeight: '1.6' }}>{reason}</span>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Did You Know */}
-            <div style={{ ...glassCard, display: 'flex', animation: 'fadeInUp 0.4s ease 0.25s both', border: '1px solid rgba(234,150,0,0.28)' }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(234,150,0,0.30), transparent)' }} />
-              <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #ffd166, #ea9600)', opacity: 0.80, borderRadius: '16px 0 0 16px' }} />
-              <div style={{ flex: 1, padding: '20px 18px 18px 14px', position: 'relative', zIndex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(234,150,0,0.16)', border: '1px solid rgba(234,150,0,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>💡</div>
-                  <div>
-                    <div style={{ fontSize: '10px', fontWeight: '800', color: '#ffd166', textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '2px' }}>Did You Know?</div>
-                    <div style={{ color: 'rgba(255,255,255,0.80)', fontWeight: '700', fontSize: '13px' }}>Awareness tip</div>
-                  </div>
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.68)', fontSize: '13px', lineHeight: '1.75', margin: 0 }}>
-                  {result.didYouKnow}
+          {/* ── ROW 4: Did You Know — FULL WIDTH AMBER STANDOUT ── */}
+          <div style={{
+            borderRadius: '16px', marginBottom: '20px', overflow: 'hidden',
+            background: 'rgba(20,12,0,0.95)',
+            border: '1px solid rgba(234,150,0,0.35)',
+            backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+            boxShadow: '0 6px 28px rgba(0,0,0,0.16), 0 0 0 1px rgba(234,150,0,0.10)',
+            position: 'relative',
+            animation: 'fadeInUp 0.4s ease 0.25s both',
+          }}>
+            <div style={{ height: '4px', background: 'linear-gradient(90deg, #ffd166, #ea9600, #ffd166)', backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(234,150,0,0.10) 0%, transparent 50%)', pointerEvents: 'none' }} />
+            <div style={{ padding: '20px 24px 22px', position: 'relative', zIndex: 1, display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(234,150,0,0.20)', border: '1px solid rgba(234,150,0,0.38)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>💡</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '10px', fontWeight: '800', color: '#ffd166', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '5px' }}>🇰🇪 Did You Know? — Kenya Cybersecurity Tip</div>
+                <p style={{ color: 'rgba(255,255,255,0.82)', fontSize: '14px', lineHeight: '1.75', margin: 0, fontWeight: '500' }}>
+                  {tipText}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* ── TOKEN CARD ── */}
-          <div style={{
-            ...glassCard, display: 'flex', marginBottom: '16px',
-            border: '1px solid rgba(0,102,0,0.28)',
-            animation: 'fadeInUp 0.4s ease 0.30s both',
-          }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)', pointerEvents: 'none', borderRadius: '16px' }} />
-            <div style={{ width: '5px', flexShrink: 0, background: 'linear-gradient(180deg, #22c55e, #15803d)', opacity: 0.70, borderRadius: '16px 0 0 16px' }} />
-            <div style={{ flex: 1, padding: '22px 22px 20px 18px', position: 'relative', zIndex: 1, textAlign: 'center' }}>
-              <div style={{ fontSize: '11px', fontWeight: '800', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.10em', marginBottom: '14px' }}>
-                🔐 Anonymous Report Token
-              </div>
-              <div style={{
-                display: 'inline-block',
-                fontFamily: 'monospace', fontSize: '20px', fontWeight: '800',
-                color: '#4ade80', letterSpacing: '0.15em',
-                padding: '12px 28px', borderRadius: '12px',
-                background: 'rgba(0,102,0,0.14)',
-                border: '1px solid rgba(0,102,0,0.30)',
-                marginBottom: '12px',
-                backgroundImage: 'linear-gradient(90deg, rgba(0,102,0,0.14), rgba(0,150,0,0.20), rgba(0,102,0,0.14))',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 3s linear infinite',
-              }}>
-                {result.tokenId}
-              </div>
-              <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '12px', lineHeight: '1.6', fontWeight: '500' }}>
-                This token cannot be traced back to your identity in any way.
-              </div>
-              {result.alertSent && (
-                <div style={{ marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: '8px', background: 'rgba(187,0,0,0.12)', border: '1px solid rgba(187,0,0,0.25)' }}>
-                  <span style={{ color: '#ff8080', fontSize: '12px', fontWeight: '700' }}>⚡ HIGH risk alert sent to security team anonymously</span>
-                </div>
-              )}
-            </div>
-          </div>
-
           {/* ── ACTION BUTTONS ── */}
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', animation: 'fadeInUp 0.4s ease 0.35s both' }}>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', animation: 'fadeInUp 0.4s ease 0.30s both' }}>
             <button onClick={() => { clearReport(); navigate('/report/step1'); }} style={{
               display: 'flex', alignItems: 'center', gap: '8px',
               padding: '13px 22px', borderRadius: '12px', fontWeight: '700', fontSize: '13px',
               color: '#ffffff', background: 'linear-gradient(135deg, #BB0000, #880000)',
               border: '1px solid rgba(255,100,100,0.20)', cursor: 'pointer',
-              boxShadow: '0 4px 16px rgba(187,0,0,0.28)', transition: 'all 0.18s',
+              boxShadow: '0 4px 16px rgba(187,0,0,0.30)', transition: 'all 0.18s',
             }}
-              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(187,0,0,0.38)'; }}
-              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(187,0,0,0.28)'; }}>
+              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(187,0,0,0.40)'; }}
+              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(187,0,0,0.30)'; }}>
               📧 Report Another Email
             </button>
 
             <button onClick={handleHome} style={{
               padding: '13px 22px', borderRadius: '12px', fontWeight: '600', fontSize: '13px',
-              color: 'rgba(255,255,255,0.72)', background: 'rgba(22,30,22,0.88)',
-              border: '1px solid rgba(255,255,255,0.10)', cursor: 'pointer',
+              color: 'rgba(255,255,255,0.75)', background: 'rgba(22,30,22,0.90)',
+              border: '1px solid rgba(255,255,255,0.12)', cursor: 'pointer',
               backdropFilter: 'blur(20px)', transition: 'all 0.18s',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.10)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.12)',
             }}
-              onMouseOver={e => { e.currentTarget.style.background = 'rgba(30,40,30,0.95)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseOut={e => { e.currentTarget.style.background = 'rgba(22,30,22,0.88)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
+              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.background = 'rgba(30,40,30,0.95)'; }}
+              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = 'rgba(22,30,22,0.90)'; }}>
               ← Return to Home
             </button>
 
             <button onClick={() => navigate('/awareness')} style={{
-              padding: '13px 22px', borderRadius: '12px', fontWeight: '600', fontSize: '13px',
-              color: '#4ade80', background: 'rgba(0,102,0,0.12)',
-              border: '1px solid rgba(0,102,0,0.28)', cursor: 'pointer',
-              transition: 'all 0.18s', boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+              padding: '13px 22px', borderRadius: '12px', fontWeight: '800', fontSize: '13px',
+              color: '#ffffff', background: 'linear-gradient(135deg, #006600, #004400)',
+              border: '1px solid rgba(34,197,94,0.30)', cursor: 'pointer',
+              boxShadow: '0 4px 16px rgba(0,102,0,0.28)', transition: 'all 0.18s',
             }}
-              onMouseOver={e => { e.currentTarget.style.background = 'rgba(0,102,0,0.20)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseOut={e => { e.currentTarget.style.background = 'rgba(0,102,0,0.12)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
+              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,102,0,0.38)'; }}
+              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,102,0,0.28)'; }}>
               📚 Go to Awareness Hub
             </button>
           </div>
