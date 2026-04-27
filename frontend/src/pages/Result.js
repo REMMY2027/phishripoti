@@ -33,46 +33,46 @@ const Result = () => {
   const riskConfig = {
     HIGH: {
       accent: '#ef4444', accentLight: '#fca5a5', accentDim: '#ff6666',
-      border: 'rgba(239,68,68,0.35)', glow: 'rgba(239,68,68,0.15)',
+      border: 'rgba(239,68,68,0.35)', glow: 'rgba(239,68,68,0.20)',
       label: 'High Risk Phishing Detected',
-      sublabel: 'Dangerous. Delete immediately — do not click links or open attachments.',
-      gaugeColor: '#ef4444', badgeBg: 'rgba(239,68,68,0.16)',
-      cardBg: 'rgba(50,0,0,0.98)',
+      sublabel: 'This email is dangerous. Delete it immediately and do not click any links or open attachments.',
+      gaugeColor: '#ef4444', badgeBg: 'rgba(239,68,68,0.18)',
+      cardBg: 'rgba(45,0,0,0.99)', heroBg: 'rgba(55,0,0,0.99)',
     },
     MEDIUM: {
       accent: '#f59e0b', accentLight: '#fcd34d', accentDim: '#fbbf24',
-      border: 'rgba(245,158,11,0.35)', glow: 'rgba(245,158,11,0.15)',
+      border: 'rgba(245,158,11,0.35)', glow: 'rgba(245,158,11,0.18)',
       label: 'Medium Risk — Exercise Caution',
-      sublabel: 'Suspicious. Do not click links until you confirm the sender is real.',
-      gaugeColor: '#f59e0b', badgeBg: 'rgba(245,158,11,0.16)',
-      cardBg: 'rgba(40,20,0,0.98)',
+      sublabel: 'This email looks suspicious. Do not click any links until you have confirmed the sender is legitimate.',
+      gaugeColor: '#f59e0b', badgeBg: 'rgba(245,158,11,0.18)',
+      cardBg: 'rgba(38,18,0,0.99)', heroBg: 'rgba(48,22,0,0.99)',
     },
     LOW: {
       accent: '#22c55e', accentLight: '#4ade80', accentDim: '#4ade80',
-      border: 'rgba(34,197,94,0.35)', glow: 'rgba(34,197,94,0.15)',
+      border: 'rgba(34,197,94,0.35)', glow: 'rgba(34,197,94,0.18)',
       label: 'Low Risk — Likely Safe',
-      sublabel: 'Appears legitimate. Weak threat signals detected. Stay cautious.',
-      gaugeColor: '#22c55e', badgeBg: 'rgba(34,197,94,0.16)',
-      cardBg: 'rgba(0,30,8,0.98)',
+      sublabel: 'This email shows weak threat signals and appears legitimate. Stay vigilant and verify if unsure.',
+      gaugeColor: '#22c55e', badgeBg: 'rgba(34,197,94,0.18)',
+      cardBg: 'rgba(0,28,8,0.99)', heroBg: 'rgba(0,36,10,0.99)',
     },
   };
 
   const config = riskConfig[result.riskLevel] || riskConfig.LOW;
-  const circumference = 2 * Math.PI * 40;
+  const circumference = 2 * Math.PI * 58;
   const strokeDashoffset = circumference * (1 - scoreAnimated / 100);
   const handleHome = () => { clearReport(); navigate('/'); };
 
   const employeeTips = [
-    "M-Pesa will NEVER ask for your PIN via email. Delete such requests and alert your IT team immediately.",
-    "Your IT team will never ask for your network password by email. Call your helpdesk directly instead.",
-    "KRA only contacts you through official channels. Any other domain claiming to be KRA is a phishing attempt.",
-    "Always verify payment requests by calling the requester — never use contact details from the email itself.",
-    "Over 70% of cyber incidents in Kenyan banks start with a phishing email. Your vigilance protects everyone.",
-    "Never access work systems through email links. Type the address directly into your browser.",
+    "M-Pesa will NEVER ask for your PIN via email. If you receive such a request at work, delete it and alert your IT team immediately — this is a phishing attempt targeting bank employees.",
+    "Your institution's IT team will never ask for your network password by email. Call your IT helpdesk directly using the internal number — never respond to such emails.",
+    "KRA only contacts you through official channels at @kra.go.ke. Any email from a different domain claiming to be KRA asking you to click a link is a phishing attempt.",
+    "As a finance or operations employee, always verify payment requests by calling the requester directly — never use any contact details found inside the email itself.",
+    "Over 70% of cyber incidents in Kenyan financial institutions start with a phishing email to a staff member. Your vigilance today protects your colleagues and customers.",
+    "Never access your work systems or M-Pesa business accounts through links in emails. Always type the address directly into your browser or use official saved bookmarks.",
   ];
 
   const tipText = result.didYouKnow
-    ? `${result.didYouKnow} Always verify unexpected requests through official channels.`
+    ? `${result.didYouKnow} As a bank employee, always verify unexpected requests through official channels.`
     : employeeTips[Math.floor(Math.random() * employeeTips.length)];
 
   const simpleActions = result.recommendedActions?.map(a => {
@@ -99,16 +99,12 @@ const Result = () => {
   ];
 
   return (
-    <div style={{
-      minHeight: '100vh', height: '100vh',
-      display: 'flex', flexDirection: 'column',
-      position: 'relative', overflow: 'hidden',
-      opacity: visible ? 1 : 0, transition: 'opacity 0.5s ease',
-    }}>
+    <div style={{ minHeight:'100vh', height:'100vh', display:'flex', flexDirection:'column', position:'relative', overflow:'hidden', opacity:visible?1:0, transition:'opacity 0.5s ease' }}>
       <style>{`
         @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.55}}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
       `}</style>
 
       {/* BG */}
@@ -119,23 +115,23 @@ const Result = () => {
       <svg style={{ position:'fixed', inset:0, width:'100%', height:'100%', zIndex:4, pointerEvents:'none' }} xmlns="http://www.w3.org/2000/svg">
         <path d="M -100 300 Q 200 180 500 320 T 1100 280" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1.5"/>
         <path d="M -100 500 Q 300 380 700 500 T 1400 460" fill="none" stroke="rgba(0,80,20,0.03)" strokeWidth="1"/>
-        <circle cx="-60" cy="120" r="220" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1"/>
-        <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
+        <circle cx="-60" cy="120" r="240" fill="none" stroke="rgba(0,100,30,0.035)" strokeWidth="1"/>
+        <circle cx="110%" cy="85%" r="220" fill="none" stroke="rgba(140,0,0,0.035)" strokeWidth="1"/>
         <circle cx="8%" cy="22%" r="2.5" fill="rgba(0,100,30,0.08)"/>
         <circle cx="89%" cy="20%" r="2.5" fill="rgba(140,0,0,0.08)"/>
         <line x1="8%" y1="22%" x2="13%" y2="42%" stroke="rgba(0,100,30,0.05)" strokeWidth="0.7"/>
         <line x1="89%" y1="20%" x2="93%" y2="38%" stroke="rgba(140,0,0,0.05)" strokeWidth="0.7"/>
       </svg>
-      <div style={{ position:'fixed', bottom:'-20px', right:0, width:'360px', height:'150px', zIndex:5, pointerEvents:'none', WebkitMaskImage:'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 35%, #000 100%)', maskImage:'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 35%, #000 100%)' }}>
-        <svg width="100%" height="100%" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
-          <rect x="20" y="100" width="14" height="60"/><rect x="180" y="30" width="26" height="130"/>
-          <rect x="110" y="65" width="18" height="95"/><rect x="240" y="48" width="22" height="112"/>
-          <rect x="290" y="75" width="16" height="85"/><rect x="0" y="158" width="360" height="2"/>
+      <div style={{ position:'fixed', bottom:'-20px', right:0, width:'340px', height:'140px', zIndex:5, pointerEvents:'none', WebkitMaskImage:'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 35%, #000 100%)', maskImage:'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 35%, #000 100%)' }}>
+        <svg width="100%" height="100%" viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
+          <rect x="20" y="90" width="13" height="50"/><rect x="170" y="25" width="24" height="115"/>
+          <rect x="100" y="58" width="17" height="82"/><rect x="225" y="42" width="20" height="98"/>
+          <rect x="272" y="68" width="15" height="72"/><rect x="0" y="138" width="340" height="2"/>
         </svg>
       </div>
 
       {/* NAVBAR */}
-      <nav style={{ position:'relative', zIndex:20, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 24px', height:'54px', background:'rgba(255,255,255,0.92)', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', borderBottom:'1px solid rgba(0,0,0,0.07)', boxShadow:'0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06)', flexShrink:0 }}>
+      <nav style={{ position:'relative', zIndex:20, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 24px', height:'52px', background:'rgba(255,255,255,0.92)', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', borderBottom:'1px solid rgba(0,0,0,0.07)', boxShadow:'0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06)', flexShrink:0 }}>
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)' }} />
         <div style={{ display:'flex', alignItems:'center', gap:'9px' }}>
           <div style={{ width:'30px', height:'30px', borderRadius:'8px', background:'linear-gradient(145deg, #cc0000, #7a0000)', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 2px 8px rgba(187,0,0,0.28)', flexShrink:0 }}>
@@ -145,118 +141,130 @@ const Result = () => {
         </div>
         <div style={{ display:'flex', gap:'6px' }}>
           <button onClick={() => { clearReport(); navigate('/report/step1'); }} style={{ padding:'5px 12px', borderRadius:'7px', fontWeight:'700', fontSize:'11px', color:'#fff', background:'linear-gradient(135deg, #BB0000, #880000)', border:'none', cursor:'pointer', boxShadow:'0 2px 8px rgba(187,0,0,0.28)', transition:'all 0.15s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-1px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>📧 Report Another</button>
-          <button onClick={() => navigate('/awareness')} style={{ padding:'5px 12px', borderRadius:'7px', fontWeight:'700', fontSize:'11px', color:'#fff', background:'linear-gradient(135deg, #006600, #004400)', border:'none', cursor:'pointer', boxShadow:'0 2px 8px rgba(0,102,0,0.25)', transition:'all 0.15s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-1px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>📚 Awareness Hub</button>
           <button onClick={handleHome} style={{ padding:'5px 10px', borderRadius:'7px', fontWeight:'600', fontSize:'11px', color:'rgba(0,0,0,0.55)', background:'rgba(255,255,255,0.70)', border:'1px solid rgba(0,0,0,0.10)', cursor:'pointer', transition:'all 0.15s' }} onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,0.95)'} onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,0.70)'}>← Home</button>
         </div>
       </nav>
 
-      {/* CONTENT — 3 rows, last row flex:1 */}
+      {/* CONTENT */}
       <div style={{ flex:1, position:'relative', zIndex:10, padding:'10px 22px 10px', display:'flex', flexDirection:'column', gap:'9px', overflow:'hidden' }}>
 
-        {/* ROW 1 — Hero (wide) + Token + What to do */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.55fr 0.52fr 0.93fr', gap:'9px', animation:'fadeUp 0.3s ease both' }}>
+        {/* ── ROW 1: HERO — full width, biggest card, centrepiece ── */}
+        <div style={{ borderRadius:'18px', overflow:'hidden', background:config.heroBg, border:`1.5px solid ${config.border}`, backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:`0 12px 48px rgba(0,0,0,0.28), 0 0 0 1px ${config.glow}`, position:'relative', flexShrink:0, animation:'scaleIn 0.4s cubic-bezier(0.16,1,0.3,1) both' }}>
+          {/* Shimmer top */}
+          <div style={{ height:'4px', background:`linear-gradient(90deg, ${config.accent}, ${config.accentLight}, ${config.accent})`, backgroundSize:'200% 100%', animation:'shimmer 3s linear infinite' }}/>
+          {/* Glass sheen */}
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%)', pointerEvents:'none' }}/>
+          {/* Abstract circles */}
+          <svg style={{ position:'absolute', top:0, right:0, width:'300px', height:'100%', pointerEvents:'none' }} xmlns="http://www.w3.org/2000/svg">
+            <circle cx="260" cy="50%" r="140" fill="none" stroke={`${config.accent}10`} strokeWidth="1"/>
+            <circle cx="260" cy="50%" r="90" fill="none" stroke={`${config.accent}08`} strokeWidth="0.8"/>
+            <circle cx="260" cy="50%" r="50" fill="none" stroke={`${config.accent}06`} strokeWidth="0.6"/>
+          </svg>
+          <div style={{ position:'absolute', top:0, left:0, right:0, height:'1px', background:`linear-gradient(90deg, transparent, ${config.accent}50, transparent)` }}/>
 
-          {/* HERO */}
-          <div style={{ borderRadius:'14px', overflow:'hidden', background:config.cardBg, border:`1px solid ${config.border}`, backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:`0 6px 28px rgba(0,0,0,0.20), 0 0 0 1px ${config.glow}`, position:'relative', display:'flex' }}>
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 55%)', pointerEvents:'none' }}/>
-            <div style={{ position:'absolute', top:0, left:0, right:0, height:'1px', background:`linear-gradient(90deg, transparent, ${config.accent}55, transparent)` }}/>
-            <svg style={{ position:'absolute', top:0, right:0, width:'130px', height:'100%', pointerEvents:'none' }} xmlns="http://www.w3.org/2000/svg">
-              <circle cx="110" cy="50%" r="80" fill="none" stroke={`${config.accent}10`} strokeWidth="1"/>
-              <circle cx="110" cy="50%" r="48" fill="none" stroke={`${config.accent}07`} strokeWidth="0.7"/>
-            </svg>
-            <div style={{ width:'4px', flexShrink:0, background:`linear-gradient(180deg, ${config.accent}, ${config.accent}88)`, borderRadius:'14px 0 0 14px', boxShadow:`2px 0 10px ${config.accent}30` }}/>
-            <div style={{ flex:1, padding:'18px 20px 16px 15px', position:'relative', zIndex:1, display:'flex', gap:'18px', alignItems:'center' }}>
-              <div style={{ flexShrink:0 }}>
-                <svg width="96" height="96" viewBox="0 0 90 90">
-                  <circle cx="45" cy="45" r="40" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="7"/>
-                  <circle cx="45" cy="45" r="40" fill="none" stroke={config.gaugeColor} strokeWidth="7" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} transform="rotate(-90 45 45)" style={{ transition:'stroke-dashoffset 0.1s linear' }}/>
-                  <text x="45" y="41" textAnchor="middle" fill="white" fontSize="16" fontWeight="900" fontFamily="-apple-system,sans-serif">{scoreAnimated}%</text>
-                  <text x="45" y="54" textAnchor="middle" fill="rgba(255,255,255,0.30)" fontSize="7" fontFamily="-apple-system,sans-serif" letterSpacing="0.5">RISK SCORE</text>
-                </svg>
+          <div style={{ padding:'22px 32px 20px', position:'relative', zIndex:1, display:'flex', alignItems:'center', gap:'32px' }}>
+
+            {/* BIG GAUGE — the centrepiece */}
+            <div style={{ flexShrink:0, position:'relative' }}>
+              <svg width="150" height="150" viewBox="0 0 140 140">
+                {/* Outer glow ring */}
+                <circle cx="70" cy="70" r="65" fill="none" stroke={`${config.gaugeColor}15`} strokeWidth="12"/>
+                {/* Track */}
+                <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="10"/>
+                {/* Progress */}
+                <circle cx="70" cy="70" r="58" fill="none" stroke={config.gaugeColor} strokeWidth="10"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
+                  transform="rotate(-90 70 70)"
+                  style={{ transition:'stroke-dashoffset 0.1s linear', filter:`drop-shadow(0 0 8px ${config.gaugeColor}60)` }}/>
+                {/* Inner ring */}
+                <circle cx="70" cy="70" r="46" fill="none" stroke={config.gaugeColor} strokeWidth="0.8" opacity="0.12"/>
+                {/* Score text */}
+                <text x="70" y="62" textAnchor="middle" fill="white" fontSize="28" fontWeight="900" fontFamily="-apple-system,sans-serif">{scoreAnimated}%</text>
+                <text x="70" y="78" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="9" fontFamily="-apple-system,sans-serif" letterSpacing="1.5">RISK SCORE</text>
+              </svg>
+            </div>
+
+            {/* Risk info */}
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ display:'inline-flex', alignItems:'center', gap:'6px', padding:'4px 13px', borderRadius:'20px', background:config.badgeBg, border:`1px solid ${config.border}`, marginBottom:'10px', boxShadow:`0 2px 12px ${config.accent}20` }}>
+                <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:config.accent, animation:'pulse 2s infinite', boxShadow:`0 0 6px ${config.accent}` }}/>
+                <span style={{ fontSize:'11px', fontWeight:'900', color:config.accentLight, letterSpacing:'0.10em', textTransform:'uppercase' }}>{result.riskLevel} RISK DETECTED</span>
               </div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ display:'inline-flex', alignItems:'center', gap:'5px', padding:'3px 10px', borderRadius:'20px', background:config.badgeBg, border:`1px solid ${config.border}`, marginBottom:'8px' }}>
-                  <div style={{ width:'5px', height:'5px', borderRadius:'50%', background:config.accent, animation:'pulse 2s infinite' }}/>
-                  <span style={{ fontSize:'10px', fontWeight:'900', color:config.accentLight, letterSpacing:'0.08em', textTransform:'uppercase' }}>{result.riskLevel} RISK</span>
-                </div>
-                <div style={{ color:'#ffffff', fontWeight:'900', fontSize:'16px', marginBottom:'5px', letterSpacing:'-0.3px', lineHeight:1.25 }}>{config.label}</div>
-                <div style={{ color:'rgba(255,255,255,0.46)', fontSize:'12px', lineHeight:'1.55', marginBottom:'12px' }}>{config.sublabel}</div>
-                <div style={{ display:'flex', gap:'5px', flexWrap:'wrap' }}>
-                  <div style={{ padding:'3px 9px', borderRadius:'20px', fontSize:'10px', fontWeight:'600', background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.42)', border:'1px solid rgba(255,255,255,0.09)' }}>🤖 GPT-4o {Math.round(result.riskScore * 0.7)}%</div>
-                  <div style={{ padding:'3px 9px', borderRadius:'20px', fontSize:'10px', fontWeight:'600', background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.42)', border:'1px solid rgba(255,255,255,0.09)' }}>🔍 Safe Browsing {Math.round(result.riskScore * 0.3)}%</div>
-                  {result.alertSent && <div style={{ padding:'3px 9px', borderRadius:'20px', fontSize:'10px', fontWeight:'700', background:'rgba(239,68,68,0.16)', color:'#fca5a5', border:'1px solid rgba(239,68,68,0.28)' }}>⚡ IT alerted</div>}
-                </div>
+              <h2 style={{ color:'#ffffff', fontWeight:'900', fontSize:'22px', margin:'0 0 8px', letterSpacing:'-0.5px', lineHeight:1.2 }}>{config.label}</h2>
+              <p style={{ color:'rgba(255,255,255,0.52)', fontSize:'13px', lineHeight:'1.65', margin:'0 0 16px', maxWidth:'520px' }}>{config.sublabel}</p>
+              <div style={{ display:'flex', gap:'7px', flexWrap:'wrap' }}>
+                <div style={{ padding:'4px 12px', borderRadius:'20px', fontSize:'11px', fontWeight:'600', background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.45)', border:'1px solid rgba(255,255,255,0.10)' }}>🤖 GPT-4o: {Math.round(result.riskScore * 0.7)}% weight</div>
+                <div style={{ padding:'4px 12px', borderRadius:'20px', fontSize:'11px', fontWeight:'600', background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.45)', border:'1px solid rgba(255,255,255,0.10)' }}>🔍 Safe Browsing: {Math.round(result.riskScore * 0.3)}% weight</div>
+                {result.alertSent && <div style={{ padding:'4px 12px', borderRadius:'20px', fontSize:'11px', fontWeight:'700', background:'rgba(239,68,68,0.18)', color:'#fca5a5', border:'1px solid rgba(239,68,68,0.30)' }}>⚡ IT security team alerted</div>}
               </div>
             </div>
-          </div>
 
-          {/* TOKEN */}
-          <div style={{ borderRadius:'14px', overflow:'hidden', background:'rgba(0,20,6,0.98)', border:'1px solid rgba(34,197,94,0.26)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 6px 22px rgba(0,0,0,0.18)', position:'relative', display:'flex', flexDirection:'column' }}>
-            <div style={{ height:'3px', background:'linear-gradient(90deg, #22c55e, #16a34a, transparent)' }}/>
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(34,197,94,0.07) 0%, transparent 55%)', pointerEvents:'none' }}/>
-            <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'4px', background:'linear-gradient(180deg, #22c55e, #15803d)', opacity:0.80 }}/>
-            <div style={{ flex:1, padding:'14px 13px 12px 11px', position:'relative', zIndex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-evenly', textAlign:'center', gap:'6px' }}>
-              <div style={{ width:'38px', height:'38px', borderRadius:'11px', background:'rgba(34,197,94,0.14)', border:'1px solid rgba(34,197,94,0.26)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px' }}>🔐</div>
-              <div>
-                <div style={{ fontSize:'8px', fontWeight:'800', color:'rgba(74,222,128,0.45)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'7px' }}>Anonymous Token</div>
-                <div style={{ fontFamily:'monospace', fontSize:'10px', fontWeight:'900', color:'#4ade80', padding:'8px 8px', borderRadius:'8px', background:'rgba(0,102,0,0.20)', border:'1px solid rgba(34,197,94,0.28)', backgroundImage:'linear-gradient(90deg, rgba(0,102,0,0.20), rgba(0,150,0,0.26), rgba(0,102,0,0.20))', backgroundSize:'200% 100%', animation:'shimmer 3s linear infinite', wordBreak:'break-all', letterSpacing:'0.04em' }}>
-                  {result.tokenId}
+            {/* Right: quick stats */}
+            <div style={{ flexShrink:0, display:'flex', flexDirection:'column', gap:'8px', minWidth:'160px' }}>
+              {[
+                { label: 'Threats found', value: `${result.reasons?.length || 0}`, color: result.reasons?.length > 0 ? '#fca5a5' : '#4ade80', bg: result.reasons?.length > 0 ? 'rgba(239,68,68,0.14)' : 'rgba(34,197,94,0.12)', border: result.reasons?.length > 0 ? 'rgba(239,68,68,0.25)' : 'rgba(34,197,94,0.22)' },
+                { label: 'AI signals', value: `${analysisItems.filter(i=>i.value).length}/4 detected`, color: analysisItems.filter(i=>i.value).length > 0 ? '#fca5a5' : '#4ade80', bg: analysisItems.filter(i=>i.value).length > 0 ? 'rgba(239,68,68,0.14)' : 'rgba(34,197,94,0.12)', border: analysisItems.filter(i=>i.value).length > 0 ? 'rgba(239,68,68,0.25)' : 'rgba(34,197,94,0.22)' },
+                { label: 'Report status', value: 'Submitted', color: '#4ade80', bg: 'rgba(34,197,94,0.12)', border: 'rgba(34,197,94,0.22)' },
+              ].map((stat,i) => (
+                <div key={i} style={{ padding:'10px 14px', borderRadius:'11px', background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.10)', display:'flex', justifyContent:'space-between', alignItems:'center', gap:'12px' }}>
+                  <span style={{ color:'rgba(255,255,255,0.42)', fontSize:'11px', fontWeight:'600' }}>{stat.label}</span>
+                  <span style={{ padding:'2px 8px', borderRadius:'20px', background:stat.bg, border:`1px solid ${stat.border}`, fontSize:'10px', fontWeight:'800', color:stat.color, whiteSpace:'nowrap' }}>{stat.value}</span>
                 </div>
-              </div>
-              <div style={{ color:'rgba(255,255,255,0.20)', fontSize:'9px', lineHeight:'1.4', fontWeight:'500' }}>Cannot be traced to your identity</div>
-              {result.alertSent && <div style={{ padding:'3px 9px', borderRadius:'5px', background:'rgba(239,68,68,0.14)', border:'1px solid rgba(239,68,68,0.24)' }}><span style={{ color:'#fca5a5', fontSize:'9px', fontWeight:'700' }}>⚡ Security team alerted</span></div>}
+              ))}
             </div>
           </div>
+        </div>
+
+        {/* ── ROW 2: Three equal columns — What to do | GPT | Threats ── */}
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'9px', flex:1, animation:'fadeUp 0.35s ease 0.08s both' }}>
 
           {/* WHAT TO DO NEXT */}
-          <div style={{ borderRadius:'14px', overflow:'hidden', background:`rgba(${result.riskLevel==='HIGH'?'50,0,0':result.riskLevel==='MEDIUM'?'40,20,0':'0,28,8'},0.98)`, border:`1px solid ${config.border}`, backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:`0 6px 22px rgba(0,0,0,0.16)`, position:'relative', display:'flex', flexDirection:'column' }}>
+          <div style={{ borderRadius:'14px', overflow:'hidden', background:config.cardBg, border:`1px solid ${config.border}`, backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:`0 4px 20px rgba(0,0,0,0.16)`, position:'relative', display:'flex', flexDirection:'column' }}>
             <div style={{ height:'3px', background:`linear-gradient(90deg, ${config.accent}, ${config.accentDim}, transparent)` }}/>
             <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)', pointerEvents:'none' }}/>
-            <div style={{ padding:'14px 14px', position:'relative', zIndex:1, display:'flex', flexDirection:'column', flex:1 }}>
-              <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'10px' }}>
-                <div style={{ width:'28px', height:'28px', borderRadius:'8px', background:config.badgeBg, border:`1px solid ${config.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'14px' }}>🚨</div>
+            <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'4px', background:`linear-gradient(180deg, ${config.accent}, ${config.accent}88)`, opacity:0.70, borderRadius:'14px 0 0 14px' }}/>
+            <div style={{ padding:'14px 15px 14px 13px', position:'relative', zIndex:1, display:'flex', flexDirection:'column', flex:1 }}>
+              <div style={{ display:'flex', alignItems:'center', gap:'9px', marginBottom:'12px' }}>
+                <div style={{ width:'32px', height:'32px', borderRadius:'9px', background:config.badgeBg, border:`1px solid ${config.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px', boxShadow:`0 2px 10px ${config.accent}20` }}>🚨</div>
                 <div>
-                  <div style={{ color:config.accentLight, fontWeight:'900', fontSize:'12px' }}>What to do next</div>
-                  <div style={{ color:'rgba(255,255,255,0.26)', fontSize:'9px' }}>Follow immediately</div>
+                  <div style={{ color:config.accentLight, fontWeight:'900', fontSize:'13px', letterSpacing:'-0.1px' }}>What to do next</div>
+                  <div style={{ color:'rgba(255,255,255,0.28)', fontSize:'10px' }}>Follow these steps immediately</div>
                 </div>
               </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:'5px', flex:1 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:'7px', flex:1 }}>
                 {simpleActions.slice(0,4).map((action,i) => (
-                  <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'7px', padding:'8px 9px', borderRadius:'8px', background:'rgba(255,255,255,0.05)', border:`1px solid ${config.border}`, flex:1 }}>
-                    <div style={{ width:'17px', height:'17px', borderRadius:'5px', background:config.badgeBg, border:`1px solid ${config.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'8px', fontWeight:'900', color:config.accentLight, flexShrink:0, marginTop:'1px' }}>{i+1}</div>
-                    <span style={{ color:'rgba(255,255,255,0.78)', fontSize:'11px', lineHeight:'1.50', fontWeight:'500' }}>{action}</span>
+                  <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'8px', padding:'10px 11px', borderRadius:'9px', background:'rgba(255,255,255,0.05)', border:`1px solid ${config.border}`, flex:1 }}>
+                    <div style={{ width:'20px', height:'20px', borderRadius:'6px', background:config.badgeBg, border:`1px solid ${config.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'9px', fontWeight:'900', color:config.accentLight, flexShrink:0, marginTop:'1px', boxShadow:`0 1px 6px ${config.accent}18` }}>{i+1}</div>
+                    <span style={{ color:'rgba(255,255,255,0.80)', fontSize:'12px', lineHeight:'1.55', fontWeight:'500' }}>{action}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* ROW 2 — GPT analysis + Threat indicators (equal, fills remaining) */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'9px', flex:1, animation:'fadeUp 0.3s ease 0.07s both' }}>
-
-          {/* GPT-4o */}
-          <div style={{ borderRadius:'14px', overflow:'hidden', background:'rgba(0,16,5,0.98)', border:'1px solid rgba(34,197,94,0.20)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 4px 20px rgba(0,0,0,0.14)', position:'relative', display:'flex', flexDirection:'column' }}>
+          {/* GPT-4o ANALYSIS */}
+          <div style={{ borderRadius:'14px', overflow:'hidden', background:'rgba(0,16,5,0.99)', border:'1px solid rgba(34,197,94,0.22)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 4px 20px rgba(0,0,0,0.16)', position:'relative', display:'flex', flexDirection:'column' }}>
             <div style={{ height:'3px', background:'linear-gradient(90deg, #22c55e, #16a34a, transparent)' }}/>
             <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(34,197,94,0.05) 0%, transparent 55%)', pointerEvents:'none' }}/>
-            <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'4px', background:'linear-gradient(180deg, #22c55e, #15803d)', opacity:0.60, borderRadius:'14px 0 0 14px' }}/>
-            <div style={{ flex:1, padding:'14px 16px 14px 12px', position:'relative', zIndex:1, display:'flex', flexDirection:'column' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'12px' }}>
-                <div style={{ width:'32px', height:'32px', borderRadius:'9px', background:'rgba(34,197,94,0.14)', border:'1px solid rgba(34,197,94,0.24)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px' }}>🤖</div>
+            <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'4px', background:'linear-gradient(180deg, #22c55e, #15803d)', opacity:0.65, borderRadius:'14px 0 0 14px' }}/>
+            <div style={{ padding:'14px 15px 14px 13px', position:'relative', zIndex:1, display:'flex', flexDirection:'column', flex:1 }}>
+              <div style={{ display:'flex', alignItems:'center', gap:'9px', marginBottom:'12px' }}>
+                <div style={{ width:'32px', height:'32px', borderRadius:'9px', background:'rgba(34,197,94,0.14)', border:'1px solid rgba(34,197,94,0.26)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px' }}>🤖</div>
                 <div style={{ flex:1 }}>
                   <div style={{ color:'#4ade80', fontWeight:'800', fontSize:'13px' }}>GPT-4o Analysis</div>
-                  <div style={{ color:'rgba(255,255,255,0.26)', fontSize:'10px' }}>AI threat detection results</div>
+                  <div style={{ color:'rgba(255,255,255,0.28)', fontSize:'10px' }}>AI threat detection</div>
                 </div>
-                <div style={{ padding:'3px 9px', borderRadius:'20px', background:'rgba(34,197,94,0.10)', border:'1px solid rgba(34,197,94,0.20)', fontSize:'10px', fontWeight:'700', color:'#4ade80', flexShrink:0 }}>
+                <div style={{ padding:'3px 9px', borderRadius:'20px', background:'rgba(34,197,94,0.10)', border:'1px solid rgba(34,197,94,0.22)', fontSize:'10px', fontWeight:'700', color:'#4ade80', flexShrink:0 }}>
                   {analysisItems.filter(i=>!i.value).length}/{analysisItems.length} Clear
                 </div>
               </div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'7px', flex:1 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:'7px', flex:1 }}>
                 {analysisItems.map((item,i) => (
-                  <div key={i} style={{ display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'12px 13px', borderRadius:'10px', background:item.value?'rgba(239,68,68,0.12)':'rgba(34,197,94,0.07)', border:item.value?'1px solid rgba(239,68,68,0.22)':'1px solid rgba(34,197,94,0.15)', position:'relative', overflow:'hidden' }}>
-                    <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:item.value?'linear-gradient(90deg, #ef4444, transparent)':'linear-gradient(90deg, #22c55e, transparent)', opacity:0.6 }}/>
-                    <span style={{ color:'rgba(255,255,255,0.65)', fontSize:'11px', fontWeight:'600', lineHeight:'1.4', marginBottom:'8px' }}>{item.label}</span>
-                    <div style={{ display:'flex', alignItems:'center', gap:'4px', padding:'3px 8px', borderRadius:'6px', background:item.value?'rgba(239,68,68,0.20)':'rgba(34,197,94,0.16)', border:item.value?'1px solid rgba(239,68,68,0.32)':'1px solid rgba(34,197,94,0.28)', alignSelf:'flex-start' }}>
+                  <div key={i} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 12px', borderRadius:'9px', background:item.value?'rgba(239,68,68,0.11)':'rgba(34,197,94,0.07)', border:item.value?'1px solid rgba(239,68,68,0.20)':'1px solid rgba(34,197,94,0.14)', flex:1, position:'relative', overflow:'hidden' }}>
+                    <div style={{ position:'absolute', left:0, top:0, bottom:0, width:'3px', background:item.value?'#ef4444':'#22c55e', opacity:0.60 }}/>
+                    <span style={{ color:'rgba(255,255,255,0.70)', fontSize:'12px', fontWeight:'600', paddingLeft:'6px' }}>{item.label}</span>
+                    <div style={{ display:'flex', alignItems:'center', gap:'4px', padding:'3px 9px', borderRadius:'6px', background:item.value?'rgba(239,68,68,0.20)':'rgba(34,197,94,0.16)', border:item.value?'1px solid rgba(239,68,68,0.32)':'1px solid rgba(34,197,94,0.28)', flexShrink:0 }}>
                       <div style={{ width:'4px', height:'4px', borderRadius:'50%', background:item.value?'#ef4444':'#22c55e' }}/>
                       <span style={{ fontSize:'10px', fontWeight:'800', color:item.value?'#fca5a5':'#4ade80' }}>{item.value?'Detected':'Clear'}</span>
                     </div>
@@ -266,17 +274,17 @@ const Result = () => {
             </div>
           </div>
 
-          {/* Threat Indicators */}
-          <div style={{ borderRadius:'14px', overflow:'hidden', background:'rgba(38,0,0,0.98)', border:'1px solid rgba(239,68,68,0.22)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 4px 20px rgba(0,0,0,0.14)', position:'relative', display:'flex', flexDirection:'column' }}>
+          {/* THREAT INDICATORS */}
+          <div style={{ borderRadius:'14px', overflow:'hidden', background:'rgba(38,0,0,0.99)', border:'1px solid rgba(239,68,68,0.22)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 4px 20px rgba(0,0,0,0.16)', position:'relative', display:'flex', flexDirection:'column' }}>
             <div style={{ height:'3px', background:'linear-gradient(90deg, #ef4444, #BB0000, transparent)' }}/>
             <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(239,68,68,0.06) 0%, transparent 55%)', pointerEvents:'none' }}/>
-            <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'4px', background:'linear-gradient(180deg, #ef4444, #BB0000)', opacity:0.60, borderRadius:'14px 0 0 14px' }}/>
-            <div style={{ flex:1, padding:'14px 16px 14px 12px', position:'relative', zIndex:1, display:'flex', flexDirection:'column' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'12px' }}>
+            <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'4px', background:'linear-gradient(180deg, #ef4444, #BB0000)', opacity:0.65, borderRadius:'14px 0 0 14px' }}/>
+            <div style={{ padding:'14px 15px 14px 13px', position:'relative', zIndex:1, display:'flex', flexDirection:'column', flex:1 }}>
+              <div style={{ display:'flex', alignItems:'center', gap:'9px', marginBottom:'12px' }}>
                 <div style={{ width:'32px', height:'32px', borderRadius:'9px', background:'rgba(239,68,68,0.16)', border:'1px solid rgba(239,68,68,0.28)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px' }}>⚠️</div>
                 <div style={{ flex:1 }}>
                   <div style={{ color:'#fca5a5', fontWeight:'800', fontSize:'13px' }}>Threat Indicators</div>
-                  <div style={{ color:'rgba(255,255,255,0.26)', fontSize:'10px' }}>What triggered the alert</div>
+                  <div style={{ color:'rgba(255,255,255,0.28)', fontSize:'10px' }}>What triggered the alert</div>
                 </div>
                 <div style={{ padding:'3px 9px', borderRadius:'20px', background:'rgba(239,68,68,0.12)', border:'1px solid rgba(239,68,68,0.22)', fontSize:'10px', fontWeight:'700', color:'#fca5a5', flexShrink:0 }}>
                   {result.reasons?.length||0} found
@@ -284,10 +292,10 @@ const Result = () => {
               </div>
               <div style={{ display:'flex', flexDirection:'column', gap:'7px', flex:1 }}>
                 {result.reasons?.map((reason,i) => (
-                  <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'9px', padding:'11px 12px', borderRadius:'10px', background:'rgba(239,68,68,0.09)', border:'1px solid rgba(239,68,68,0.17)', flex:1, position:'relative', overflow:'hidden' }}>
-                    <div style={{ position:'absolute', top:0, left:0, bottom:0, width:'2px', background:'linear-gradient(180deg, #ef4444, #BB0000)', opacity:0.55 }}/>
-                    <div style={{ width:'20px', height:'20px', borderRadius:'6px', background:'rgba(239,68,68,0.22)', border:'1px solid rgba(239,68,68,0.34)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'9px', fontWeight:'900', color:'#fca5a5', flexShrink:0, marginTop:'1px' }}>{i+1}</div>
-                    <span style={{ color:'rgba(255,255,255,0.76)', fontSize:'11px', lineHeight:'1.55', fontWeight:'500' }}>{reason}</span>
+                  <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'9px', padding:'10px 12px', borderRadius:'9px', background:'rgba(239,68,68,0.09)', border:'1px solid rgba(239,68,68,0.17)', flex:1, position:'relative', overflow:'hidden' }}>
+                    <div style={{ position:'absolute', left:0, top:0, bottom:0, width:'3px', background:'#ef4444', opacity:0.55 }}/>
+                    <div style={{ width:'20px', height:'20px', borderRadius:'6px', background:'rgba(239,68,68,0.22)', border:'1px solid rgba(239,68,68,0.35)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'9px', fontWeight:'900', color:'#fca5a5', flexShrink:0, marginTop:'1px', paddingLeft:'3px' }}>{i+1}</div>
+                    <span style={{ color:'rgba(255,255,255,0.78)', fontSize:'12px', lineHeight:'1.55', fontWeight:'500' }}>{reason}</span>
                   </div>
                 ))}
               </div>
@@ -295,18 +303,46 @@ const Result = () => {
           </div>
         </div>
 
-        {/* ROW 3 — Did You Know centred, not full width */}
-        <div style={{ display:'flex', justifyContent:'center', flexShrink:0, animation:'fadeUp 0.3s ease 0.14s both' }}>
-          <div style={{ width:'65%', borderRadius:'12px', overflow:'hidden', background:'rgba(14,8,0,0.98)', border:'1px solid rgba(234,150,0,0.25)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 4px 16px rgba(0,0,0,0.12)', position:'relative' }}>
-            <div style={{ height:'3px', background:'linear-gradient(90deg, #ffd166, #ea9600, #ffd166)', backgroundSize:'200% 100%', animation:'shimmer 3s linear infinite' }}/>
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(234,150,0,0.06) 0%, transparent 50%)', pointerEvents:'none' }}/>
-            <div style={{ padding:'11px 18px', position:'relative', zIndex:1, display:'flex', gap:'12px', alignItems:'center' }}>
-              <div style={{ width:'30px', height:'30px', borderRadius:'8px', background:'rgba(234,150,0,0.18)', border:'1px solid rgba(234,150,0,0.28)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'14px', flexShrink:0 }}>💡</div>
-              <div style={{ flex:1 }}>
-                <div style={{ fontSize:'8px', fontWeight:'800', color:'#ffd166', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'3px' }}>🇰🇪 Kenya Staff Security Tip</div>
-                <p style={{ color:'rgba(255,255,255,0.78)', fontSize:'11px', lineHeight:'1.55', margin:0, fontWeight:'500' }}>{tipText}</p>
+        {/* ── ROW 3: Did You Know — wide, second biggest ── */}
+        <div style={{ borderRadius:'16px', overflow:'hidden', background:'rgba(14,8,0,0.99)', border:'1.5px solid rgba(234,150,0,0.30)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 6px 28px rgba(0,0,0,0.16), inset 0 1px 0 rgba(234,150,0,0.12)', position:'relative', flexShrink:0, animation:'fadeUp 0.35s ease 0.16s both' }}>
+          <div style={{ height:'4px', background:'linear-gradient(90deg, #ffd166, #ea9600, #ffd166)', backgroundSize:'200% 100%', animation:'shimmer 3s linear infinite' }}/>
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(234,150,0,0.08) 0%, transparent 50%)', pointerEvents:'none' }}/>
+          <div style={{ position:'absolute', top:0, left:0, right:0, height:'1px', background:'linear-gradient(90deg, transparent, rgba(234,150,0,0.45), transparent)' }}/>
+          <svg style={{ position:'absolute', top:0, right:0, width:'200px', height:'100%', pointerEvents:'none' }} xmlns="http://www.w3.org/2000/svg">
+            <circle cx="170" cy="50%" r="90" fill="none" stroke="rgba(234,150,0,0.07)" strokeWidth="0.8"/>
+            <circle cx="170" cy="50%" r="55" fill="none" stroke="rgba(234,150,0,0.05)" strokeWidth="0.6"/>
+          </svg>
+          <div style={{ padding:'16px 24px', position:'relative', zIndex:1, display:'flex', gap:'16px', alignItems:'center' }}>
+            <div style={{ width:'44px', height:'44px', borderRadius:'13px', background:'rgba(234,150,0,0.20)', border:'1px solid rgba(234,150,0,0.35)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'22px', flexShrink:0, boxShadow:'0 4px 16px rgba(234,150,0,0.20)' }}>💡</div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontSize:'9px', fontWeight:'900', color:'#ffd166', textTransform:'uppercase', letterSpacing:'0.14em', marginBottom:'5px' }}>🇰🇪 Did You Know? — Kenya Staff Security Tip</div>
+              <p style={{ color:'rgba(255,255,255,0.85)', fontSize:'13px', lineHeight:'1.70', margin:0, fontWeight:'500' }}>{tipText}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── ROW 4: Token + action buttons in one slim bar ── */}
+        <div style={{ borderRadius:'13px', overflow:'hidden', background:'rgba(0,18,5,0.98)', border:'1px solid rgba(34,197,94,0.22)', backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)', boxShadow:'0 4px 16px rgba(0,0,0,0.14)', position:'relative', flexShrink:0, animation:'fadeUp 0.35s ease 0.22s both' }}>
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(34,197,94,0.05) 0%, transparent 55%)', pointerEvents:'none' }}/>
+          <div style={{ padding:'11px 18px', position:'relative', zIndex:1, display:'flex', alignItems:'center', gap:'16px' }}>
+            {/* Lock icon */}
+            <div style={{ width:'32px', height:'32px', borderRadius:'9px', background:'rgba(34,197,94,0.14)', border:'1px solid rgba(34,197,94,0.26)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px', flexShrink:0 }}>🔐</div>
+            {/* Token label + value */}
+            <div style={{ flexShrink:0 }}>
+              <div style={{ fontSize:'8px', fontWeight:'800', color:'rgba(74,222,128,0.45)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'3px' }}>Anonymous Report Token</div>
+              <div style={{ fontFamily:'monospace', fontSize:'12px', fontWeight:'900', color:'#4ade80', letterSpacing:'0.08em', padding:'5px 12px', borderRadius:'7px', background:'rgba(0,102,0,0.22)', border:'1px solid rgba(34,197,94,0.30)', backgroundImage:'linear-gradient(90deg, rgba(0,102,0,0.22), rgba(0,150,0,0.28), rgba(0,102,0,0.22))', backgroundSize:'200% 100%', animation:'shimmer 3s linear infinite' }}>
+                {result.tokenId}
               </div>
             </div>
+            {/* Divider */}
+            <div style={{ width:'1px', height:'32px', background:'rgba(255,255,255,0.08)', flexShrink:0 }}/>
+            <div style={{ color:'rgba(255,255,255,0.20)', fontSize:'10px', fontWeight:'500', flexShrink:0 }}>Cannot be traced to your identity</div>
+            {result.alertSent && <div style={{ padding:'3px 9px', borderRadius:'5px', background:'rgba(239,68,68,0.14)', border:'1px solid rgba(239,68,68,0.24)', flexShrink:0 }}><span style={{ color:'#fca5a5', fontSize:'9px', fontWeight:'700' }}>⚡ Security team alerted</span></div>}
+            {/* Spacer */}
+            <div style={{ flex:1 }}/>
+            {/* Action buttons */}
+            <button onClick={() => navigate('/awareness')} style={{ padding:'8px 16px', borderRadius:'9px', fontWeight:'700', fontSize:'12px', color:'#fff', background:'linear-gradient(135deg, #006600, #004400)', border:'none', cursor:'pointer', boxShadow:'0 3px 12px rgba(0,102,0,0.30)', transition:'all 0.15s', flexShrink:0 }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-1px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>📚 Awareness Hub →</button>
+            <button onClick={() => { clearReport(); navigate('/report/step1'); }} style={{ padding:'8px 16px', borderRadius:'9px', fontWeight:'700', fontSize:'12px', color:'#fff', background:'linear-gradient(135deg, #BB0000, #880000)', border:'none', cursor:'pointer', boxShadow:'0 3px 12px rgba(187,0,0,0.28)', transition:'all 0.15s', flexShrink:0 }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-1px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>📧 Report Another</button>
           </div>
         </div>
 
