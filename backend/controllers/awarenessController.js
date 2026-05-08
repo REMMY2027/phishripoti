@@ -127,7 +127,8 @@ const saveScore = async (req, res) => {
   try {
     const { module, preScore, postScore } = req.body;
     const delta = postScore - preScore;
-    const quizScore = new QuizScore({ module, preScore, postScore, delta });
+    const sessionId = require('crypto').randomBytes(16).toString('hex');
+    const quizScore = new QuizScore({ sessionId, module, preScore, postScore, delta });
     await quizScore.save();
     res.json({ message: 'Score saved successfully', delta });
   } catch (error) {
