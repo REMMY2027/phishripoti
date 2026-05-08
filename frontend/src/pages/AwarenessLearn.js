@@ -17,7 +17,7 @@ const AwarenessLearn = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/awareness/learning-content`,
+        `${process.env.REACT_APP_API_URL}/awareness/generate-content`,
         { module, department },
         { timeout: 60000 }
       );
