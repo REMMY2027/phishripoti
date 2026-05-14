@@ -23,29 +23,38 @@ ${(learningContent.keyTakeaways || []).join('\n')}
 Generate questions that test understanding of the above content specifically.`
       : '';
 
-    const prompt = `You are a cybersecurity trainer for Kenyan financial institutions.
+    const prompt = `You are a cybersecurity awareness trainer specialising in phishing threats targeting Kenyan financial institutions.
 
-Generate exactly 5 multiple choice questions for a ${isPost ? 'POST' : 'PRE'}-assessment quiz.
+You are generating a ${isPost ? 'POST' : 'PRE'}-assessment quiz for an employee working in the ${department} department at a Kenyan bank.
+
+CRITICAL INSTRUCTION: Every single question MUST be tailored specifically to the ${department} department. Do NOT generate generic cybersecurity questions. Every question must reference realistic scenarios, job tasks, tools, emails, or communication patterns that are specific to someone working in ${department} at a Kenyan bank such as KCB, Equity Bank, Co-operative Bank, ABSA Kenya, Stanbic Bank, or Standard Chartered Kenya.
+
 Module: ${module}
-Department: ${department}
-${isPost ? 'These must be DIFFERENT questions from the pre-assessment.' : 'These are baseline questions to assess current awareness level.'}
+${isPost ? 'These must be DIFFERENT questions from the pre-assessment and must test understanding of the learning content provided below.' : 'These are baseline questions to assess the current awareness level of a ' + department + ' employee.'}
 ${learningContext}
 
-IMPORTANT: For at least 2 questions, create a realistic phishing email scenario using Kenyan context (KCB, Equity Bank, Safaricom, M-Pesa, CBK, KRA). For these questions include an emailMockup object.
+Generate exactly 5 multiple choice questions. Each question must:
+1. Be directly relevant to a ${department} employee — reference tasks, emails, or situations that someone in ${department} would actually encounter at a Kenyan bank
+2. Include Kenyan financial institution context — name specific institutions such as KCB, Equity Bank, Safaricom, M-Pesa, CBK, KRA, or use realistic Kenyan email domains
+3. Have exactly 4 answer options
+4. Have one correct answer identified by correctIndex (0, 1, 2, or 3)
+5. Be relevant to the module: ${module}
 
-Return ONLY valid JSON:
+For at least 2 questions, create a realistic phishing email mockup using Kenyan context that a ${department} employee would plausibly receive. Include an emailMockup object for those questions only.
+
+Return ONLY valid JSON with no extra text, no markdown, no backticks:
 {
   "questions": [
     {
-      "question": "question text",
+      "question": "question text here",
       "options": ["option A", "option B", "option C", "option D"],
       "correctIndex": 0,
-      "explanation": "Clear explanation of why this is correct",
+      "explanation": "Clear explanation of why this answer is correct and what a ${department} employee should do",
       "emailMockup": {
         "from": "sender@suspicious-domain.com",
         "to": "staff@kcbbank.co.ke",
         "subject": "URGENT: Subject line",
-        "body": "2-3 sentence realistic phishing email body.",
+        "body": "2-3 sentence realistic phishing email body targeting a ${department} employee.",
         "link": "http://suspicious-link.net/verify"
       }
     }
@@ -55,8 +64,9 @@ Return ONLY valid JSON:
 Rules:
 - Only include emailMockup for email scenario questions
 - correctIndex must be 0, 1, 2, or 3
-- Use realistic Kenyan domain names in mockups
-- Make explanations educational and specific to Kenyan finance`;
+- Every question must clearly relate to the ${department} department role
+- Use realistic Kenyan bank domain names in mockups
+- Make explanations educational and specific to the ${department} role in Kenyan finance`;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
@@ -77,36 +87,44 @@ const generateContent = async (req, res) => {
   try {
     const { module, department } = req.body;
 
-    const prompt = `You are a cybersecurity trainer for Kenyan financial institutions.
+    const prompt = `You are a cybersecurity awareness trainer specialising in phishing threats targeting Kenyan financial institutions.
 
-Generate detailed learning content for:
+You are generating learning content specifically for an employee in the ${department} department at a Kenyan bank.
+
+CRITICAL INSTRUCTION: All content must be tailored specifically to the ${department} department. Do NOT generate generic cybersecurity content. Every key point, scenario, and takeaway must reference realistic situations, responsibilities, and communication patterns that are specific to someone working in ${department} at a Kenyan bank such as KCB, Equity Bank, Co-operative Bank, ABSA Kenya, Stanbic Bank, or Standard Chartered Kenya.
+
 Module: ${module}
-Department: ${department}
 
-Return ONLY valid JSON:
+Return ONLY valid JSON with no extra text, no markdown, no backticks:
 {
   "keyPoints": [
     {
-      "title": "Short title of the point",
-      "detail": "2-3 sentence detailed explanation specific to ${department} in Kenyan financial sector"
+      "title": "Short title specific to ${department}",
+      "detail": "2-3 sentence explanation of how this phishing threat applies specifically to someone working in ${department} at a Kenyan bank. Reference realistic ${department} tasks, tools, or communications."
     }
   ],
   "scenarios": [
     {
-      "title": "Scenario title",
-      "description": "2-3 sentence realistic scenario using Kenyan context - KCB, Equity Bank, M-Pesa, Safaricom, CBK etc",
-      "redFlag": "The key insight or lesson from this scenario"
+      "title": "Scenario title referencing ${department} role",
+      "description": "2-3 sentence realistic phishing scenario targeting a ${department} employee at a Kenyan bank. Name specific institutions such as KCB, Equity Bank, M-Pesa, Safaricom, CBK, or KRA. Make the scenario something a ${department} employee would genuinely encounter.",
+      "redFlag": "The specific red flag a ${department} employee should have spotted in this scenario"
     }
   ],
-  "keyTakeaways": ["takeaway 1", "takeaway 2", "takeaway 3", "takeaway 4"]
+  "keyTakeaways": [
+    "Takeaway specific to ${department} role at a Kenyan bank",
+    "Takeaway specific to ${department} role at a Kenyan bank",
+    "Takeaway specific to ${department} role at a Kenyan bank",
+    "Takeaway specific to ${department} role at a Kenyan bank"
+  ]
 }
 
 Rules:
 - Include exactly 5 key points each with title and detail
 - Include exactly 3 scenarios
 - Include exactly 4 key takeaways
-- Use realistic Kenyan financial sector context
-- Make content specific to ${department} role`;
+- Every single item must be specific to the ${department} department role
+- Use realistic Kenyan financial sector context throughout
+- Never use generic advice that could apply to any department`;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
