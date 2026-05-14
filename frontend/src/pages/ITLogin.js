@@ -94,7 +94,7 @@ const ITLogin = () => {
         @keyframes drift{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(10px,-8px) rotate(1deg)}100%{transform:translate(0,0) rotate(0deg)}}
       `}</style>
 
-      {/* ── BACKGROUND — dark with abstract graphics ── */}
+      {/* ── BACKGROUND ── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: '#080e08' }} />
 
       {/* Radial glows */}
@@ -108,24 +108,18 @@ const ITLogin = () => {
 
       {/* Abstract SVG graphics */}
       <svg style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', zIndex: 3, pointerEvents: 'none' }} xmlns="http://www.w3.org/2000/svg">
-        {/* Large arcs — left */}
         <circle cx="-100" cy="50%" r="380" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1"/>
         <circle cx="-100" cy="50%" r="290" fill="none" stroke="rgba(255,255,255,0.020)" strokeWidth="0.8"/>
         <circle cx="-100" cy="50%" r="200" fill="none" stroke="rgba(0,120,30,0.04)" strokeWidth="0.8"/>
-        {/* Large arcs — right */}
         <circle cx="110%" cy="50%" r="360" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1"/>
         <circle cx="110%" cy="50%" r="270" fill="none" stroke="rgba(255,255,255,0.020)" strokeWidth="0.8"/>
         <circle cx="110%" cy="50%" r="180" fill="none" stroke="rgba(120,0,0,0.04)" strokeWidth="0.8"/>
-        {/* Top arcs */}
         <circle cx="50%" cy="-60" r="300" fill="none" stroke="rgba(255,255,255,0.018)" strokeWidth="0.8"/>
         <circle cx="50%" cy="-60" r="200" fill="none" stroke="rgba(0,100,20,0.03)" strokeWidth="0.7"/>
-        {/* Bottom arcs */}
         <circle cx="50%" cy="110%" r="280" fill="none" stroke="rgba(255,255,255,0.018)" strokeWidth="0.8"/>
-        {/* Flow lines */}
         <path d="M -100 200 Q 300 120 700 220 T 1400 180" fill="none" stroke="rgba(0,100,30,0.035)" strokeWidth="1.2"/>
         <path d="M -100 600 Q 300 520 700 620 T 1400 580" fill="none" stroke="rgba(100,0,0,0.025)" strokeWidth="0.8"/>
         <path d="M 1500 300 Q 1100 200 700 310 T 0 280" fill="none" stroke="rgba(0,80,20,0.025)" strokeWidth="0.8"/>
-        {/* Dot network — left side */}
         <circle cx="6%" cy="18%" r="2.5" fill="rgba(0,180,50,0.12)"/>
         <circle cx="10%" cy="38%" r="1.8" fill="rgba(0,150,40,0.09)"/>
         <circle cx="4%" cy="58%" r="1.5" fill="rgba(0,120,30,0.07)"/>
@@ -133,7 +127,6 @@ const ITLogin = () => {
         <line x1="6%" y1="18%" x2="10%" y2="38%" stroke="rgba(0,150,40,0.06)" strokeWidth="0.8"/>
         <line x1="10%" y1="38%" x2="4%" y2="58%" stroke="rgba(0,120,30,0.05)" strokeWidth="0.7"/>
         <line x1="4%" y1="58%" x2="8%" y2="75%" stroke="rgba(0,100,25,0.04)" strokeWidth="0.6"/>
-        {/* Dot network — right side */}
         <circle cx="94%" cy="22%" r="2.5" fill="rgba(180,0,0,0.12)"/>
         <circle cx="90%" cy="42%" r="1.8" fill="rgba(150,0,0,0.09)"/>
         <circle cx="96%" cy="62%" r="1.5" fill="rgba(120,0,0,0.07)"/>
@@ -141,18 +134,16 @@ const ITLogin = () => {
         <line x1="94%" y1="22%" x2="90%" y2="42%" stroke="rgba(150,0,0,0.06)" strokeWidth="0.8"/>
         <line x1="90%" y1="42%" x2="96%" y2="62%" stroke="rgba(120,0,0,0.05)" strokeWidth="0.7"/>
         <line x1="96%" y1="62%" x2="92%" y2="80%" stroke="rgba(100,0,0,0.04)" strokeWidth="0.6"/>
-        {/* Centre top dots */}
         <circle cx="38%" cy="5%" r="1.5" fill="rgba(0,120,30,0.07)"/>
         <circle cx="62%" cy="7%" r="1.5" fill="rgba(100,0,0,0.07)"/>
         <circle cx="50%" cy="3%" r="1.2" fill="rgba(255,255,255,0.04)"/>
-        {/* Diagonal lines subtle */}
         <line x1="0%" y1="0%" x2="15%" y2="25%" stroke="rgba(0,80,20,0.02)" strokeWidth="1"/>
         <line x1="100%" y1="0%" x2="85%" y2="25%" stroke="rgba(100,0,0,0.02)" strokeWidth="1"/>
         <line x1="0%" y1="100%" x2="15%" y2="75%" stroke="rgba(0,60,15,0.02)" strokeWidth="1"/>
         <line x1="100%" y1="100%" x2="85%" y2="75%" stroke="rgba(80,0,0,0.02)" strokeWidth="1"/>
       </svg>
 
-      {/* Nairobi skyline — very faint */}
+      {/* Nairobi skyline */}
       <div style={{ position: 'fixed', bottom: '-20px', right: 0, width: '500px', height: '180px', zIndex: 4, pointerEvents: 'none', WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.6) 60%, #000 100%)', maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.6) 60%, #000 100%)' }}>
         <svg width="100%" height="100%" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,60,12,0.25)" opacity="1">
           <rect x="10" y="150" width="14" height="50"/><rect x="28" y="140" width="10" height="60"/>
@@ -185,6 +176,22 @@ const ITLogin = () => {
                 </span>
                 <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', letterSpacing: '0.14em', marginTop: '3px' }}>IT Manager Portal</div>
               </div>
+
+              {/* ── BACK TO HOME LINK ── */}
+              <button
+                onClick={() => navigate('/')}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  display: 'inline-flex', alignItems: 'center', gap: '5px',
+                  color: 'rgba(255,255,255,0.30)', fontSize: '12px', fontWeight: '600',
+                  padding: 0, transition: 'color 0.15s',
+                }}
+                onMouseOver={e => e.currentTarget.style.color = 'rgba(255,255,255,0.65)'}
+                onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,0.30)'}
+              >
+                ← Back to Home
+              </button>
+
             </div>
           </div>
 
@@ -296,7 +303,6 @@ const ITLogin = () => {
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)' }} />
 
-                {/* Abstract circles */}
                 <svg style={{ position: 'absolute', top: 0, right: 0, width: '160px', height: '100%', pointerEvents: 'none' }} xmlns="http://www.w3.org/2000/svg">
                   <circle cx="140" cy="50%" r="90" fill="none" stroke="rgba(34,197,94,0.06)" strokeWidth="0.8"/>
                   <circle cx="140" cy="50%" r="55" fill="none" stroke="rgba(34,197,94,0.04)" strokeWidth="0.6"/>
