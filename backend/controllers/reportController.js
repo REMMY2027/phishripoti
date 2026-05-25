@@ -54,15 +54,24 @@ INSTRUCTIONS:
 1. Strip any PII (names, phone numbers, account numbers, personal emails) from your analysis
 2. Evaluate for: domain spoofing, urgency fabrication, authority impersonation, credential harvesting, M-Pesa abuse
 3. Consider Safe Browsing results at 30% weight and content analysis at 70% weight
-4. Generate a department-specific Did You Know tip for ${department} employees
-5. Return ONLY this JSON structure, no other text:
+4. Generate a department-specific Did You Know tip for ${department} employees in Kenyan financial institutions
+5. Generate exactly 3 recommended actions based on the risk level. These actions must follow these strict rules:
+   - NEVER suggest forwarding the email to anyone or contacting IT security directly — the system has already handled the alert automatically and anonymously
+   - NEVER suggest actions that would reveal the reporter's identity such as calling a helpdesk, filing a ticket, or speaking to a manager
+   - Actions must be things the employee can do privately and independently such as deleting the email, not clicking links, changing passwords, or clearing browser cache
+   - If risk is LOW: reassure the employee, advise deleting the email, remind them to stay alert for similar emails
+   - If risk is MEDIUM: advise not clicking anything, deleting the email, and being cautious with similar emails in future
+   - If risk is HIGH: advise urgent protective steps — delete immediately, change passwords if any credentials were entered, clear browser cache if a link was clicked
+   - Make the actions specific to the actual threat detected, not generic advice
+   - Do not mention PhishRipoti or any reporting system in the actions
+6. Return ONLY this JSON structure, no other text:
 
 {
   "riskScore": <number 0-100>,
   "riskLevel": "<LOW|MEDIUM|HIGH>",
   "reasons": ["<reason1>", "<reason2>", "<reason3>"],
   "recommendedActions": ["<action1>", "<action2>", "<action3>"],
-  "didYouKnow": "<educational tip specific to ${department} and this attack type>",
+  "didYouKnow": "<educational tip specific to ${department} and this attack type in Kenyan financial sector>",
   "domainSpoofing": <true|false>,
   "urgencyLanguage": <true|false>,
   "credentialHarvesting": <true|false>,
@@ -152,7 +161,6 @@ const submitReport = async (req, res) => {
                     rawToken.substring(4, 8).toUpperCase() + '-' +
                     rawToken.substring(9, 13).toUpperCase();
 
-    // ── department is now saved ──
     const report = new Report({
       tokenId,
       incidentType: 'Phishing Email',
