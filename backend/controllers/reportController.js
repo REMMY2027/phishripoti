@@ -55,23 +55,32 @@ INSTRUCTIONS:
 2. Evaluate for: domain spoofing, urgency fabrication, authority impersonation, credential harvesting, M-Pesa abuse
 3. Consider Safe Browsing results at 30% weight and content analysis at 70% weight
 4. Generate a department-specific Did You Know tip for ${department} employees in Kenyan financial institutions
-5. Generate exactly 3 recommended actions based on the risk level. These actions must follow these strict rules:
+5. Generate exactly 3 recommended actions. These actions must follow ALL of these rules:
+
+   ANONYMITY RULES — never break these:
    - NEVER suggest forwarding the email to anyone or contacting IT security directly — the system has already handled the alert automatically and anonymously
-   - NEVER suggest actions that would reveal the reporter's identity such as calling a helpdesk, filing a ticket, or speaking to a manager
-   - Actions must be things the employee can do privately and independently such as deleting the email, not clicking links, changing passwords, or clearing browser cache
-   - If risk is LOW: reassure the employee, advise deleting the email, remind them to stay alert for similar emails
-   - If risk is MEDIUM: advise not clicking anything, deleting the email, and being cautious with similar emails in future
-   - If risk is HIGH: advise urgent protective steps — delete immediately, change passwords if any credentials were entered, clear browser cache if a link was clicked
-   - Make the actions specific to the actual threat detected, not generic advice
-   - Do not mention PhishRipoti or any reporting system in the actions
+   - NEVER suggest calling a helpdesk, filing a ticket, speaking to a manager, or any action that would reveal the reporter's identity
+   - Actions must only be things the employee can do privately and independently
+
+   SPECIFICITY RULES — make every action unique to this specific email:
+   - Base every action on the actual threat indicators found in THIS specific email, not generic advice
+   - Reference the specific signals detected — if domain spoofing was found, mention domain verification; if urgency language was found, mention ignoring time pressure; if M-Pesa abuse was detected, mention M-Pesa PIN safety
+   - Every time this function runs the actions should feel freshly written for this specific report, even if the risk level is the same as a previous report
+   - Never repeat the same generic phrases like "delete the email" or "do not click links" without tying them to the specific threat found
+
+   RISK LEVEL RULES:
+   - If risk is LOW: reassure the employee based on what was NOT found in this email, tell them no immediate action is required, give one specific observation about this particular email that explains why it is low risk
+   - If risk is MEDIUM: give specific caution advice based on the suspicious signals actually detected in this email, advise caution without alarm
+   - If risk is HIGH: give urgent specific protective steps based on the actual threats detected — reference the specific indicators found such as the spoofed domain, the credential harvesting attempt, or the malicious link
+
 6. Return ONLY this JSON structure, no other text:
 
 {
   "riskScore": <number 0-100>,
   "riskLevel": "<LOW|MEDIUM|HIGH>",
   "reasons": ["<reason1>", "<reason2>", "<reason3>"],
-  "recommendedActions": ["<action1>", "<action2>", "<action3>"],
-  "didYouKnow": "<educational tip specific to ${department} and this attack type in Kenyan financial sector>",
+  "recommendedActions": ["<specific action tied to this email's actual signals>", "<specific action tied to this email's actual signals>", "<specific action tied to this email's actual signals>"],
+  "didYouKnow": "<educational tip specific to ${department} and this exact attack type found in this email, relevant to Kenyan financial sector>",
   "domainSpoofing": <true|false>,
   "urgencyLanguage": <true|false>,
   "credentialHarvesting": <true|false>,
