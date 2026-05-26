@@ -159,10 +159,14 @@ const getAwarenessStats = async (req, res) => {
   try {
     const scores = await QuizScore.find();
     const totalSessions = scores.length;
+
+    // Calculate average improvement across all sessions
+    // Use all sessions for honest reporting — positive and zero deltas
     const avgDelta = totalSessions > 0
       ? (scores.reduce((sum, s) => sum + (s.delta || 0), 0) / totalSessions).toFixed(1)
-      : 0;
+      : '0.0';
 
+    // Per module breakdown
     const byModule = {};
     scores.forEach(s => {
       if (!byModule[s.module]) {
@@ -172,7 +176,20 @@ const getAwarenessStats = async (req, res) => {
       byModule[s.module].totalDelta += s.delta || 0;
     });
 
-    res.json({ totalSessions, avgDelta, byModule });
+    // Add per-module average delta
+    const byModuleWithAvg = {};
+    Object.keys(byModule).forEach(module => {
+      const m = byModule[module];
+      byModuleWithAvg[module] = {
+        count: m.count,
+        totalDelta: m.totalDelta,
+        avgDelta: m.count > 0
+          ? (m.totalDelta / m.count).toFixed(1)
+          : '0.0'
+      };
+    });
+
+    res.json({ totalSessions, avgDelta, byModule: byModuleWithAvg });
   } catch (error) {
     console.error('Awareness stats error:', error);
     res.status(500).json({ message: 'Error fetching awareness stats.' });
