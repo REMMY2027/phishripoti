@@ -97,6 +97,7 @@ const ReportStep2 = () => {
   const [hovered, setHovered] = useState(null);
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [otherDept, setOtherDept] = useState('');
+  const isMobile = window.innerWidth < 640;
 
   const handleSelect = (dept) => {
     if (dept.isOther) {
@@ -129,32 +130,34 @@ const ReportStep2 = () => {
       <div style={{ position: 'fixed', inset: 0, zIndex: 3, background: 'linear-gradient(0deg, rgba(100,0,0,0.04) 0%, transparent 25%)' }} />
 
       <svg style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', zIndex: 4, pointerEvents: 'none' }} xmlns="http://www.w3.org/2000/svg">
-        <path d="M -100 300 Q 200 180 500 320 T 1100 280 T 1600 300" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1.5"/>
         <circle cx="-60" cy="120" r="220" fill="none" stroke="rgba(0,100,30,0.04)" strokeWidth="1"/>
         <circle cx="110%" cy="85%" r="200" fill="none" stroke="rgba(140,0,0,0.04)" strokeWidth="1"/>
         <circle cx="8%" cy="22%" r="2.5" fill="rgba(0,100,30,0.08)"/>
         <circle cx="89%" cy="20%" r="2.5" fill="rgba(140,0,0,0.08)"/>
       </svg>
 
-      <div style={{
-        position: 'fixed', bottom: '-30px', right: 0, width: '580px', height: '220px',
-        zIndex: 5, pointerEvents: 'none',
-        WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
-        maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
-      }}>
-        <svg width="100%" height="100%" viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
-          <rect x="20" y="180" width="18" height="80" /><rect x="310" y="60" width="38" height="200" />
-          <rect x="200" y="90" width="32" height="170" /><ellipse cx="216" cy="90" rx="18" ry="8" />
-          <rect x="380" y="80" width="34" height="180" /><rect x="250" y="110" width="24" height="150" />
-          <rect x="418" y="100" width="28" height="160" /><rect x="0" y="258" width="580" height="2" />
-        </svg>
-      </div>
+      {/* Skyline — hidden on mobile */}
+      {!isMobile && (
+        <div style={{
+          position: 'fixed', bottom: '-30px', right: 0, width: '580px', height: '220px',
+          zIndex: 5, pointerEvents: 'none',
+          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
+          maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
+        }}>
+          <svg width="100%" height="100%" viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
+            <rect x="20" y="180" width="18" height="80" /><rect x="310" y="60" width="38" height="200" />
+            <rect x="200" y="90" width="32" height="170" /><ellipse cx="216" cy="90" rx="18" ry="8" />
+            <rect x="380" y="80" width="34" height="180" /><rect x="250" y="110" width="24" height="150" />
+            <rect x="418" y="100" width="28" height="160" /><rect x="0" y="258" width="580" height="2" />
+          </svg>
+        </div>
+      )}
 
       {/* ── NAVBAR ── */}
       <nav style={{
         position: 'relative', zIndex: 20,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2.5rem', height: '66px',
+        padding: '0 1rem', height: '56px',
         background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(0,0,0,0.07)',
@@ -162,35 +165,37 @@ const ReportStep2 = () => {
         flexShrink: 0,
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)' }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '9px', background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(187,0,0,0.30)', flexShrink: 0 }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z" fill="rgba(255,255,255,0.95)"/></svg>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ width: '34px', height: '34px', borderRadius: '9px', background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(187,0,0,0.30)', flexShrink: 0 }}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z" fill="rgba(255,255,255,0.95)"/></svg>
           </div>
-          <span style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
+          <span style={{ fontSize: '19px', fontWeight: '800', letterSpacing: '-0.4px', lineHeight: 1 }}>
             <span style={{ color: '#111111' }}>Phish</span><span style={{ color: '#006600' }}>Ripoti</span>
           </span>
         </div>
         <button onClick={() => navigate('/it/login')} style={{
-          display: 'flex', alignItems: 'center', gap: '8px', padding: '9px 18px', borderRadius: '8px',
+          display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', borderRadius: '8px',
           background: 'rgba(255,255,255,0.70)', border: '1px solid rgba(0,0,0,0.10)',
-          color: '#333333', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.06)', transition: 'all 0.16s ease',
-        }}
-          onMouseOver={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.95)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-          onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.70)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+          color: '#333333', fontSize: '12px', fontWeight: '600', cursor: 'pointer',
+          whiteSpace: 'nowrap',
+        }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.8"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
           </svg>
-          IT Manager Portal
+          {isMobile ? 'IT Portal' : 'IT Manager Portal'}
         </button>
       </nav>
 
       {/* ── PAGE CONTENT ── */}
-      <div style={{ flex: 1, position: 'relative', zIndex: 10, padding: '28px 44px 20px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+      <div style={{
+        flex: 1, position: 'relative', zIndex: 10,
+        padding: isMobile ? '20px 16px 16px' : '28px 44px 20px',
+        display: 'flex', flexDirection: 'column', overflowY: 'auto'
+      }}>
 
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
           {[1,2,3,4].map(i => (
             <div key={i} style={{ height: '3px', borderRadius: '2px', width: i <= 2 ? '32px' : '18px', background: i < 2 ? '#006600' : i === 2 ? '#BB0000' : 'rgba(0,0,0,0.14)' }} />
           ))}
@@ -198,32 +203,34 @@ const ReportStep2 = () => {
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ marginBottom: '26px', position: 'relative' }}>
-          <div style={{ position: 'absolute', top: '-18px', left: '-6px', fontSize: '88px', fontWeight: '900', color: 'transparent', WebkitTextStroke: '1px rgba(0,100,30,0.05)', letterSpacing: '-5px', lineHeight: 1, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>DEPT</div>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '10px', padding: '4px 12px', borderRadius: '20px', background: 'rgba(0,102,0,0.07)', border: '1px solid rgba(0,102,0,0.14)' }}>
-              <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#006600' }}/>
-              <span style={{ fontSize: '10px', fontWeight: '800', color: '#006600', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Identity Protected</span>
-            </div>
-            <h1 style={{ fontWeight: '900', fontSize: '30px', margin: '0 0 10px', letterSpacing: '-0.8px', lineHeight: 1.15, color: '#0a0a0a' }}>
-              Which{' '}
-              <span style={{ position: 'relative', display: 'inline-block' }}>
-                <span style={{ color: 'transparent', background: 'linear-gradient(90deg, #006600 0%, #004400 50%, #BB0000 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>department</span>
-                <span style={{ position: 'absolute', bottom: '-3px', left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #006600, #BB0000)', borderRadius: '2px', opacity: 0.5 }}/>
-              </span>
-              {' '}are you from?
-            </h1>
-            <p style={{ color: 'rgba(0,0,0,0.48)', fontSize: '14px', margin: 0, lineHeight: '1.65', maxWidth: '520px', fontWeight: '500' }}>
-              Helps us contextualise the threat for your role. <span style={{ color: 'rgba(0,0,0,0.28)', fontWeight: '400' }}>Your department is stripped before storage — never linked to your identity.</span>
-            </p>
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '10px', padding: '4px 12px', borderRadius: '20px', background: 'rgba(0,102,0,0.07)', border: '1px solid rgba(0,102,0,0.14)' }}>
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#006600' }}/>
+            <span style={{ fontSize: '10px', fontWeight: '800', color: '#006600', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Identity Protected</span>
           </div>
+          <h1 style={{ fontWeight: '900', fontSize: isMobile ? '22px' : '30px', margin: '0 0 8px', letterSpacing: '-0.5px', lineHeight: 1.2, color: '#0a0a0a' }}>
+            Which{' '}
+            <span style={{ position: 'relative', display: 'inline-block' }}>
+              <span style={{ color: 'transparent', background: 'linear-gradient(90deg, #006600 0%, #004400 50%, #BB0000 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>department</span>
+              <span style={{ position: 'absolute', bottom: '-3px', left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #006600, #BB0000)', borderRadius: '2px', opacity: 0.5 }}/>
+            </span>
+            {' '}are you from?
+          </h1>
+          <p style={{ color: 'rgba(0,0,0,0.48)', fontSize: isMobile ? '13px' : '14px', margin: 0, lineHeight: '1.65', fontWeight: '500' }}>
+            Helps us contextualise the threat.{' '}
+            <span style={{ color: 'rgba(0,0,0,0.28)', fontWeight: '400' }}>Your department is stripped before storage.</span>
+          </p>
         </div>
 
-        {/* ── 3-COLUMN GRID including Other ── */}
+        {/* ── DEPARTMENT GRID ──
+            Mobile:  2 columns
+            Tablet:  2 columns
+            Desktop: 3 columns
+        ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '12px',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+          gap: isMobile ? '10px' : '12px',
           maxWidth: '980px',
           width: '100%',
         }}>
@@ -239,96 +246,99 @@ const ReportStep2 = () => {
                 onMouseEnter={() => setHovered(dept.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  borderRadius: '16px', padding: '0',
+                  borderRadius: '14px', padding: '0',
                   cursor: 'pointer', position: 'relative',
                   overflow: 'hidden', display: 'flex',
-                  background: sel
-                    ? 'rgba(12,18,12,0.98)'
-                    : hov ? 'rgba(16,24,16,0.96)' : 'rgba(20,28,20,0.90)',
-                  border: sel
-                    ? `1px solid ${dept.accentColor}60`
-                    : hov ? '1px solid rgba(255,255,255,0.14)' : '1px solid rgba(255,255,255,0.09)',
-                  transform: hov && !sel ? 'translateY(-3px) scale(1.005)' : 'translateY(0) scale(1)',
+                  background: sel ? 'rgba(12,18,12,0.98)' : hov ? 'rgba(16,24,16,0.96)' : 'rgba(20,28,20,0.90)',
+                  border: sel ? `1px solid ${dept.accentColor}60` : hov ? '1px solid rgba(255,255,255,0.14)' : '1px solid rgba(255,255,255,0.09)',
+                  transform: hov && !sel ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
                   boxShadow: sel
-                    ? `0 12px 36px rgba(0,0,0,0.22), 0 0 0 1px ${dept.accentColor}20`
-                    : hov ? '0 10px 32px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.08)' : '0 3px 14px rgba(0,0,0,0.12)',
+                    ? `0 10px 30px rgba(0,0,0,0.20), 0 0 0 1px ${dept.accentColor}20`
+                    : hov ? '0 8px 24px rgba(0,0,0,0.16)' : '0 3px 12px rgba(0,0,0,0.10)',
                   backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+                  // Make Other dept span full width on mobile
+                  ...(dept.isOther && isMobile ? { gridColumn: 'span 2' } : {}),
                 }}>
 
                 {/* Glass sheen */}
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)', pointerEvents: 'none', borderRadius: '16px' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)', pointerEvents: 'none', borderRadius: '14px' }} />
 
                 {/* Top shimmer */}
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: sel || hov ? `linear-gradient(90deg, transparent, ${dept.accentColor}60, transparent)` : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)' }} />
 
                 {/* Left accent bar */}
                 <div style={{
-                  width: '5px', flexShrink: 0,
+                  width: '4px', flexShrink: 0,
                   background: sel ? `linear-gradient(180deg, ${dept.accentColor}, ${dept.accentColor}88)` : dept.accentColor,
                   opacity: sel ? 1 : hov ? 0.85 : 0.50,
-                  borderRadius: '16px 0 0 16px', transition: 'all 0.22s',
-                  boxShadow: sel || hov ? `2px 0 12px ${dept.accentColor}40` : 'none',
+                  borderRadius: '14px 0 0 14px', transition: 'all 0.22s',
+                  boxShadow: sel || hov ? `2px 0 10px ${dept.accentColor}40` : 'none',
                 }} />
 
                 {/* Card content */}
-                <div style={{ flex: 1, padding: dept.isOther ? '18px 16px' : '18px 16px 16px 14px' }}>
+                <div style={{ flex: 1, padding: isMobile ? '14px 12px 12px 10px' : dept.isOther ? '18px 16px' : '18px 16px 16px 14px' }}>
 
                   {dept.isOther ? (
-                    /* Other dept — horizontal layout */
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(99,102,241,0.14)', border: '1px solid rgba(99,102,241,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>✏️</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(99,102,241,0.14)', border: '1px solid rgba(99,102,241,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>✏️</div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ color: 'rgba(255,255,255,0.90)', fontWeight: '800', fontSize: '14px', marginBottom: '3px' }}>Other Department</div>
-                        <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px' }}>Not listed above — enter manually</div>
+                        <div style={{ color: 'rgba(255,255,255,0.90)', fontWeight: '800', fontSize: isMobile ? '13px' : '14px', marginBottom: '2px' }}>Other Department</div>
+                        <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: '11px' }}>Enter manually</div>
                       </div>
-                      <div style={{ color: hov ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.25)', fontSize: '18px', transition: 'all 0.22s', transform: hov ? 'translateX(3px)' : 'translateX(0)', flexShrink: 0 }}>→</div>
+                      <div style={{ color: hov ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.25)', fontSize: '16px', transition: 'all 0.22s', flexShrink: 0 }}>→</div>
                     </div>
                   ) : (
                     <>
-                      {/* Icon + risk badge + checkmark */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                      {/* Icon + badges */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
                         <div style={{
-                          width: '42px', height: '42px', borderRadius: '12px',
+                          width: isMobile ? '36px' : '42px',
+                          height: isMobile ? '36px' : '42px',
+                          borderRadius: '10px',
                           background: sel || hov ? `${dept.accentColor}22` : 'rgba(255,255,255,0.08)',
                           border: `1px solid ${sel || hov ? dept.accentColor + '38' : 'rgba(255,255,255,0.12)'}`,
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '20px', transition: 'all 0.22s',
-                          boxShadow: sel || hov ? `0 0 16px ${dept.accentColor}28` : 'none',
+                          fontSize: isMobile ? '18px' : '20px', transition: 'all 0.22s', flexShrink: 0,
                         }}>{dept.icon}</div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '3px' }}>
                           {sel && (
-                            <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: dept.accentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#fff', fontWeight: '900', boxShadow: `0 2px 8px ${dept.accentColor}55` }}>✓</div>
+                            <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: dept.accentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#fff', fontWeight: '900' }}>✓</div>
                           )}
-                          {/* Risk badge */}
-                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '3px 8px', borderRadius: '20px', background: rc.bg, border: `1px solid ${rc.border}` }}>
+                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', padding: '2px 7px', borderRadius: '20px', background: rc.bg, border: `1px solid ${rc.border}` }}>
                             <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: rc.color }}/>
                             <span style={{ fontSize: '8px', fontWeight: '900', color: rc.color, letterSpacing: '0.09em', textTransform: 'uppercase' }}>{dept.risk}</span>
                           </div>
-                          {/* Tag */}
-                          <div style={{ fontSize: '8px', fontWeight: '800', padding: '2px 7px', borderRadius: '4px', letterSpacing: '0.09em', textTransform: 'uppercase', background: `${dept.accentColor}14`, color: dept.accentColor, border: `1px solid ${dept.accentColor}25` }}>{dept.tag}</div>
+                          {/* Tag — hidden on mobile to save space */}
+                          {!isMobile && (
+                            <div style={{ fontSize: '8px', fontWeight: '800', padding: '2px 7px', borderRadius: '4px', letterSpacing: '0.09em', textTransform: 'uppercase', background: `${dept.accentColor}14`, color: dept.accentColor, border: `1px solid ${dept.accentColor}25` }}>{dept.tag}</div>
+                          )}
                         </div>
                       </div>
 
                       {/* Department name */}
-                      <div style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px', marginBottom: '5px', letterSpacing: '-0.1px', lineHeight: 1.3 }}>{dept.label}</div>
+                      <div style={{ color: '#ffffff', fontWeight: '800', fontSize: isMobile ? '12px' : '14px', marginBottom: '4px', lineHeight: 1.3 }}>{dept.label}</div>
 
-                      {/* Role */}
-                      <div style={{ color: 'rgba(255,255,255,0.52)', fontSize: '11px', lineHeight: '1.60', marginBottom: '12px' }}>{dept.role}</div>
-
-                      {/* Targets */}
-                      <div style={{
-                        padding: '7px 10px', borderRadius: '8px',
-                        background: `${dept.accentColor}14`,
-                        border: `1px solid ${dept.accentColor}25`,
-                        fontSize: '10px', color: dept.accentColor,
-                        lineHeight: '1.5', fontWeight: '700',
-                        display: 'flex', alignItems: 'flex-start', gap: '5px',
-                      }}>
-                        <span style={{ flexShrink: 0 }}>⚠</span>
-                        <span>{dept.targets}</span>
+                      {/* Role — shortened on mobile */}
+                      <div style={{ color: 'rgba(255,255,255,0.52)', fontSize: '11px', lineHeight: '1.55', marginBottom: isMobile ? '8px' : '12px' }}>
+                        {isMobile ? dept.targets : dept.role}
                       </div>
+
+                      {/* Targets — hidden on mobile, shown on desktop */}
+                      {!isMobile && (
+                        <div style={{
+                          padding: '7px 10px', borderRadius: '8px',
+                          background: `${dept.accentColor}14`,
+                          border: `1px solid ${dept.accentColor}25`,
+                          fontSize: '10px', color: dept.accentColor,
+                          lineHeight: '1.5', fontWeight: '700',
+                          display: 'flex', alignItems: 'flex-start', gap: '5px',
+                        }}>
+                          <span style={{ flexShrink: 0 }}>⚠</span>
+                          <span>{dept.targets}</span>
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
@@ -337,29 +347,31 @@ const ReportStep2 = () => {
           })}
         </div>
 
-        {/* Other input — inline below grid */}
+        {/* Other input */}
         {showOtherInput && (
           <div style={{
             marginTop: '12px', maxWidth: '980px',
-            borderRadius: '14px', padding: '18px',
+            borderRadius: '12px', padding: '16px',
             border: '1px solid rgba(255,255,255,0.10)',
             background: 'rgba(14,20,14,0.96)',
             backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            boxShadow: '0 8px 28px rgba(0,0,0,0.16)',
           }}>
             <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13px', marginBottom: '3px' }}>Enter your department</div>
-            <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '12px', marginBottom: '10px' }}>Type your department — stripped before storage.</div>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '12px', marginBottom: '10px' }}>Stripped before storage — never linked to your identity.</div>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '8px' }}>
               <input
                 value={otherDept}
                 onChange={e => setOtherDept(e.target.value)}
-                placeholder="e.g. Mobile Banking, Digital Channels, IT Security..."
+                placeholder="e.g. Mobile Banking, IT Security..."
                 style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: '#ffffff', padding: '10px 14px', fontSize: '13px', outline: 'none' }}
                 onKeyDown={e => e.key === 'Enter' && handleOtherConfirm()}
                 autoFocus
               />
-              <button onClick={handleOtherConfirm} disabled={!otherDept.trim()} style={{ background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)', color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.28)', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: otherDept.trim() ? 'pointer' : 'not-allowed', transition: 'all 0.16s', whiteSpace: 'nowrap' }}>Confirm →</button>
-              <button onClick={() => { setShowOtherInput(false); setOtherDept(''); }} style={{ background: 'transparent', color: 'rgba(255,255,255,0.40)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button onClick={handleOtherConfirm} disabled={!otherDept.trim()} style={{ flex: 1, background: otherDept.trim() ? '#BB0000' : 'rgba(255,255,255,0.08)', color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.28)', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: otherDept.trim() ? 'pointer' : 'not-allowed', whiteSpace: 'nowrap' }}>Confirm →</button>
+                <button onClick={() => { setShowOtherInput(false); setOtherDept(''); }} style={{ background: 'transparent', color: 'rgba(255,255,255,0.40)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+              </div>
             </div>
           </div>
         )}
