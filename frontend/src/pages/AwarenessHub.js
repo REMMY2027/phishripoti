@@ -50,12 +50,7 @@ const AwarenessHub = () => {
       </svg>
 
       {!isMobile && (
-        <div style={{
-          position: 'fixed', bottom: '-30px', right: 0, width: '580px', height: '220px',
-          zIndex: 5, pointerEvents: 'none',
-          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
-          maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)',
-        }}>
+        <div style={{ position: 'fixed', bottom: '-30px', right: 0, width: '580px', height: '220px', zIndex: 5, pointerEvents: 'none', WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)', maskImage: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.70) 55%, #000 100%)' }}>
           <svg width="100%" height="100%" viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg" fill="#1a2a1a" opacity="0.07">
             <rect x="20" y="180" width="18" height="80" /><rect x="42" y="170" width="14" height="90" />
             <rect x="310" y="60" width="38" height="200" /><rect x="200" y="90" width="32" height="170" />
@@ -67,16 +62,7 @@ const AwarenessHub = () => {
       )}
 
       {/* ── NAVBAR ── */}
-      <nav style={{
-        position: 'relative', zIndex: 20,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 1rem', height: '56px',
-        background: 'rgba(255,255,255,0.92)',
-        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(0,0,0,0.07)',
-        boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06)',
-        flexShrink: 0,
-      }}>
+      <nav style={{ position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1rem', height: '56px', background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06)', flexShrink: 0 }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #BB0000 0%, #BB0000 33.33%, #1a1a1a 33.33%, #1a1a1a 66.66%, #006600 66.66%, #006600 100%)' }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '34px', height: '34px', borderRadius: '9px', background: 'linear-gradient(145deg, #cc0000 0%, #7a0000 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(187,0,0,0.30)', flexShrink: 0 }}>
@@ -93,22 +79,14 @@ const AwarenessHub = () => {
               <span style={{ color: '#006600', fontSize: '11px', fontWeight: '700' }}>AI-Powered</span>
             </div>
           )}
-          <button onClick={() => navigate('/')} style={{
-            display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', borderRadius: '8px',
-            background: 'rgba(255,255,255,0.70)', border: '1px solid rgba(0,0,0,0.10)',
-            color: '#333333', fontSize: '12px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap',
-          }}>
+          <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', borderRadius: '8px', background: 'rgba(255,255,255,0.70)', border: '1px solid rgba(0,0,0,0.10)', color: '#333333', fontSize: '12px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>
             ← Home
           </button>
         </div>
       </nav>
 
       {/* ── PAGE CONTENT ── */}
-      <div style={{
-        flex: 1, position: 'relative', zIndex: 10,
-        padding: isMobile ? '20px 16px 16px' : '28px 44px 20px',
-        display: 'flex', flexDirection: 'column', overflowY: 'auto'
-      }}>
+      <div style={{ flex: 1, position: 'relative', zIndex: 10, padding: isMobile ? '20px 16px 16px' : '28px 44px 20px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
 
         {/* Step indicator */}
         <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '4px' : '6px', marginBottom: '16px' }}>
@@ -145,11 +123,11 @@ const AwarenessHub = () => {
           </p>
         </div>
 
-        {/* ── DEPARTMENT CARDS ── */}
+        {/* ── DEPARTMENT GRID — same style as ReportStep2 ── */}
         <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
+          display: 'grid',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+          gap: isMobile ? '10px' : '12px',
           maxWidth: '980px',
           marginBottom: '12px',
         }}>
@@ -174,41 +152,60 @@ const AwarenessHub = () => {
                   backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
                 }}>
 
+                {/* Glass sheen */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)', pointerEvents: 'none', borderRadius: '14px' }} />
+                {/* Top shimmer */}
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: hov ? `linear-gradient(90deg, transparent, ${dept.accentColor}60, transparent)` : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)' }} />
+                {/* Left accent bar */}
                 <div style={{ width: '4px', flexShrink: 0, background: dept.accentColor, opacity: hov ? 0.90 : 0.50, borderRadius: '14px 0 0 14px', transition: 'all 0.22s' }} />
 
-                {/* ── COMPACT HORIZONTAL LAYOUT (both mobile and desktop) ── */}
-                <div style={{ flex: 1, padding: isMobile ? '13px 14px' : '16px 18px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                {/* Card content */}
+                <div style={{ flex: 1, padding: isMobile ? '14px 12px 12px 10px' : '18px 16px 16px 14px' }}>
 
-                  {/* Icon */}
-                  <div style={{
-                    width: isMobile ? '40px' : '46px',
-                    height: isMobile ? '40px' : '46px',
-                    borderRadius: '11px', flexShrink: 0,
-                    background: hov ? `${dept.accentColor}22` : 'rgba(255,255,255,0.08)',
-                    border: `1px solid ${hov ? dept.accentColor + '38' : 'rgba(255,255,255,0.12)'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: isMobile ? '20px' : '22px', transition: 'all 0.22s',
-                  }}>{dept.icon}</div>
+                  {/* Icon + badges */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                    <div style={{
+                      width: isMobile ? '36px' : '42px',
+                      height: isMobile ? '36px' : '42px',
+                      borderRadius: '10px',
+                      background: hov ? `${dept.accentColor}22` : 'rgba(255,255,255,0.08)',
+                      border: `1px solid ${hov ? dept.accentColor + '38' : 'rgba(255,255,255,0.12)'}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: isMobile ? '18px' : '20px', transition: 'all 0.22s', flexShrink: 0,
+                    }}>{dept.icon}</div>
 
-                  {/* Text */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px', flexWrap: 'wrap' }}>
-                      <span style={{ color: '#ffffff', fontWeight: '800', fontSize: isMobile ? '13px' : '14px', lineHeight: 1.2 }}>{dept.label}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '3px' }}>
                       {/* Risk badge */}
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', padding: '2px 6px', borderRadius: '20px', background: rc.bg, border: `1px solid ${rc.border}`, flexShrink: 0 }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', padding: '2px 6px', borderRadius: '20px', background: rc.bg, border: `1px solid ${rc.border}` }}>
                         <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: rc.color }}/>
                         <span style={{ fontSize: '8px', fontWeight: '900', color: rc.color, letterSpacing: '0.09em', textTransform: 'uppercase' }}>{dept.risk}</span>
                       </div>
-                    </div>
-                    <div style={{ color: 'rgba(255,255,255,0.48)', fontSize: '12px', lineHeight: '1.5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: isMobile ? 'nowrap' : 'normal' }}>
-                      {dept.desc}
+                      {/* Tag — desktop only */}
+                      {!isMobile && (
+                        <div style={{ fontSize: '8px', fontWeight: '800', padding: '2px 7px', borderRadius: '4px', letterSpacing: '0.09em', textTransform: 'uppercase', background: `${dept.accentColor}14`, color: dept.accentColor, border: `1px solid ${dept.accentColor}25` }}>{dept.tag}</div>
+                      )}
                     </div>
                   </div>
 
-                  {/* Arrow */}
-                  <div style={{ color: hov ? dept.accentColor : 'rgba(255,255,255,0.25)', fontSize: '18px', transition: 'all 0.22s', transform: hov ? 'translateX(3px)' : 'translateX(0)', flexShrink: 0 }}>→</div>
+                  {/* Department name */}
+                  <div style={{ color: '#ffffff', fontWeight: '800', fontSize: isMobile ? '12px' : '14px', marginBottom: '5px', lineHeight: 1.3 }}>{dept.label}</div>
+
+                  {/* Description — desktop only */}
+                  {!isMobile && (
+                    <div style={{ color: 'rgba(255,255,255,0.50)', fontSize: '11px', lineHeight: '1.60', marginBottom: '12px' }}>{dept.desc}</div>
+                  )}
+
+                  {/* Start training CTA */}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between',
+                    padding: isMobile ? '6px 8px' : '6px 10px', borderRadius: '8px',
+                    background: `${dept.accentColor}14`,
+                    border: `1px solid ${dept.accentColor}25`,
+                    marginTop: isMobile ? '8px' : '0',
+                  }}>
+                    <span style={{ fontSize: '10px', color: dept.accentColor, fontWeight: '700' }}>Start →</span>
+                    {!isMobile && <span style={{ fontSize: '10px', color: `${dept.accentColor}88`, fontWeight: '600' }}>GPT-4o powered</span>}
+                  </div>
                 </div>
               </div>
             );
@@ -244,22 +241,8 @@ const AwarenessHub = () => {
           </div>
 
           {showOtherInput && (
-            <div style={{
-              borderRadius: '12px', padding: '16px',
-              border: '1px solid rgba(255,255,255,0.10)',
-              background: 'rgba(14,20,14,0.96)',
-              backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-              marginTop: '10px', boxShadow: '0 6px 24px rgba(0,0,0,0.18)',
-              display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '10px',
-            }}>
-              <input
-                value={otherDept}
-                onChange={e => setOtherDept(e.target.value)}
-                placeholder="e.g. Mobile Banking, IT Security..."
-                style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: '#ffffff', padding: '10px 14px', fontSize: '13px', outline: 'none' }}
-                onKeyDown={e => e.key === 'Enter' && handleOtherSubmit()}
-                autoFocus
-              />
+            <div style={{ borderRadius: '12px', padding: '16px', border: '1px solid rgba(255,255,255,0.10)', background: 'rgba(14,20,14,0.96)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', marginTop: '10px', boxShadow: '0 6px 24px rgba(0,0,0,0.18)', display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '10px' }}>
+              <input value={otherDept} onChange={e => setOtherDept(e.target.value)} placeholder="e.g. Mobile Banking, IT Security..." style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: '#ffffff', padding: '10px 14px', fontSize: '13px', outline: 'none' }} onKeyDown={e => e.key === 'Enter' && handleOtherSubmit()} autoFocus/>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button onClick={handleOtherSubmit} disabled={!otherDept.trim()} style={{ flex: 1, background: otherDept.trim() ? '#006600' : 'rgba(255,255,255,0.08)', color: otherDept.trim() ? '#fff' : 'rgba(255,255,255,0.28)', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: otherDept.trim() ? 'pointer' : 'not-allowed', whiteSpace: 'nowrap' }}>Continue →</button>
                 <button onClick={() => { setShowOtherInput(false); setOtherDept(''); }} style={{ background: 'transparent', color: 'rgba(255,255,255,0.40)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
